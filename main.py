@@ -64,35 +64,6 @@ from constant import MAIN_QML
 from menu_controller import MenuController
 from file_monitor import FileMonitor
 
-class PageManager(QObject):
-
-    def __init__(self, view):
-        super(QObject, self).__init__()
-        self.main_xid = view.winId().__int__()
-
-        self.movie_store_page = Browser("http://dy.yunfan.com")
-        self.movie_search_page = Browser("http://www.yunfan.com/qs")
-
-    @pyqtSlot(str, int, int, int, int)
-    def show_page(self, page_name, x, y, width, height):
-        self.hide_page()
-
-        x += 3
-        width -= 2
-        height -= 2
-
-        if page_name == "movie_store":
-            self.movie_store_page.show_with_parent(self.main_xid,
-             x, y, width, height)
-        elif page_name == "movie_search":
-            self.movie_search_page.show_with_parent(self.main_xid,
-             x, y, width, height)
-
-    @pyqtSlot()
-    def hide_page(self):
-        self.movie_store_page.hide()
-        self.movie_search_page.hide()
-
 if __name__ == "__main__":
     from dbus_services import (DeepinMovieServie, check_multiple_instances,
         DeepinMovieInterface, session_bus, DBUS_PATH)
