@@ -50,7 +50,7 @@ all_supported_video_exts = [ "*.3g2","*.3gp","*.3gp2","*.3gpp","*.amv",
 all_supported_mime_types = []
 sep_chars = ("-", "_", ".", " ")
 
-with open("/usr/share/applications/deepin-movie.desktop") as app_info:
+with open("/usr/share/applications/DMovie.desktop") as app_info:
     cp = ConfigParser()
     cp.readfp(app_info)
     all_supported_mime_types = cp.get("Desktop Entry", "MimeType").split(";")
