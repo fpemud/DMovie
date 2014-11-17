@@ -35,16 +35,16 @@ from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, pyqtProperty
 from subtitles import *
 from dbus_interfaces import screenSaverInterface
 
-all_supported_video_exts = [ "*.3g2","*.3gp","*.3gp2","*.3gpp","*.amv",
-                            "*.asf","*.avi","*.bin","*.divx","*.drc",
-                            "*.dv","*.f4v","*.flv","*.gvi","*.gxf","*.iso",
-                            "*.m1v","*.m2v","*.m2t","*.m2ts","*.m4v","*.mkv",
-                            "*.mov","*.mp2","*.mp2v","*.mp4","*.mp4v","*.mpe",
-                            "*.mpeg","*.mpeg1","*.mpeg2","*.mpeg4","*.mpg",
-                            "*.mpv2","*.mts","*.mtv","*.mxf","*.mxg","*.nsv",
-                            "*.nuv","*.ogg","*.ogm","*.ogv","*.ogx","*.ps",
-                            "*.rec","*.rm","*.rmvb","*.tod","*.ts","*.tts",
-                            "*.vob","*.vro","*.webm","*.wm","*.wmv","*.wtv",
+all_supported_video_exts = ["*.3g2", "*.3gp", "*.3gp2", "*.3gpp", "*.amv",
+                            "*.asf", "*.avi", "*.bin", "*.divx", "*.drc",
+                            "*.dv", "*.f4v", "*.flv", "*.gvi", "*.gxf", "*.iso",
+                            "*.m1v", "*.m2v", "*.m2t", "*.m2ts", "*.m4v", "*.mkv",
+                            "*.mov", "*.mp2", "*.mp2v", "*.mp4", "*.mp4v", "*.mpe",
+                            "*.mpeg", "*.mpeg1", "*.mpeg2", "*.mpeg4", "*.mpg",
+                            "*.mpv2", "*.mts", "*.mtv", "*.mxf", "*.mxg", "*.nsv",
+                            "*.nuv", "*.ogg", "*.ogm", "*.ogv", "*.ogx", "*.ps",
+                            "*.rec", "*.rm", "*.rmvb", "*.tod", "*.ts", "*.tts",
+                            "*.vob", "*.vro", "*.webm", "*.wm", "*.wmv", "*.wtv",
                             "*.xesc"]
 
 all_supported_mime_types = []
@@ -54,6 +54,7 @@ with open("/usr/share/applications/DMovie.desktop") as app_info:
     cp = ConfigParser()
     cp.readfp(app_info)
     all_supported_mime_types = cp.get("Desktop Entry", "MimeType").split(";")
+
 
 def _longest_match(*strs):
     shortest_str = min(strs, key=len)
@@ -66,14 +67,17 @@ def _longest_match(*strs):
             else:
                 break
 
+
 def longest_match(*strs):
     return "".join(list(_longest_match(*strs)))
+
 
 def optimizeSerieName(serieName):
     global sep_chars
     idxes = filter(lambda x: x > 0, map(lambda x: serieName.rfind(x), sep_chars))
     idx = min(idxes) if idxes else len(serieName)
     return serieName[0: idx]
+
 
 def getEpisode(serieName, serie):
     # serie = serie.lstrip(serieName) lstrip is not reliable on Chinese
@@ -88,9 +92,11 @@ def getEpisode(serieName, serie):
             break
     return int("".join(result)) if result else 0
 
+
 def sortSeries(serieName, series):
     epi_name_tuples = [(getEpisode(serieName, serie), serie) for serie in series]
-    return [ x[1] for x in sorted(epi_name_tuples, key=lambda x: x[0])]
+    return [x[1] for x in sorted(epi_name_tuples, key=lambda x: x[0])]
+
 
 def getFileMimeType(filename):
     result = None
@@ -98,7 +104,7 @@ def getFileMimeType(filename):
         result = md.file(filename)
     except Exception:
         try:
-           result = md.file(filename.encode("utf-8"))
+            result = md.file(filename.encode("utf-8"))
         except Exception:
             try:
                 result = md.file(filename.encode("gbk"))
@@ -106,10 +112,11 @@ def getFileMimeType(filename):
                 pass
     return result
 
+
 class FindVideoThread(QThread):
-    videoFound = pyqtSignal(str, arguments=["path",])
+    videoFound = pyqtSignal(str, arguments=["path", ])
     findVideoDone = pyqtSignal(str, int, int,
-        arguments=["path", "validCount", "invalidCount"])
+                               arguments=["path", "validCount", "invalidCount"])
 
     def __init__(self, pathList):
         super(FindVideoThread, self).__init__()
@@ -132,13 +139,14 @@ class FindVideoThread(QThread):
     def run(self):
         self._process_path_list(self._pathList)
         self.findVideoDone.emit(self._first_video,
-            self._valid_files_count,
-            self._invalid_files_count)
+                                self._valid_files_count,
+                                self._invalid_files_count)
+
 
 class FindVideoThreadManager(QObject):
-    videoFound = pyqtSignal(str, arguments=["path",])
+    videoFound = pyqtSignal(str, arguments=["path", ])
     findVideoDone = pyqtSignal(str, int, int,
-        arguments=["path", "validCount", "invalidCount"])
+                               arguments=["path", "validCount", "invalidCount"])
 
     def __init__(self):
         super(FindVideoThreadManager, self).__init__()
@@ -155,7 +163,9 @@ class FindVideoThreadManager(QObject):
     def subthreadFinishedSlot(self, firstVideo, validCount, invalidCount):
         self.findVideoDone.emit(firstVideo, validCount, invalidCount)
 
+
 class Utils(QObject):
+
     def __init__(self):
         super(Utils, self).__init__()
 
@@ -202,7 +212,8 @@ class Utils(QObject):
         name = name[7:] if name.startswith("file://") else name
         dir = os.path.dirname(name)
         allFiles = self.getAllVideoFilesInDir(dir)
-        if len(allFiles) < 2: return json.dumps({"name": "", "items": allFiles})
+        if len(allFiles) < 2:
+            return json.dumps({"name": "", "items": allFiles})
 
         allFiles = [os.path.basename(x) for x in allFiles]
         allMatches = (longest_match(x, os.path.basename(name)) for x in allFiles)
@@ -219,7 +230,7 @@ class Utils(QObject):
 
         serieName = optimizeSerieName(nameFilter)
 
-        return json.dumps({"name":serieName, "items":result})
+        return json.dumps({"name": serieName, "items": result})
 
     @pyqtSlot(int, int, str, result=bool)
     def checkKeySequenceEqual(self, modifier, key, targetKeySequence):
@@ -235,16 +246,16 @@ class Utils(QObject):
         clipboard.clear(mode=clipboard.Clipboard)
         clipboard.setText(text, mode=clipboard.Clipboard)
 
-    @pyqtSlot(str,result=bool)
+    @pyqtSlot(str, result=bool)
     def fileIsPlaylist(self, file_path):
         mime_type = getFileMimeType(file_path)
         return file_path.endswith(".dmpl") and mime_type == "application/xml"
 
-    @pyqtSlot(str,result=bool)
+    @pyqtSlot(str, result=bool)
     def fileIsSubtitle(self, file_path):
         return get_file_type(file_path) in (FILE_TYPE_ASS, FILE_TYPE_SRT)
 
-    @pyqtSlot(str,result=bool)
+    @pyqtSlot(str, result=bool)
     def fileIsValidVideo(self, file_path):
         if file_path.startswith("file://"):
             file_path = file_path[7:]
@@ -254,18 +265,20 @@ class Utils(QObject):
                 return mime_type in all_supported_mime_types
             else:
                 return False
-        else: return False
+        else:
+            return False
 
-    @pyqtSlot(str,result=bool)
+    @pyqtSlot(str, result=bool)
     def playlistItemValidation(self, path):
         pathIsUrl = not path.startswith("file://") and not path.startswith("/")
         return self.fileIsValidVideo(path) or pathIsUrl
 
     @pyqtSlot(str)
     def showFileInFM(self, file_path):
-        if not file_path: return
+        if not file_path:
+            return
         file_path = file_path[7:] if file_path.startswith("file://") \
-                                    else file_path
+            else file_path
         subprocess.Popen(["xdg-open", "%s" % os.path.dirname(file_path)])
 
     @pyqtSlot()

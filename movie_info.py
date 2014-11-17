@@ -33,14 +33,17 @@ from logger import logger
 from i18n import _
 from utils import utils
 
+
 def get_subtitle_from_movie(movie_file):
     '''
     movie_file is like file:///home/user/movie.mp4
     '''
-    if movie_file.startswith("file://"): movie_file = movie_file[7:]
+    if movie_file.startswith("file://"):
+        movie_file = movie_file[7:]
     dir_name = os.path.dirname(movie_file)
     name_without_ext = movie_file.rpartition(".")[0]
-    if name_without_ext == "": return ("",)
+    if name_without_ext == "":
+        return ("",)
 
     result = []
     for ext in SUPPORTED_FILE_TYPES:
@@ -48,6 +51,7 @@ def get_subtitle_from_movie(movie_file):
         all_this_ext = glob.glob(try_ext)
         result += filter(lambda x: name_without_ext in x, all_this_ext)
     return result or ("",)
+
 
 class GetMovieInfoThread(QThread):
     infoGotten = pyqtSignal(str)
@@ -69,18 +73,19 @@ class GetMovieInfoThread(QThread):
         }
         self.infoGotten.emit(json.dumps(result))
 
+
 class MovieInfo(QObject):
-    movieSourceChanged = pyqtSignal(str, arguments=["movie_file",])
-    movieTitleChanged = pyqtSignal(str, arguments=["movie_title",])
-    movieSizeChanged = pyqtSignal(int, arguments=["movie_size",])
-    movieTypeChanged = pyqtSignal(str, arguments=["movie_type",])
-    movieDurationChanged = pyqtSignal(int, arguments=["movie_duration",])
-    movieWidthChanged = pyqtSignal(int, arguments=["movie_width",])
-    movieHeightChanged = pyqtSignal(int, arguments=["movie_height",])
-    subtitleChanged = pyqtSignal(str, arguments=["subtitle_file",])
+    movieSourceChanged = pyqtSignal(str, arguments=["movie_file", ])
+    movieTitleChanged = pyqtSignal(str, arguments=["movie_title", ])
+    movieSizeChanged = pyqtSignal(int, arguments=["movie_size", ])
+    movieTypeChanged = pyqtSignal(str, arguments=["movie_type", ])
+    movieDurationChanged = pyqtSignal(int, arguments=["movie_duration", ])
+    movieWidthChanged = pyqtSignal(int, arguments=["movie_width", ])
+    movieHeightChanged = pyqtSignal(int, arguments=["movie_height", ])
+    subtitleChanged = pyqtSignal(str, arguments=["subtitle_file", ])
 
     fileInvalid = pyqtSignal()
-    infoGotten = pyqtSignal(str, arguments=["movie_info",])
+    infoGotten = pyqtSignal(str, arguments=["movie_info", ])
 
     def __init__(self, filepath=""):
         QObject.__init__(self)
@@ -95,36 +100,36 @@ class MovieInfo(QObject):
         else:
             self.media_info = {}
 
-    @pyqtProperty(int,notify=movieDurationChanged)
+    @pyqtProperty(int, notify=movieDurationChanged)
     def movie_duration(self):
         return int(self.media_duration)
 
-    @pyqtProperty(int,notify=movieWidthChanged)
+    @pyqtProperty(int, notify=movieWidthChanged)
     def movie_width(self):
         return int(self.media_width)
 
-    @pyqtProperty(int,notify=movieHeightChanged)
+    @pyqtProperty(int, notify=movieHeightChanged)
     def movie_height(self):
         return int(self.media_height)
 
-    @pyqtProperty(str,notify=movieSourceChanged)
+    @pyqtProperty(str, notify=movieSourceChanged)
     def movie_file(self):
         return self.filepath
 
-    @pyqtProperty(str,notify=movieTitleChanged)
+    @pyqtProperty(str, notify=movieTitleChanged)
     def movie_title(self):
         return os.path.basename(self.filepath) \
             if utils.urlIsNativeFile(self.filepath) else self.filepath
 
-    @pyqtProperty(str,notify=movieTypeChanged)
+    @pyqtProperty(str, notify=movieTypeChanged)
     def movie_type(self):
         return self.media_type
 
-    @pyqtProperty(int,notify=movieSizeChanged)
+    @pyqtProperty(int, notify=movieSizeChanged)
     def movie_size(self):
         return self.media_size
 
-    @pyqtProperty(str,notify=subtitleChanged)
+    @pyqtProperty(str, notify=subtitleChanged)
     def subtitle_file(self):
         return self._subtitle_file
 
@@ -145,7 +150,7 @@ class MovieInfo(QObject):
         self.media_height = self.media_info.get("video_height") or DEFAULT_HEIGHT
         self.media_duration = self.media_info.get("general_duration") or 0
         self.media_size = int(self.media_info.get("general_size") or 0)
-        self.media_type = self.media_info.get("general_extension") or  _("Unknown")
+        self.media_type = self.media_info.get("general_extension") or _("Unknown")
         self.media_width = int(self.media_width) + 2 * WINDOW_GLOW_RADIUS
         self.media_height = int(self.media_height) + 2 * WINDOW_GLOW_RADIUS
         self.media_duration = int(self.media_duration)
@@ -160,8 +165,8 @@ class MovieInfo(QObject):
         self.movieSourceChanged.emit(filepath)
 
         if not (filepath == ""
-            or self.media_info == {}
-            or utils.fileIsValidVideo(filepath)):
+                or self.media_info == {}
+                or utils.fileIsValidVideo(filepath)):
             self.fileInvalid.emit()
 
     @pyqtSlot(int, result=str)

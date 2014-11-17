@@ -24,33 +24,34 @@ import unittest
 
 from playlist import DMPlaylist
 
+
 class TestDMPlaylist(unittest.TestCase):
 
-	def setUp(self):
-		self.playlist = DMPlaylist()
-		cate_game = self.playlist.appendCategory("The Game of Thorn")
-		cate_game.appendItem("001", "file:///videos/001.rm", "645")
-		cate_game.appendItem("002", "file:///videos/002.rm")
-		self.playlist.appendItem("The Big Bang Theory",
-			"file:///videos/tbbt001.mkv");
-		self.playlist.appendItem("The game of thorn 002");
+    def setUp(self):
+        self.playlist = DMPlaylist()
+        cate_game = self.playlist.appendCategory("The Game of Thorn")
+        cate_game.appendItem("001", "file:///videos/001.rm", "645")
+        cate_game.appendItem("002", "file:///videos/002.rm")
+        self.playlist.appendItem("The Big Bang Theory",
+                                 "file:///videos/tbbt001.mkv")
+        self.playlist.appendItem("The game of thorn 002")
 
-	def tearDown(self):
-		pass
+    def tearDown(self):
+        pass
 
-	def testWriteTo(self):
-		self.playlist.writeTo("testWriteTo.dmpl")
-		with open("testWriteTo.dmpl") as writeTo:
-			with open("testReadFrom.dmpl") as readFrom:
-				self.assertEqual(writeTo.read(), readFrom.read())
+    def testWriteTo(self):
+        self.playlist.writeTo("testWriteTo.dmpl")
+        with open("testWriteTo.dmpl") as writeTo:
+            with open("testReadFrom.dmpl") as readFrom:
+                self.assertEqual(writeTo.read(), readFrom.read())
 
-	def testReadFrom(self):
-		playlist = DMPlaylist.readFrom("testReadFrom.dmpl")
-		playlist.writeTo("testReadFrom2.dmpl")
-		with open("testReadFrom.dmpl") as readFrom:
-			with open("testReadFrom2.dmpl") as readFrom2:
-				self.assertEqual(readFrom.read(), readFrom2.read())
+    def testReadFrom(self):
+        playlist = DMPlaylist.readFrom("testReadFrom.dmpl")
+        playlist.writeTo("testReadFrom2.dmpl")
+        with open("testReadFrom.dmpl") as readFrom:
+            with open("testReadFrom2.dmpl") as readFrom2:
+                self.assertEqual(readFrom.read(), readFrom2.read())
 
 
 if __name__ == "__main__":
-	unittest.main()
+    unittest.main()

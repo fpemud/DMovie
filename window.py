@@ -35,18 +35,21 @@ from PyQt5.QtCore import pyqtSlot, pyqtProperty, pyqtSignal, QDir
 from PyQt5.QtGui import QSurfaceFormat, QColor, QPixmap, QIcon, QCursor
 from notification import notify
 from constant import (DEFAULT_WIDTH, DEFAULT_HEIGHT, WINDOW_GLOW_RADIUS,
-    MINIMIZE_WIDTH, MINIMIZE_HEIGHT)
+                      MINIMIZE_WIDTH, MINIMIZE_HEIGHT)
 from i18n import _
 
 HOME_DIR = os.path.expanduser("~")
+
+
 def icon_from_theme(theme_name, icon_name):
     QIcon.setThemeSearchPaths([os.path.join(HOME_DIR, ".icons"),
-        os.path.join(HOME_DIR, ".local/share/icons"),
-        "/usr/local/share/icons",
-        "/usr/share/icons",
-        ":/icons"])
+                               os.path.join(HOME_DIR, ".local/share/icons"),
+                               "/usr/local/share/icons",
+                               "/usr/share/icons",
+                               ":/icons"])
     QIcon.setThemeName(theme_name)
     return QIcon.fromTheme(icon_name)
+
 
 class Window(QQuickView):
 
@@ -81,7 +84,7 @@ class Window(QQuickView):
         else:
             self.moveToCenter()
 
-    @pyqtProperty(int,centerRequestCountChanged)
+    @pyqtProperty(int, centerRequestCountChanged)
     def centerRequestCount(self):
         return self._center_request_count
 
@@ -89,23 +92,23 @@ class Window(QQuickView):
     def centerRequestCount(self, count):
         self._center_request_count = count
 
-    @pyqtProperty(int,constant=True)
+    @pyqtProperty(int, constant=True)
     def defaultWidth(self):
         return DEFAULT_WIDTH
 
-    @pyqtProperty(int,constant=True)
+    @pyqtProperty(int, constant=True)
     def defaultHeight(self):
         return DEFAULT_HEIGHT
 
-    @pyqtProperty(int,constant=True)
+    @pyqtProperty(int, constant=True)
     def minimumWidth(self):
         return MINIMIZE_WIDTH
 
-    @pyqtProperty(int,constant=True)
+    @pyqtProperty(int, constant=True)
     def minimumHeight(self):
         return MINIMIZE_HEIGHT
 
-    @pyqtProperty(int,constant=True)
+    @pyqtProperty(int, constant=True)
     def windowGlowRadius(self):
         return WINDOW_GLOW_RADIUS
 
@@ -147,7 +150,7 @@ class Window(QQuickView):
         self.setWindowState(QtCore.Qt.WindowMinimized)
         self.setVisible(True)
 
-    @pyqtProperty(bool,notify=staysOnTopChanged)
+    @pyqtProperty(bool, notify=staysOnTopChanged)
     def staysOnTop(self):
         return self._staysOnTop
 
@@ -156,7 +159,7 @@ class Window(QQuickView):
         self._staysOnTop = onTop
         action = 1 if onTop else 0
         request_wm_state_checked(self.winId().__int__(),
-            action, atom("_NET_WM_STATE_ABOVE")).check()
+                                 action, atom("_NET_WM_STATE_ABOVE")).check()
         self.staysOnTopChanged.emit()
 
     @pyqtSlot()
@@ -182,7 +185,7 @@ class Window(QQuickView):
     def setCursorVisible(self, visible):
         self.setCursor(QCursor(Qt.ArrowCursor if visible else Qt.BlankCursor))
 
-    @pyqtProperty(bool,notify=subtitleVisibleChanged)
+    @pyqtProperty(bool, notify=subtitleVisibleChanged)
     def subtitleVisible(self):
         return self.rootObject().subtitleVisible()
 
@@ -193,14 +196,15 @@ class Window(QQuickView):
 
     @pyqtSlot("QVariant")
     def focusWindowChangedSlot(self, win):
-        if not win: self.rootObject().hideTransientWindows()
+        if not win:
+            self.rootObject().hideTransientWindows()
 
     @pyqtSlot()
     def screenShot(self):
         self.rootObject().hideControls()
 
         name = "%s-%s" % (self.title(), time.strftime("%y-%m-%d-%H-%M-%S", time.localtime()))
-        path = QDir.homePath() +"/%s.jpg" % name
+        path = QDir.homePath() + "/%s.jpg" % name
         p = QPixmap.fromImage(self.grabWindow())
         p.save(path, "jpg")
 

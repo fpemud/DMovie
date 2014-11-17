@@ -21,8 +21,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import time
 from PyQt5.QtCore import QFileSystemWatcher, QFile, pyqtSignal, pyqtSlot
+
 
 def longest_path_exist_matches_path(path):
     if os.path.exists(path) or path == "/":
@@ -32,9 +32,11 @@ def longest_path_exist_matches_path(path):
 
 # Note: the FileMonitor class is solely used by the Playlist module, so if
 # you have any concern about its function, please consider the use case first.
+
+
 class FileMonitor(QFileSystemWatcher):
-    fileMissing = pyqtSignal(str, arguments=["file",])
-    fileBack = pyqtSignal(str, arguments=["file",])
+    fileMissing = pyqtSignal(str, arguments=["file", ])
+    fileBack = pyqtSignal(str, arguments=["file", ])
 
     def __init__(self):
         super(FileMonitor, self).__init__()
@@ -62,8 +64,9 @@ class FileMonitor(QFileSystemWatcher):
         if file.startswith("file://") or file.startswith("/"):
             file = file.replace("file://", "")
             self._monitored_files.append(file)
-            if file: self.addPath(longest_path_exist_matches_path(
-                os.path.dirname(file)))
+            if file:
+                self.addPath(longest_path_exist_matches_path(
+                    os.path.dirname(file)))
 
             return os.path.exists(file)
         else:

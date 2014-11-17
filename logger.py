@@ -28,29 +28,31 @@ SIMPLE = "_logger_simple_"
 DETAIL = "_logger_detail_"
 
 # Color escape string
-COLOR_RED='\033[1;31m'
-COLOR_GREEN='\033[1;32m'
-COLOR_YELLOW='\033[1;33m'
-COLOR_BLUE='\033[1;34m'
-COLOR_PURPLE='\033[1;35m'
-COLOR_CYAN='\033[1;36m'
-COLOR_GRAY='\033[1;37m'
-COLOR_WHITE='\033[1;38m'
-COLOR_RESET='\033[1;0m'
+COLOR_RED = '\033[1;31m'
+COLOR_GREEN = '\033[1;32m'
+COLOR_YELLOW = '\033[1;33m'
+COLOR_BLUE = '\033[1;34m'
+COLOR_PURPLE = '\033[1;35m'
+COLOR_CYAN = '\033[1;36m'
+COLOR_GRAY = '\033[1;37m'
+COLOR_WHITE = '\033[1;38m'
+COLOR_RESET = '\033[1;0m'
 
 LOG_COLORS = {
-        'DEBUG': '%s',
-        'INFO': COLOR_GREEN + '%s' + COLOR_RESET,
-        'WARNING': COLOR_YELLOW + '%s' + COLOR_RESET,
-        'ERROR': COLOR_RED + '%s' + COLOR_RESET,
-        'CRITICAL': COLOR_RED + '%s' + COLOR_RESET,
-        'EXCEPTION': COLOR_RED + '%s' + COLOR_RESET,
+    'DEBUG': '%s',
+    'INFO': COLOR_GREEN + '%s' + COLOR_RESET,
+    'WARNING': COLOR_YELLOW + '%s' + COLOR_RESET,
+    'ERROR': COLOR_RED + '%s' + COLOR_RESET,
+    'CRITICAL': COLOR_RED + '%s' + COLOR_RESET,
+    'EXCEPTION': COLOR_RED + '%s' + COLOR_RESET,
 }
 
+
 class ColoredFormatter(logging.Formatter):
+
     '''A colorful formatter.'''
 
-    def __init__(self, fmt = None, datefmt = None):
+    def __init__(self, fmt=None, datefmt=None):
         logging.Formatter.__init__(self, fmt, datefmt)
 
     def format(self, record):
@@ -69,6 +71,7 @@ formatter = ColoredFormatter('%(asctime)s - %(name)s - %(levelname)s - %(message
 
 ch.setFormatter(formatter)
 logger.addHandler(ch)
+
 
 def func_logger(level=SIMPLE):
     def wrapper_1(fn):

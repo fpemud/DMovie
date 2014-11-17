@@ -1,15 +1,18 @@
 from PyQt5.QtCore import QObject, Q_CLASSINFO, pyqtSlot
 from PyQt5.QtDBus import (QDBusConnection, QDBusAbstractAdaptor,
-    QDBusAbstractInterface)
+                          QDBusAbstractInterface)
 
 DBUS_NAME = "com.deepin.DeepinMovie"
 DBUS_PATH = "/com/deepin/DeepinMovie"
 session_bus = QDBusConnection.sessionBus()
 
+
 def check_multiple_instances():
     return session_bus.registerService(DBUS_NAME)
 
+
 class DeepinMovieServie(QObject):
+
     def __init__(self, application):
         super(DeepinMovieServie, self).__init__()
         self.__app = application
@@ -18,6 +21,7 @@ class DeepinMovieServie(QObject):
     def play(self, pathList):
         self.__app._extra_window().raise_()
         self.__app._extra_window().play(pathList)
+
 
 class DeepinMovieServiceAdaptor(QDBusAbstractAdaptor):
 
@@ -36,6 +40,7 @@ class DeepinMovieServiceAdaptor(QDBusAbstractAdaptor):
     @pyqtSlot(str)
     def Play(self, pathList):
         return self.parent.play(pathList)
+
 
 class DeepinMovieInterface(QDBusAbstractInterface):
 

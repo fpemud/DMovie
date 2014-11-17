@@ -21,7 +21,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from deepin_utils import config
 from constant import CONFIG_DIR
 from PyQt5.QtCore import pyqtSlot, pyqtProperty, pyqtSignal, QObject
 
@@ -37,77 +36,80 @@ ORDER_TYPE_SINGLE_CYCLE = "ORDER_TYPE_SINGLE_CYCLE"
 ORDER_TYPE_PLAYLIST_CYCLE = "ORDER_TYPE_PLAYLIST_CYCLE"
 
 DEFAULT_CONFIG = [
-("Player", [("volume", 1.0),
-    ("muted", False),
-    ("subtitleHide", False),
-    # ("adjustType", ADJUST_TYPE_WINDOW_VIDEO),
-    ("applyLastClosedSize", False),
-    ("fullscreenOnOpenFile", False),
-    ("playOrderType", ORDER_TYPE_PLAYLIST_CYCLE),
-    ("cleanPlaylistOnOpenNewFile", False),
-    ("autoPlayFromLast", True),
-    ("autoPlaySeries", True),
-    ("showPreview", True),
-    ("forwardRewindStep", 5.0),
-    ("multipleProgramsAllowed", False),
-    ("notificationsEnabled", True),
-    ("pauseOnMinimized", True),]),
-("HotkeysPlay", [("hotkeyEnabled", True),
-    ("togglePlay", "Space"),
-    ("forward", "Right"),
-    ("backward", "Left"),
-    ("toggleFullscreen", "Return"),
-    ("togglePlaylist", "F3"),
-    ("speedUp", "Ctrl+Right"),
-    ("slowDown", "Ctrl+Left"),
-    ("restoreSpeed", "R")]),
-("HotkeysFrameSound", [("hotkeyEnabled", True),
-    ("toggleMiniMode", "F2"),
-    ("rotateClockwise", "W"),
-    ("rotateAnticlockwise", "E"),
-    ("increaseVolume", "Up"),
-    ("decreaseVolume", "Down"),
-    ("toggleMute", "M"),]),
-("HotkeysSubtitles", [("hotkeyEnabled", True),
-    ("subtitleForward", "Shift+Right"),
-    ("subtitleBackward", "Shitft+Left"),
-    ("subtitleMoveUp", "Shift+Up"),
-    ("subtitleMoveDown", "Shift+Down"),]),
-("HotkeysFiles", [("hotkeyEnabled", True),
-    ("openFile", "Ctrl+O"),
-    ("playPrevious", "PgUp"),
-    ("playNext", "PgDown"),]),
-("Subtitle", [("autoLoad", True),
-    ("fontSize", 20),
-    ("fontFamily", ""),
-    ("fontColor", "#ffffff"),
-    ("fontBorderSize", 1.0),
-    ("fontBorderColor", "black"),
-    ("verticalPosition", 0.05)]),
-("Others", [("leftClick", True),
-    ("doubleClick", True),
-    ("wheel", True)]),
+    ("Player", [("volume", 1.0),
+                ("muted", False),
+                ("subtitleHide", False),
+                # ("adjustType", ADJUST_TYPE_WINDOW_VIDEO),
+                ("applyLastClosedSize", False),
+                ("fullscreenOnOpenFile", False),
+                ("playOrderType", ORDER_TYPE_PLAYLIST_CYCLE),
+                ("cleanPlaylistOnOpenNewFile", False),
+                ("autoPlayFromLast", True),
+                ("autoPlaySeries", True),
+                ("showPreview", True),
+                ("forwardRewindStep", 5.0),
+                ("multipleProgramsAllowed", False),
+                ("notificationsEnabled", True),
+                ("pauseOnMinimized", True), ]),
+    ("HotkeysPlay", [("hotkeyEnabled", True),
+                     ("togglePlay", "Space"),
+                     ("forward", "Right"),
+                     ("backward", "Left"),
+                     ("toggleFullscreen", "Return"),
+                     ("togglePlaylist", "F3"),
+                     ("speedUp", "Ctrl+Right"),
+                     ("slowDown", "Ctrl+Left"),
+                     ("restoreSpeed", "R")]),
+    ("HotkeysFrameSound", [("hotkeyEnabled", True),
+                           ("toggleMiniMode", "F2"),
+                           ("rotateClockwise", "W"),
+                           ("rotateAnticlockwise", "E"),
+                           ("increaseVolume", "Up"),
+                           ("decreaseVolume", "Down"),
+                           ("toggleMute", "M"), ]),
+    ("HotkeysSubtitles", [("hotkeyEnabled", True),
+                          ("subtitleForward", "Shift+Right"),
+                          ("subtitleBackward", "Shitft+Left"),
+                          ("subtitleMoveUp", "Shift+Up"),
+                          ("subtitleMoveDown", "Shift+Down"), ]),
+    ("HotkeysFiles", [("hotkeyEnabled", True),
+                      ("openFile", "Ctrl+O"),
+                      ("playPrevious", "PgUp"),
+                      ("playNext", "PgDown"), ]),
+    ("Subtitle", [("autoLoad", True),
+                  ("fontSize", 20),
+                  ("fontFamily", ""),
+                  ("fontColor", "#ffffff"),
+                  ("fontBorderSize", 1.0),
+                  ("fontBorderColor", "black"),
+                  ("verticalPosition", 0.05)]),
+    ("Others", [("leftClick", True),
+                ("doubleClick", True),
+                ("wheel", True)]),
 ]
 
 property_name_func = lambda section, key: "%s%s" % (
     section[0].lower() + section[1:],
     key[0].upper() + key[1:])
 
+
 class Config(QObject):
+
     def __init__(self):
         super(QObject, self).__init__()
         self.config_path = os.path.join(CONFIG_DIR, "config.ini")
 
         if not os.path.exists(self.config_path):
-            if not os.path.exists(CONFIG_DIR): os.makedirs(CONFIG_DIR)
+            if not os.path.exists(CONFIG_DIR):
+                os.makedirs(CONFIG_DIR)
             self.config = config.Config(self.config_path)
-            self.config.config_parser.optionxform=str
+            self.config.config_parser.optionxform = str
             self.config.default_config = DEFAULT_CONFIG
             self.config.load_default()
             self.config.write()
         else:
             self.config = config.Config(self.config_path)
-            self.config.config_parser.optionxform=str
+            self.config.config_parser.optionxform = str
             self.config.load()
 
     @pyqtProperty("QVariant")
@@ -153,7 +155,7 @@ class Config(QObject):
     def fetchFloat(self, section, option):
         return self.config.getfloat(section, option)
 
-    @pyqtSlot(str,str,result=bool)
+    @pyqtSlot(str, str, result=bool)
     def fetchBool(self, section, option):
         return self.config.getboolean(section, option)
 
@@ -165,7 +167,8 @@ class Config(QObject):
     @pyqtSlot()
     def resetHotkeys(self):
         for section, items in DEFAULT_CONFIG:
-            if not section.startswith("Hotkeys"): continue
+            if not section.startswith("Hotkeys"):
+                continue
             for key, value in items:
                 itemName = property_name_func(section, key)
 
@@ -191,14 +194,14 @@ class Config(QObject):
                             return self.fetch(section, key)
                 return f
 
-            def _set(section ,key, itemNotify):
+            def _set(section, key, itemNotify):
                 def f(self, value):
                     self.save(section, key, value)
                     getattr(self, itemNotify).emit()
                 return f
 
-            set = locals()['_set_'+key] = _set(section, key, itemNotify)
-            get = locals()['_get_'+key] = _get(section, key)
+            set = locals()['_set_' + key] = _set(section, key, itemNotify)
+            get = locals()['_get_' + key] = _get(section, key)
 
             locals()[itemName] = pyqtProperty("QVariant", get, set, notify=nfy)
 

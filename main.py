@@ -44,7 +44,7 @@ if os.name == 'posix':
     QCoreApplication.setAttribute(QtCore.Qt.AA_X11InitThreads, True)
 
 # from PyQt5.QtGui import QFont
-from PyQt5.QtCore import pyqtSlot, QObject, QTranslator, QLocale, QLibraryInfo
+from PyQt5.QtCore import QTranslator, QLocale, QLibraryInfo
 from PyQt5.QtWidgets import QApplication
 appTranslator = QTranslator()
 translationsPath = "qt_" + QLocale.system().name()
@@ -58,7 +58,6 @@ from window import Window
 from database import database
 from config import config
 from movie_info import movie_info
-from browser import Browser
 from utils import utils, FindVideoThreadManager
 from constant import MAIN_QML
 from menu_controller import MenuController
@@ -66,7 +65,7 @@ from file_monitor import FileMonitor
 
 if __name__ == "__main__":
     from dbus_services import (DeepinMovieServie, check_multiple_instances,
-        DeepinMovieInterface, session_bus, DBUS_PATH)
+                               DeepinMovieInterface, session_bus, DBUS_PATH)
 
     result = check_multiple_instances()
     if result:
@@ -89,7 +88,7 @@ if __name__ == "__main__":
     qml_context.setContextProperty("config", config)
     qml_context.setContextProperty("_utils", utils)
     qml_context.setContextProperty("_findVideoThreadManager",
-        findVideoThreadManager)
+                                   findVideoThreadManager)
     qml_context.setContextProperty("_file_monitor", file_monitor)
     qml_context.setContextProperty("database", database)
     qml_context.setContextProperty("windowView", windowView)

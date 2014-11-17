@@ -29,18 +29,20 @@ NOTIFICATIONS_INTERFACE = "org.freedesktop.Notifications"
 
 bus = dbus.SessionBus()
 
+
 def notify(summary, body):
-    if not config.playerNotificationsEnabled: return 
+    if not config.playerNotificationsEnabled:
+        return
     proxy = bus.get_object(NOTIFICATIONS_SERVICE,
                            NOTIFICATIONS_PATH)
     notify_interface = dbus.Interface(proxy, NOTIFICATIONS_INTERFACE)
-    notify_interface.Notify("Deepin Movie", 
-                            0, 
-                            "/usr/share/icons/Deepin/apps/48/deepin-media-player.png", 
-                            summary, 
+    notify_interface.Notify("Deepin Movie",
+                            0,
+                            "/usr/share/icons/Deepin/apps/48/deepin-media-player.png",
+                            summary,
                             body,
-                            [], 
-                            {}, 
+                            [],
+                            {},
                             -1)
 
 if __name__ == "__main__":

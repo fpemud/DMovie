@@ -129,19 +129,23 @@ playlist_add_button_menu = (
 
 FILE_START_TAG = "[[[[["
 FILE_END_TAG = "]]]]]"
+
+
 def _subtitle_menu_items_from_files(files):
-    def checkable_item_from_file(f, flag=[True,]):
+    def checkable_item_from_file(f, flag=[True, ]):
         item = CheckableMenuItem(
-                "_subtitles:radio:%s%s%s" % (FILE_START_TAG, f, FILE_END_TAG),
-                os.path.basename(f),
-                flag[0])
+            "_subtitles:radio:%s%s%s" % (FILE_START_TAG, f, FILE_END_TAG),
+            os.path.basename(f),
+            flag[0])
         flag[0] = False
         return item
     return map(checkable_item_from_file, filter(lambda x: x != "", files))
 
+
 def _subtitle_file_from_menu_item_id(id):
     return id[id.index(FILE_START_TAG) + len(FILE_START_TAG):
-                                        id.index(FILE_END_TAG)]
+              id.index(FILE_END_TAG)]
+
 
 class MenuController(QObject):
 
@@ -152,15 +156,15 @@ class MenuController(QObject):
     toggleFullscreen = pyqtSignal()
     toggleMiniMode = pyqtSignal()
     screenShot = pyqtSignal()
-    scaleChanged = pyqtSignal(float,arguments=["scale"])
-    proportionChanged = pyqtSignal(float,float,
-        arguments=["propWidth", "propHeight"])
+    scaleChanged = pyqtSignal(float, arguments=["scale"])
+    proportionChanged = pyqtSignal(float, float,
+                                   arguments=["propWidth", "propHeight"])
     openDialog = pyqtSignal(str)
-    staysOnTop = pyqtSignal(bool,arguments=["onTop"])
+    staysOnTop = pyqtSignal(bool, arguments=["onTop"])
     showPreference = pyqtSignal()
     showMovieInformation = pyqtSignal()
     openSubtitleFile = pyqtSignal()
-    subtitleSelected = pyqtSignal(str,arguments=["subtitle"])
+    subtitleSelected = pyqtSignal(str, arguments=["subtitle"])
     playNext = pyqtSignal()
     playPrevious = pyqtSignal()
     playForward = pyqtSignal()
@@ -247,7 +251,7 @@ class MenuController(QObject):
         elif _id == "_on_top":
             self.staysOnTop.emit(_checked)
         elif _id == "_toggle_playlist":
-        	self.togglePlaylist.emit()
+            self.togglePlaylist.emit()
         elif _id == "mode_group:radio:in_order":
             config.playerPlayOrderType = ORDER_TYPE_IN_ORDER
         elif _id == "mode_group:radio:random":
@@ -379,7 +383,7 @@ class MenuController(QObject):
         self.menu.itemClicked.connect(self._menu_item_invoked)
         self.menu.showRectMenu(QCursor.pos().x(), QCursor.pos().y())
 
-    @pyqtSlot(bool,str)
+    @pyqtSlot(bool, str)
     def show_playlist_menu(self, isGroup, url):
         self.menu = Menu(playlist_right_menu)
         self.menu.itemClicked.connect(self._menu_item_invoked)

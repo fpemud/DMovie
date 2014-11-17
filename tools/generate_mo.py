@@ -38,14 +38,14 @@ if __name__ == "__main__":
         subprocess.call(
             "mkdir -p %s" % (os.path.join(locale_dir, "%s/LC_MESSAGES/" % (lang))),
             shell=True
-            )
+        )
 
         subprocess.call(
             "msgfmt -o %s %s" % (
                 os.path.join(locale_dir, "%s/LC_MESSAGES/%s.mo" % (lang, project_name)),
                 os.path.join(locale_dir, "%s.po" % (lang))),
             shell=True
-            )
+        )
 
     for lang in langs:
         subprocess.call(
@@ -53,5 +53,4 @@ if __name__ == "__main__":
                 os.path.join(locale_dir, "%s" % lang),
                 "/usr/share/locale/"),
             shell=True
-            )
-
+        )

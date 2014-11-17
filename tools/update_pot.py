@@ -24,6 +24,7 @@ import subprocess
 import os
 from ConfigParser import RawConfigParser as ConfigParser
 
+
 def remove_directory(path):
     """equivalent to command `rm -rf path`"""
     if os.path.exists(path):
@@ -35,6 +36,7 @@ def remove_directory(path):
                 os.remove(full_path)
         os.rmdir(path)
 
+
 def create_directory(directory, remove_first=False):
     '''Create directory.'''
     if remove_first and os.path.exists(directory):
@@ -42,6 +44,7 @@ def create_directory(directory, remove_first=False):
 
     if not os.path.exists(directory):
         os.makedirs(directory)
+
 
 def update_pot():
     # Read config options.
@@ -98,4 +101,3 @@ def update_pot():
 
 if __name__ == "__main__":
     update_pot()
-
