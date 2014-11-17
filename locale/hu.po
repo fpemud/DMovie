@@ -1,0 +1,683 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# kdavid97 <kdavid97@gmail.hu>, 2014
+# Laszlo Espadas <kw@kardiweb.org>, 2014
+# SlazO <blum1866@gmail.com>, 2014
+# unicum99 <stampf99@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Movie\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-26 13:15+0800\n"
+"PO-Revision-Date: 2014-10-24 16:01+0000\n"
+"Last-Translator: SlazO <blum1866@gmail.com>\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/deepin-movie/language/hu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../AboutSection.qml:6 ../PreferenceWindow.qml:108
+msgid "About"
+msgstr "Névjegy"
+
+#: ../AboutSection.qml:11 ../main.qml:442 ../window.py:68
+msgid "Deepin Movie"
+msgstr "Deepin Film"
+
+#: ../AboutSection.qml:26
+msgid "Version"
+msgstr "Verzió"
+
+#: ../AboutSection.qml:42
+msgid ""
+"Deepin Movie is a video player designed for Linux users. It supports a "
+"variety of video formats."
+msgstr "A Deepin Film egy Linux felhasználók számára tervezett videolejátszó amely rengeteg különböző formátumot támogat."
+
+#: ../AboutSection.qml:48
+msgid "Deepin Movie is free software licensed under GNU GPLv3"
+msgstr "A Deepin Film egy ingyenes szoftver a GNU GPLv3 keretein belül"
+
+#: ../ControlBar.qml:219
+msgid "Stop playing"
+msgstr "Lejátszás megállítása"
+
+#: ../ControlBar.qml:237 ../menu_controller.py:81
+msgid "Previous"
+msgstr "Előző"
+
+#: ../ControlBar.qml:256
+msgid "Pause"
+msgstr "Szünet"
+
+#: ../ControlBar.qml:256 ../menu_controller.py:99 ../menu_controller.py:109
+msgid "Play"
+msgstr "Lejátszás"
+
+#: ../ControlBar.qml:273 ../menu_controller.py:82
+msgid "Next"
+msgstr "Következő"
+
+#: ../ControlBar.qml:316 ../menu_controller.py:375
+msgid "Exit fullscreen"
+msgstr "Kilépés a teljes képernyőböl"
+
+#: ../ControlBar.qml:316 ../PreferenceWindow.qml:328
+#: ../PreferenceWindow.qml:779 ../ShortcutsViewer.qml:44
+#: ../ShortcutsViewer.qml:125 ../menu_controller.py:93
+#: ../menu_controller.py:374
+msgid "Fullscreen"
+msgstr "Teljes képernyő"
+
+#: ../ControlBar.qml:333 ../PreferenceWindow.qml:593 ../ShortcutsViewer.qml:69
+#: ../menu_controller.py:89
+msgid "Open a file"
+msgstr "Fájl megnyitása"
+
+#: ../ControlBar.qml:345 ../OpenFileDialog.qml:66 ../PreferenceWindow.qml:349
+#: ../ShortcutsViewer.qml:48 ../menu_controller.py:96
+msgid "Playlist"
+msgstr "Lejátszási lista"
+
+#: ../HotKeyInput.qml:15 ../HotKeyInputRow.qml:23 ../PreferenceWindow.qml:266
+#: ../PreferenceWindow.qml:287 ../PreferenceWindow.qml:308
+#: ../PreferenceWindow.qml:329 ../PreferenceWindow.qml:350
+#: ../PreferenceWindow.qml:371 ../PreferenceWindow.qml:392
+#: ../PreferenceWindow.qml:413 ../PreferenceWindow.qml:451
+#: ../PreferenceWindow.qml:472 ../PreferenceWindow.qml:493
+#: ../PreferenceWindow.qml:514 ../PreferenceWindow.qml:535
+#: ../PreferenceWindow.qml:556 ../PreferenceWindow.qml:594
+#: ../PreferenceWindow.qml:615 ../PreferenceWindow.qml:636
+#: ../PreferenceWindow.qml:674 ../PreferenceWindow.qml:695
+#: ../PreferenceWindow.qml:716 ../PreferenceWindow.qml:737
+#: ../PreferenceWindow.qml:771 ../PreferenceWindow.qml:779
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:33
+#: ../ShortcutsViewer.qml:37 ../ShortcutsViewer.qml:41
+#: ../ShortcutsViewer.qml:45 ../ShortcutsViewer.qml:49
+#: ../ShortcutsViewer.qml:53 ../ShortcutsViewer.qml:57
+#: ../ShortcutsViewer.qml:61 ../ShortcutsViewer.qml:70
+#: ../ShortcutsViewer.qml:74 ../ShortcutsViewer.qml:78
+#: ../ShortcutsViewer.qml:91 ../ShortcutsViewer.qml:95
+#: ../ShortcutsViewer.qml:99 ../ShortcutsViewer.qml:103
+#: ../ShortcutsViewer.qml:107 ../ShortcutsViewer.qml:111
+#: ../ShortcutsViewer.qml:120 ../ShortcutsViewer.qml:125
+#: ../ShortcutsViewer.qml:130 ../ShortcutsViewer.qml:140
+#: ../ShortcutsViewer.qml:144 ../ShortcutsViewer.qml:148
+#: ../ShortcutsViewer.qml:152
+msgid "Disabled"
+msgstr "Letiltva"
+
+#: ../HotKeyInput.qml:16
+msgid "Please input a new shortcut"
+msgstr "Kérem adjon meg egy új gyorsbillentyűt"
+
+#: ../HotKeyInputRow.qml:29
+msgid "The shortcut you set "
+msgstr "A beállított gyorsbillentyű"
+
+#: ../HotKeyInputRow.qml:30
+#, qt-format
+msgid "conflicts with the one used for \"%2\" in the \"%1\" category. "
+msgstr "Ütközik a \"%2\" által használttal a \"%1\" kategóriában."
+
+#: ../HotKeyInputRow.qml:31
+msgid "Do you want to replace it?"
+msgstr "Le szeretné cserélni?"
+
+#: ../HotKeyInputRow.qml:95 ../main.qml:125
+msgid "Cancel"
+msgstr "Mégse"
+
+#: ../HotKeyInputRow.qml:106
+msgid "Replace"
+msgstr "Cserél"
+
+#: ../InformationWindow.qml:64
+msgid "File type"
+msgstr "Fájltípus"
+
+#: ../InformationWindow.qml:72
+msgid "File size"
+msgstr "Fájlméret"
+
+#: ../InformationWindow.qml:80
+msgid "Resolution"
+msgstr "Felbontás"
+
+#: ../InformationWindow.qml:88
+msgid "Movie duration"
+msgstr "Tartam"
+
+#: ../InformationWindow.qml:100
+msgid "File path"
+msgstr "Fájl útvonal"
+
+#: ../InformationWindow.qml:122
+msgid "Copy to clipboard"
+msgstr "Másolás a vágólapra"
+
+#: ../InformationWindow.qml:137 ../main.qml:124
+msgid "Confirm"
+msgstr "Megerősítés"
+
+#: ../MainController.qml:78 ../MainController.qml:494
+#: ../MainController.qml:548 ../MainController.qml:708 ../main.qml:84
+msgid "Invalid file"
+msgstr "Érvénytelen fájl"
+
+#: ../MainController.qml:100 ../MainController.qml:500
+#: ../MainController.qml:738
+#, qt-format
+msgid "%1 files unable to be parsed have been excluded"
+msgstr "%1 fájl ki lett hagyva, mert nem lehet ellenőrizni "
+
+#: ../MainController.qml:114
+msgid "Imported"
+msgstr "Importált"
+
+#: ../MainController.qml:406
+msgid "Play last movie played"
+msgstr "Az előző  film újrajátszása"
+
+#: ../MainController.qml:418 ../PreferenceWindow.qml:286
+#: ../ShortcutsViewer.qml:36 ../menu_controller.py:84
+msgid "Forward"
+msgstr "Előre"
+
+#: ../MainController.qml:426 ../PreferenceWindow.qml:307
+#: ../ShortcutsViewer.qml:40 ../menu_controller.py:85
+msgid "Rewind"
+msgstr "Hátra"
+
+#: ../MainController.qml:434 ../MainController.qml:440
+#, qt-format
+msgid "(Press %1 to restore)"
+msgstr "(nyomja meg a(z) %1 az újraindításhoz)"
+
+#: ../MainController.qml:436 ../MainController.qml:442
+#: ../MainController.qml:447
+msgid "Playback rate: "
+msgstr "Visszajátszási arány"
+
+#: ../MainController.qml:459 ../MainController.qml:468
+msgid "Volume: "
+msgstr "Hangerő:"
+
+#: ../MainController.qml:466 ../menu_controller.py:59
+msgid "Muted"
+msgstr "Némítva"
+
+#: ../OpenFileDialog.qml:5 ../OpenFileDialog.qml:21 ../OpenFileDialog.qml:41
+msgid "Please choose one file or more"
+msgstr "Kérlek válassz egy vagy több fájlt"
+
+#: ../OpenFileDialog.qml:7 ../OpenFileDialog.qml:23 ../OpenFileDialog.qml:43
+msgid "Video files"
+msgstr "Videó fájlok"
+
+#: ../OpenFileDialog.qml:15
+msgid "All files"
+msgstr "Minden fájl"
+
+#: ../OpenFileDialog.qml:31 ../OpenFileDialog.qml:51
+msgid "Please choose one file"
+msgstr "Kérlek válassz egy fájlt"
+
+#: ../OpenFileDialog.qml:33
+msgid "Subtitle files"
+msgstr "Felirat fájlok"
+
+#: ../OpenFileDialog.qml:53 ../OpenFileDialog.qml:63
+msgid "Playlist files"
+msgstr "Lejátszási lista fájlok"
+
+#: ../OpenFileDialog.qml:61
+msgid "Save as"
+msgstr "Mentés másként"
+
+#: ../OpenFolderDialog.qml:5
+msgid "Please choose a folder"
+msgstr "Kérlek válassz egy könyvtárat"
+
+#: ../Playlist.qml:239
+msgid "Play mode"
+msgstr "Lejátszási mód"
+
+#: ../Playlist.qml:252 ../menu_controller.py:110 ../menu_controller.py:126
+msgid "Add file"
+msgstr "Fájl hozzáadása"
+
+#: ../Playlist.qml:260 ../menu_controller.py:117
+msgid "Clear playlist"
+msgstr "Lejátszási lista ürítése "
+
+#: ../PreferenceWindow.qml:178
+msgid "Enter fullscreen on opening file"
+msgstr "Fájl megnyitásakor teljes képernyős módba váltás"
+
+#: ../PreferenceWindow.qml:190
+msgid "Clear playlist on opening new file"
+msgstr "Lista ürítése új fájl megnyitásakor"
+
+#: ../PreferenceWindow.qml:195
+msgid "Resume playback after restarting player"
+msgstr "Lejátszás folytatása újraindításkor"
+
+#: ../PreferenceWindow.qml:200
+msgid "Continue to next video automatically"
+msgstr "Automatikusan lépjen a következő videóra"
+
+#: ../PreferenceWindow.qml:205
+msgid "Show preview when hovering over progress bar"
+msgstr "Előnézet mutatása a folyamatcsíkon"
+
+#: ../PreferenceWindow.qml:260 ../PreferenceWindow.qml:444
+#: ../PreferenceWindow.qml:587 ../PreferenceWindow.qml:667
+msgid "Enable keyboard shortcuts"
+msgstr "Billentyűparancsok engedélyezése"
+
+#: ../PreferenceWindow.qml:265 ../PreferenceWindow.qml:771
+#: ../ShortcutsViewer.qml:32 ../ShortcutsViewer.qml:120
+msgid "Pause/Play"
+msgstr "Szünet/Lejátszás"
+
+#: ../PreferenceWindow.qml:370 ../ShortcutsViewer.qml:52
+msgid "Accelerate playback"
+msgstr "Lejátszás gyorsítása"
+
+#: ../PreferenceWindow.qml:391 ../ShortcutsViewer.qml:56
+msgid "Decelerate playback"
+msgstr "Lejátszás lassítása"
+
+#: ../PreferenceWindow.qml:412 ../ShortcutsViewer.qml:60
+msgid "Restore playback speed"
+msgstr "Lejátszási sebeség visszaállítása"
+
+#: ../PreferenceWindow.qml:450 ../ShortcutsViewer.qml:90
+#: ../menu_controller.py:94 ../menu_controller.py:377
+msgid "Mini mode"
+msgstr "Mini mód"
+
+#: ../PreferenceWindow.qml:513 ../ShortcutsViewer.qml:102
+msgid "Volume up"
+msgstr "Hangerő növelése "
+
+#: ../PreferenceWindow.qml:534 ../ShortcutsViewer.qml:106
+msgid "Volume down"
+msgstr "Hangerő csökkentése"
+
+#: ../PreferenceWindow.qml:614 ../ShortcutsViewer.qml:73
+msgid "Open previous"
+msgstr "Előző megnyitása"
+
+#: ../PreferenceWindow.qml:635 ../ShortcutsViewer.qml:77
+msgid "Open next"
+msgstr "Következő megnyitása"
+
+#: ../PreferenceWindow.qml:673 ../ShortcutsViewer.qml:139
+msgid "Forward 0.5s"
+msgstr "Előre 0,5 másodperccel"
+
+#: ../PreferenceWindow.qml:694 ../ShortcutsViewer.qml:143
+msgid "Delay 0.5s"
+msgstr "Késleltetés 0,5 másodperccel"
+
+#: ../PreferenceWindow.qml:715 ../ShortcutsViewer.qml:147
+msgid "Subtitle up"
+msgstr "Felirat fel"
+
+#: ../PreferenceWindow.qml:736 ../ShortcutsViewer.qml:151
+msgid "Subtitle down"
+msgstr "Felirat le"
+
+#: ../PreferenceWindow.qml:768 ../ShortcutsViewer.qml:119
+msgid "Left click"
+msgstr "Bal egérgomb "
+
+#: ../PreferenceWindow.qml:776 ../ShortcutsViewer.qml:124
+msgid "Double click"
+msgstr "Dupla kattintás "
+
+#: ../PreferenceWindow.qml:801
+msgid "Subtitles loaded automatically"
+msgstr "Feliratok automatikusan betöltve"
+
+#: ../PreferenceWindow.qml:842
+msgid "Border width"
+msgstr "Szegély szélessége"
+
+#: ../PreferenceWindow.qml:55 ../PreferenceWindow.qml:71
+#: ../PreferenceWindow.qml:169 ../PreferenceWindow.qml:251
+#: ../ShortcutsViewer.qml:29
+msgid "Playback"
+msgstr "Visszajátszás"
+
+#: ../PreferenceWindow.qml:76 ../PreferenceWindow.qml:435
+#: ../ShortcutsViewer.qml:87
+msgid "Frame/Sound"
+msgstr "Képkocka/Hang"
+
+#: ../PreferenceWindow.qml:81 ../PreferenceWindow.qml:578
+#: ../ShortcutsViewer.qml:66
+msgid "Files"
+msgstr "Fáljok"
+
+#: ../PreferenceWindow.qml:91 ../PreferenceWindow.qml:759
+#: ../ShortcutsViewer.qml:116
+msgid "Other"
+msgstr "Egyéb"
+
+#: ../PreferenceWindow.qml:86 ../PreferenceWindow.qml:658
+#: ../ShortcutsViewer.qml:136 ../menu_controller.py:102
+msgid "Subtitles"
+msgstr "Feliratok"
+
+#: ../PreferenceWindow.qml:11
+msgid "Reset"
+msgstr "Visszaállítás"
+
+#: ../PreferenceWindow.qml:15
+msgid "Black"
+msgstr "Fekete"
+
+#: ../PreferenceWindow.qml:16
+msgid "bleu de France"
+msgstr "Franciaország kékje"
+
+#: ../PreferenceWindow.qml:17
+msgid "Turquoise"
+msgstr "Türkiz"
+
+#: ../PreferenceWindow.qml:18
+msgid "UFO green"
+msgstr "UFO zöld"
+
+#: ../PreferenceWindow.qml:19
+msgid "Green yellow"
+msgstr "Zöld sárga "
+
+#: ../PreferenceWindow.qml:20
+msgid "Gorse"
+msgstr "Gorse"
+
+#: ../PreferenceWindow.qml:21
+msgid "Energy yellow"
+msgstr "Energia sárga"
+
+#: ../PreferenceWindow.qml:22
+msgid "Sun"
+msgstr "Nap"
+
+#: ../PreferenceWindow.qml:23
+msgid "Radical red"
+msgstr "Radikális piros"
+
+#: ../PreferenceWindow.qml:24
+msgid "Lavender indigo"
+msgstr "Levendula indigó"
+
+#: ../PreferenceWindow.qml:25
+msgid "Royal blue"
+msgstr "Király kék"
+
+#: ../PreferenceWindow.qml:26
+msgid "Aluminum"
+msgstr "Alumínium"
+
+#: ../PreferenceWindow.qml:27
+msgid "Clean white"
+msgstr "Tiszta fehér"
+
+#: ../PreferenceWindow.qml:51 ../PreferenceWindow.qml:165
+msgid "Basic settings"
+msgstr "Egyszerű beállítások "
+
+#: ../PreferenceWindow.qml:60 ../PreferenceWindow.qml:229
+msgid "Time span"
+msgstr "Idő hossz "
+
+#: ../PreferenceWindow.qml:67 ../PreferenceWindow.qml:247
+msgid "Keyboard shortcuts"
+msgstr "Billentyűparancsok"
+
+#: ../PreferenceWindow.qml:98 ../PreferenceWindow.qml:795
+msgid "Subtitle settings"
+msgstr "Felirat beállításai"
+
+#: ../PreferenceWindow.qml:184
+msgid "Apply the size last time closed"
+msgstr "Legutóbbi méret megjegyzése"
+
+#: ../PreferenceWindow.qml:210
+msgid "Allow multiple instances"
+msgstr "Engedélyezés több példányban"
+
+#: ../PreferenceWindow.qml:215
+msgid "Pause when minimized"
+msgstr "Minimalizáláskor szünetel"
+
+#: ../PreferenceWindow.qml:220
+msgid "Enable system popup notification"
+msgstr "Rendszerértesitő engedélyezése"
+
+#: ../PreferenceWindow.qml:238
+msgid "Forward/Rewind"
+msgstr "Vissza/Előre"
+
+#: ../PreferenceWindow.qml:471 ../ShortcutsViewer.qml:94
+msgid "Rotate counterclockwise"
+msgstr "Forgatás az óra járásával ellentétes irányba"
+
+#: ../PreferenceWindow.qml:492 ../ShortcutsViewer.qml:98
+msgid "Rotate clockwise"
+msgstr "Forgatás az óra járásával megegyező irányba"
+
+#: ../PreferenceWindow.qml:555 ../ShortcutsViewer.qml:110
+msgid "Mute"
+msgstr "Elnémít"
+
+#: ../PreferenceWindow.qml:784 ../ShortcutsViewer.qml:129
+msgid "Scroll"
+msgstr "Görgetés"
+
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:130
+#: ../VolumeButton.qml:44
+msgid "Volume"
+msgstr "Hangerő"
+
+#: ../PreferenceWindow.qml:807
+msgid "Font"
+msgstr "Betű"
+
+#: ../PreferenceWindow.qml:817
+msgid "Font color"
+msgstr "Betű szín"
+
+#: ../PreferenceWindow.qml:833
+msgid "Size"
+msgstr "Méret"
+
+#: ../PreferenceWindow.qml:851
+msgid "Border color"
+msgstr "Keret színe"
+
+#: ../PreferenceWindow.qml:867
+msgid "Position"
+msgstr "Pozíció"
+
+#: ../PreferenceWindow.qml:872
+msgid "Bottom"
+msgstr "Alatta "
+
+#: ../PreferenceWindow.qml:873
+msgid "Top"
+msgstr "Felül"
+
+#: ../PreferenceWindow.qml:879
+msgid "Subtitle Delay"
+msgstr "Felirat késleltetése"
+
+#: ../TitleBar.qml:165
+msgid "Shown in a proportion of 1:1"
+msgstr "Mutassa 1:1 méretarányban"
+
+#: ../TitleBar.qml:177
+msgid "Shown in 1.5 times"
+msgstr "1.5 szeresére növelés"
+
+#: ../TitleBar.qml:190
+msgid "Return to mini mode"
+msgstr "Vissza a mini módba"
+
+#: ../TitleBar.qml:190
+msgid "Shown in fullscreen"
+msgstr "Mutassa teljes képernyőn"
+
+#: ../TitleBar.qml:205
+msgid "Cancel \"On Top\""
+msgstr "Mégse \"felül\""
+
+#: ../TitleBar.qml:205
+msgid "On Top"
+msgstr "Felül"
+
+#: ../main.qml:123
+msgid "Please input the url of file played"
+msgstr "Kérem írja be a lejátszott fájl URL-jét"
+
+#: ../main.qml:140 ../main.qml:482 ../main.qml:488
+msgid "The parse failed"
+msgstr "Az elemzés sikertelen"
+
+#: ../movie_info.py:148
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#: ../menu_controller.py:34
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#: ../menu_controller.py:46
+msgid "Rotate 90 degree clockwise"
+msgstr "Forgatás 90 fokkal jobbra"
+
+#: ../menu_controller.py:47
+msgid "Rotate 90 degree counterclockwise"
+msgstr "Forgatás 90 fokkal balra"
+
+#: ../menu_controller.py:48
+msgid "Flip horizontally"
+msgstr "Vízszintes tükrözés"
+
+#: ../menu_controller.py:49
+msgid "Flip vertically"
+msgstr "Függőleges tükrözés"
+
+#: ../menu_controller.py:57
+msgid "Volume Up"
+msgstr "Hangerő növelése "
+
+#: ../menu_controller.py:58
+msgid "Volume Down"
+msgstr "Hangerő csökkentése "
+
+#: ../menu_controller.py:63
+msgid "Hide subtitle"
+msgstr "Felirat elrejtése "
+
+#: ../menu_controller.py:67
+msgid "Open manually"
+msgstr "Megnyitás manuálisan"
+
+#: ../menu_controller.py:68
+msgid "Subtitle selection"
+msgstr "Felirat kiválasztás"
+
+#: ../menu_controller.py:69
+msgid "Subtitle setting"
+msgstr "Feliratok beállításai"
+
+#: ../menu_controller.py:73
+msgid "Order"
+msgstr "Sorrend"
+
+#: ../menu_controller.py:74
+msgid "Random"
+msgstr "Véletlenszerű"
+
+#: ../menu_controller.py:75
+msgid "Single"
+msgstr "Egyesével "
+
+#: ../menu_controller.py:76
+msgid "Repeat (Single)"
+msgstr "Ismétlés (egyszeri)"
+
+#: ../menu_controller.py:77
+msgid "Repeat (Playlist)"
+msgstr "Ismétlés (Lejátszási lista) "
+
+#: ../menu_controller.py:90
+msgid "Open a folder"
+msgstr "Mappa megnyitás"
+
+#: ../menu_controller.py:91
+msgid "Open URL"
+msgstr "Hivatkozás megnyitás"
+
+#: ../menu_controller.py:95
+msgid "Always on top"
+msgstr "Mindig elöl"
+
+#: ../menu_controller.py:98
+msgid "Play Sequence"
+msgstr "Lejtászás sorrenben"
+
+#: ../menu_controller.py:100
+msgid "Frame"
+msgstr "Képkocka"
+
+#: ../menu_controller.py:101
+msgid "Sound"
+msgstr "Hang"
+
+#: ../menu_controller.py:104
+msgid "Options"
+msgstr "Beállítások"
+
+#: ../menu_controller.py:105 ../menu_controller.py:122
+msgid "Information"
+msgstr "Információ"
+
+#: ../menu_controller.py:111 ../menu_controller.py:127
+msgid "Add folder"
+msgstr "Mappa hozzáadása"
+
+#: ../menu_controller.py:113
+msgid "Remove from playlist"
+msgstr "Éltávoltás a lejátszási listából "
+
+#: ../menu_controller.py:114
+msgid "Remove invalid file"
+msgstr "Érévnyteles fájl eltváolítása"
+
+#: ../menu_controller.py:115
+msgid "Export"
+msgstr "Exportálás"
+
+#: ../menu_controller.py:116
+msgid "Import"
+msgstr "Importálás"
+
+#: ../menu_controller.py:121
+msgid "Open file location"
+msgstr "Fájl helyének megnyitása"
+
+#: ../menu_controller.py:376
+msgid "Exit mini mode"
+msgstr "Mini mód elhagyása"

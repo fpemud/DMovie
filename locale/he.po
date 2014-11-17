@@ -1,0 +1,680 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Yuval Bar-On <hyuvii@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Movie\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-26 13:15+0800\n"
+"PO-Revision-Date: 2014-11-02 14:33+0000\n"
+"Last-Translator: Yuval Bar-On <hyuvii@gmail.com>\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/deepin-movie/language/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../AboutSection.qml:6 ../PreferenceWindow.qml:108
+msgid "About"
+msgstr "אודות"
+
+#: ../AboutSection.qml:11 ../main.qml:442 ../window.py:68
+msgid "Deepin Movie"
+msgstr "Deepin Movie"
+
+#: ../AboutSection.qml:26
+msgid "Version"
+msgstr "גרסא"
+
+#: ../AboutSection.qml:42
+msgid ""
+"Deepin Movie is a video player designed for Linux users. It supports a "
+"variety of video formats."
+msgstr "Deepin Movie הוא נגן וידאו עבור משתמשי לינוקס, אשר תומך במבחר רחב של סוגי וידאו"
+
+#: ../AboutSection.qml:48
+msgid "Deepin Movie is free software licensed under GNU GPLv3"
+msgstr "Deepin Movie היא תוכנה חופשית תחת רשיון GNU GPLv3"
+
+#: ../ControlBar.qml:219
+msgid "Stop playing"
+msgstr "הפסק לנגן"
+
+#: ../ControlBar.qml:237 ../menu_controller.py:81
+msgid "Previous"
+msgstr "הקודם"
+
+#: ../ControlBar.qml:256
+msgid "Pause"
+msgstr "השהה"
+
+#: ../ControlBar.qml:256 ../menu_controller.py:99 ../menu_controller.py:109
+msgid "Play"
+msgstr "נגן"
+
+#: ../ControlBar.qml:273 ../menu_controller.py:82
+msgid "Next"
+msgstr "הבא"
+
+#: ../ControlBar.qml:316 ../menu_controller.py:375
+msgid "Exit fullscreen"
+msgstr "צא ממסך מלא"
+
+#: ../ControlBar.qml:316 ../PreferenceWindow.qml:328
+#: ../PreferenceWindow.qml:779 ../ShortcutsViewer.qml:44
+#: ../ShortcutsViewer.qml:125 ../menu_controller.py:93
+#: ../menu_controller.py:374
+msgid "Fullscreen"
+msgstr "מסך מלא"
+
+#: ../ControlBar.qml:333 ../PreferenceWindow.qml:593 ../ShortcutsViewer.qml:69
+#: ../menu_controller.py:89
+msgid "Open a file"
+msgstr "פתח קובץ"
+
+#: ../ControlBar.qml:345 ../OpenFileDialog.qml:66 ../PreferenceWindow.qml:349
+#: ../ShortcutsViewer.qml:48 ../menu_controller.py:96
+msgid "Playlist"
+msgstr "רשימת השמעה"
+
+#: ../HotKeyInput.qml:15 ../HotKeyInputRow.qml:23 ../PreferenceWindow.qml:266
+#: ../PreferenceWindow.qml:287 ../PreferenceWindow.qml:308
+#: ../PreferenceWindow.qml:329 ../PreferenceWindow.qml:350
+#: ../PreferenceWindow.qml:371 ../PreferenceWindow.qml:392
+#: ../PreferenceWindow.qml:413 ../PreferenceWindow.qml:451
+#: ../PreferenceWindow.qml:472 ../PreferenceWindow.qml:493
+#: ../PreferenceWindow.qml:514 ../PreferenceWindow.qml:535
+#: ../PreferenceWindow.qml:556 ../PreferenceWindow.qml:594
+#: ../PreferenceWindow.qml:615 ../PreferenceWindow.qml:636
+#: ../PreferenceWindow.qml:674 ../PreferenceWindow.qml:695
+#: ../PreferenceWindow.qml:716 ../PreferenceWindow.qml:737
+#: ../PreferenceWindow.qml:771 ../PreferenceWindow.qml:779
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:33
+#: ../ShortcutsViewer.qml:37 ../ShortcutsViewer.qml:41
+#: ../ShortcutsViewer.qml:45 ../ShortcutsViewer.qml:49
+#: ../ShortcutsViewer.qml:53 ../ShortcutsViewer.qml:57
+#: ../ShortcutsViewer.qml:61 ../ShortcutsViewer.qml:70
+#: ../ShortcutsViewer.qml:74 ../ShortcutsViewer.qml:78
+#: ../ShortcutsViewer.qml:91 ../ShortcutsViewer.qml:95
+#: ../ShortcutsViewer.qml:99 ../ShortcutsViewer.qml:103
+#: ../ShortcutsViewer.qml:107 ../ShortcutsViewer.qml:111
+#: ../ShortcutsViewer.qml:120 ../ShortcutsViewer.qml:125
+#: ../ShortcutsViewer.qml:130 ../ShortcutsViewer.qml:140
+#: ../ShortcutsViewer.qml:144 ../ShortcutsViewer.qml:148
+#: ../ShortcutsViewer.qml:152
+msgid "Disabled"
+msgstr "מכובה"
+
+#: ../HotKeyInput.qml:16
+msgid "Please input a new shortcut"
+msgstr "אנא הכנס קיצור חדש"
+
+#: ../HotKeyInputRow.qml:29
+msgid "The shortcut you set "
+msgstr "הקיצור אשר הגדרת"
+
+#: ../HotKeyInputRow.qml:30
+#, qt-format
+msgid "conflicts with the one used for \"%2\" in the \"%1\" category. "
+msgstr "ישנה סתירה עם האחד אשר שימש \"%2\" בקטגוריה \"%1\""
+
+#: ../HotKeyInputRow.qml:31
+msgid "Do you want to replace it?"
+msgstr "האם ברצונך להחליפו?"
+
+#: ../HotKeyInputRow.qml:95 ../main.qml:125
+msgid "Cancel"
+msgstr "ביטול"
+
+#: ../HotKeyInputRow.qml:106
+msgid "Replace"
+msgstr "החלף"
+
+#: ../InformationWindow.qml:64
+msgid "File type"
+msgstr "סוג קובץ"
+
+#: ../InformationWindow.qml:72
+msgid "File size"
+msgstr "גודל הקובץ"
+
+#: ../InformationWindow.qml:80
+msgid "Resolution"
+msgstr "רזולוציה"
+
+#: ../InformationWindow.qml:88
+msgid "Movie duration"
+msgstr "משך הסרט"
+
+#: ../InformationWindow.qml:100
+msgid "File path"
+msgstr "נתיב קובץ"
+
+#: ../InformationWindow.qml:122
+msgid "Copy to clipboard"
+msgstr "העתק ל-clipboard"
+
+#: ../InformationWindow.qml:137 ../main.qml:124
+msgid "Confirm"
+msgstr "אישור"
+
+#: ../MainController.qml:78 ../MainController.qml:494
+#: ../MainController.qml:548 ../MainController.qml:708 ../main.qml:84
+msgid "Invalid file"
+msgstr "קובץ לא תקין"
+
+#: ../MainController.qml:100 ../MainController.qml:500
+#: ../MainController.qml:738
+#, qt-format
+msgid "%1 files unable to be parsed have been excluded"
+msgstr "%1 קבצים לא ניתן היה לנתח ולכן הם לא נכללו"
+
+#: ../MainController.qml:114
+msgid "Imported"
+msgstr "יובאו"
+
+#: ../MainController.qml:406
+msgid "Play last movie played"
+msgstr "נגן קטע אחרון שנוגן"
+
+#: ../MainController.qml:418 ../PreferenceWindow.qml:286
+#: ../ShortcutsViewer.qml:36 ../menu_controller.py:84
+msgid "Forward"
+msgstr "קדימה"
+
+#: ../MainController.qml:426 ../PreferenceWindow.qml:307
+#: ../ShortcutsViewer.qml:40 ../menu_controller.py:85
+msgid "Rewind"
+msgstr "אחורה"
+
+#: ../MainController.qml:434 ../MainController.qml:440
+#, qt-format
+msgid "(Press %1 to restore)"
+msgstr "(הקש %1 על מנת לשחזר)"
+
+#: ../MainController.qml:436 ../MainController.qml:442
+#: ../MainController.qml:447
+msgid "Playback rate: "
+msgstr "קצב פלייבק"
+
+#: ../MainController.qml:459 ../MainController.qml:468
+msgid "Volume: "
+msgstr "עצמת קול"
+
+#: ../MainController.qml:466 ../menu_controller.py:59
+msgid "Muted"
+msgstr "מושתק"
+
+#: ../OpenFileDialog.qml:5 ../OpenFileDialog.qml:21 ../OpenFileDialog.qml:41
+msgid "Please choose one file or more"
+msgstr "אנא בחר קובץ אחד או יותר"
+
+#: ../OpenFileDialog.qml:7 ../OpenFileDialog.qml:23 ../OpenFileDialog.qml:43
+msgid "Video files"
+msgstr "קבצי וידאו"
+
+#: ../OpenFileDialog.qml:15
+msgid "All files"
+msgstr "כל הקבצים"
+
+#: ../OpenFileDialog.qml:31 ../OpenFileDialog.qml:51
+msgid "Please choose one file"
+msgstr "אנא בחר קובץ אחד"
+
+#: ../OpenFileDialog.qml:33
+msgid "Subtitle files"
+msgstr "קבצי כתוביות"
+
+#: ../OpenFileDialog.qml:53 ../OpenFileDialog.qml:63
+msgid "Playlist files"
+msgstr "קבצי רשימות השמעה"
+
+#: ../OpenFileDialog.qml:61
+msgid "Save as"
+msgstr "שמור בשם"
+
+#: ../OpenFolderDialog.qml:5
+msgid "Please choose a folder"
+msgstr "אנא בחר תיקייה"
+
+#: ../Playlist.qml:239
+msgid "Play mode"
+msgstr "מצב ניגון"
+
+#: ../Playlist.qml:252 ../menu_controller.py:110 ../menu_controller.py:126
+msgid "Add file"
+msgstr "הוסף קובץ"
+
+#: ../Playlist.qml:260 ../menu_controller.py:117
+msgid "Clear playlist"
+msgstr "נקה רשימת השמעה"
+
+#: ../PreferenceWindow.qml:178
+msgid "Enter fullscreen on opening file"
+msgstr "עבור למסך מלא כאשר פותחים קובץ"
+
+#: ../PreferenceWindow.qml:190
+msgid "Clear playlist on opening new file"
+msgstr "נקה רשימת השמעה כאשר פותחים קובץ חדש"
+
+#: ../PreferenceWindow.qml:195
+msgid "Resume playback after restarting player"
+msgstr "חזור לנגן לאחר אתחול"
+
+#: ../PreferenceWindow.qml:200
+msgid "Continue to next video automatically"
+msgstr "המשך לקטע הבא באופן אוטומטי"
+
+#: ../PreferenceWindow.qml:205
+msgid "Show preview when hovering over progress bar"
+msgstr "הראה תצוגה מקדימה כאשר העכבר עובר על סרגל ההתקדמות"
+
+#: ../PreferenceWindow.qml:260 ../PreferenceWindow.qml:444
+#: ../PreferenceWindow.qml:587 ../PreferenceWindow.qml:667
+msgid "Enable keyboard shortcuts"
+msgstr "אפשר קיצורי מקלדת"
+
+#: ../PreferenceWindow.qml:265 ../PreferenceWindow.qml:771
+#: ../ShortcutsViewer.qml:32 ../ShortcutsViewer.qml:120
+msgid "Pause/Play"
+msgstr "השהה/נגן"
+
+#: ../PreferenceWindow.qml:370 ../ShortcutsViewer.qml:52
+msgid "Accelerate playback"
+msgstr "האץ מהירות ניגון"
+
+#: ../PreferenceWindow.qml:391 ../ShortcutsViewer.qml:56
+msgid "Decelerate playback"
+msgstr "האט מהירות ניגון"
+
+#: ../PreferenceWindow.qml:412 ../ShortcutsViewer.qml:60
+msgid "Restore playback speed"
+msgstr "שחזר מהירות ניגון"
+
+#: ../PreferenceWindow.qml:450 ../ShortcutsViewer.qml:90
+#: ../menu_controller.py:94 ../menu_controller.py:377
+msgid "Mini mode"
+msgstr "מצב מוקטן"
+
+#: ../PreferenceWindow.qml:513 ../ShortcutsViewer.qml:102
+msgid "Volume up"
+msgstr "הגבר"
+
+#: ../PreferenceWindow.qml:534 ../ShortcutsViewer.qml:106
+msgid "Volume down"
+msgstr "החלש"
+
+#: ../PreferenceWindow.qml:614 ../ShortcutsViewer.qml:73
+msgid "Open previous"
+msgstr "פתח את הקודם"
+
+#: ../PreferenceWindow.qml:635 ../ShortcutsViewer.qml:77
+msgid "Open next"
+msgstr "פתח את הבא"
+
+#: ../PreferenceWindow.qml:673 ../ShortcutsViewer.qml:139
+msgid "Forward 0.5s"
+msgstr "התקדם 0.5 שניות"
+
+#: ../PreferenceWindow.qml:694 ../ShortcutsViewer.qml:143
+msgid "Delay 0.5s"
+msgstr "השהה 0.5 שניות"
+
+#: ../PreferenceWindow.qml:715 ../ShortcutsViewer.qml:147
+msgid "Subtitle up"
+msgstr "כתוביות למעלה"
+
+#: ../PreferenceWindow.qml:736 ../ShortcutsViewer.qml:151
+msgid "Subtitle down"
+msgstr "כתוביות למטה"
+
+#: ../PreferenceWindow.qml:768 ../ShortcutsViewer.qml:119
+msgid "Left click"
+msgstr "לחצן עכבר שמאלי"
+
+#: ../PreferenceWindow.qml:776 ../ShortcutsViewer.qml:124
+msgid "Double click"
+msgstr "לחיצה כפולה"
+
+#: ../PreferenceWindow.qml:801
+msgid "Subtitles loaded automatically"
+msgstr "כתוביות נטענות אוטומטית"
+
+#: ../PreferenceWindow.qml:842
+msgid "Border width"
+msgstr "רוחב קצה"
+
+#: ../PreferenceWindow.qml:55 ../PreferenceWindow.qml:71
+#: ../PreferenceWindow.qml:169 ../PreferenceWindow.qml:251
+#: ../ShortcutsViewer.qml:29
+msgid "Playback"
+msgstr "השמעה"
+
+#: ../PreferenceWindow.qml:76 ../PreferenceWindow.qml:435
+#: ../ShortcutsViewer.qml:87
+msgid "Frame/Sound"
+msgstr "פריים/שמע"
+
+#: ../PreferenceWindow.qml:81 ../PreferenceWindow.qml:578
+#: ../ShortcutsViewer.qml:66
+msgid "Files"
+msgstr "קבצים"
+
+#: ../PreferenceWindow.qml:91 ../PreferenceWindow.qml:759
+#: ../ShortcutsViewer.qml:116
+msgid "Other"
+msgstr "אחר"
+
+#: ../PreferenceWindow.qml:86 ../PreferenceWindow.qml:658
+#: ../ShortcutsViewer.qml:136 ../menu_controller.py:102
+msgid "Subtitles"
+msgstr "כתוביות"
+
+#: ../PreferenceWindow.qml:11
+msgid "Reset"
+msgstr "איפוס"
+
+#: ../PreferenceWindow.qml:15
+msgid "Black"
+msgstr "שחור"
+
+#: ../PreferenceWindow.qml:16
+msgid "bleu de France"
+msgstr "bleu de France"
+
+#: ../PreferenceWindow.qml:17
+msgid "Turquoise"
+msgstr "טורקיז"
+
+#: ../PreferenceWindow.qml:18
+msgid "UFO green"
+msgstr "ירוק עב\"מ"
+
+#: ../PreferenceWindow.qml:19
+msgid "Green yellow"
+msgstr "ירוק-צהוב"
+
+#: ../PreferenceWindow.qml:20
+msgid "Gorse"
+msgstr "צהוב חרדל"
+
+#: ../PreferenceWindow.qml:21
+msgid "Energy yellow"
+msgstr "צהוב מרקר"
+
+#: ../PreferenceWindow.qml:22
+msgid "Sun"
+msgstr "שמשי"
+
+#: ../PreferenceWindow.qml:23
+msgid "Radical red"
+msgstr "אדום רדיקאלי"
+
+#: ../PreferenceWindow.qml:24
+msgid "Lavender indigo"
+msgstr "סגול-אינדיגו"
+
+#: ../PreferenceWindow.qml:25
+msgid "Royal blue"
+msgstr "כחול מלכותי"
+
+#: ../PreferenceWindow.qml:26
+msgid "Aluminum"
+msgstr "אלומיניום"
+
+#: ../PreferenceWindow.qml:27
+msgid "Clean white"
+msgstr "לבן נקי"
+
+#: ../PreferenceWindow.qml:51 ../PreferenceWindow.qml:165
+msgid "Basic settings"
+msgstr "הגדרות בסיסיות"
+
+#: ../PreferenceWindow.qml:60 ../PreferenceWindow.qml:229
+msgid "Time span"
+msgstr "פרק זמן"
+
+#: ../PreferenceWindow.qml:67 ../PreferenceWindow.qml:247
+msgid "Keyboard shortcuts"
+msgstr "קיצורי מקלדת"
+
+#: ../PreferenceWindow.qml:98 ../PreferenceWindow.qml:795
+msgid "Subtitle settings"
+msgstr "הגדרות כתוביות"
+
+#: ../PreferenceWindow.qml:184
+msgid "Apply the size last time closed"
+msgstr "קבע גודל נגן ע\"פ הפעם האחרונה שנסגר"
+
+#: ../PreferenceWindow.qml:210
+msgid "Allow multiple instances"
+msgstr "אפשר מספר הפעלות במקביל"
+
+#: ../PreferenceWindow.qml:215
+msgid "Pause when minimized"
+msgstr "השהה ניגון כאשר ממוזער"
+
+#: ../PreferenceWindow.qml:220
+msgid "Enable system popup notification"
+msgstr "אפשר התרעות מערכת"
+
+#: ../PreferenceWindow.qml:238
+msgid "Forward/Rewind"
+msgstr "קדימה/אחורה"
+
+#: ../PreferenceWindow.qml:471 ../ShortcutsViewer.qml:94
+msgid "Rotate counterclockwise"
+msgstr "סובב נגד כיוון השעון"
+
+#: ../PreferenceWindow.qml:492 ../ShortcutsViewer.qml:98
+msgid "Rotate clockwise"
+msgstr "סובב עם כיוון השעון"
+
+#: ../PreferenceWindow.qml:555 ../ShortcutsViewer.qml:110
+msgid "Mute"
+msgstr "השתק"
+
+#: ../PreferenceWindow.qml:784 ../ShortcutsViewer.qml:129
+msgid "Scroll"
+msgstr "גלגלת"
+
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:130
+#: ../VolumeButton.qml:44
+msgid "Volume"
+msgstr "עוצמת קול"
+
+#: ../PreferenceWindow.qml:807
+msgid "Font"
+msgstr "פונט"
+
+#: ../PreferenceWindow.qml:817
+msgid "Font color"
+msgstr "צבע פונט"
+
+#: ../PreferenceWindow.qml:833
+msgid "Size"
+msgstr "גודל"
+
+#: ../PreferenceWindow.qml:851
+msgid "Border color"
+msgstr "צבע קצה"
+
+#: ../PreferenceWindow.qml:867
+msgid "Position"
+msgstr "מיקום"
+
+#: ../PreferenceWindow.qml:872
+msgid "Bottom"
+msgstr "למטה"
+
+#: ../PreferenceWindow.qml:873
+msgid "Top"
+msgstr "למעלה"
+
+#: ../PreferenceWindow.qml:879
+msgid "Subtitle Delay"
+msgstr "עיכוב כתוביות"
+
+#: ../TitleBar.qml:165
+msgid "Shown in a proportion of 1:1"
+msgstr "הראה ביחס 1:1"
+
+#: ../TitleBar.qml:177
+msgid "Shown in 1.5 times"
+msgstr "מציג 150%"
+
+#: ../TitleBar.qml:190
+msgid "Return to mini mode"
+msgstr "חזור למצב מוקטן"
+
+#: ../TitleBar.qml:190
+msgid "Shown in fullscreen"
+msgstr "הראה במסך מלא"
+
+#: ../TitleBar.qml:205
+msgid "Cancel \"On Top\""
+msgstr "בטל הצמדה למעלה"
+
+#: ../TitleBar.qml:205
+msgid "On Top"
+msgstr "הצמד למעלה"
+
+#: ../main.qml:123
+msgid "Please input the url of file played"
+msgstr "אנא הכנס את הכתובת של הקובץ המנוגן"
+
+#: ../main.qml:140 ../main.qml:482 ../main.qml:488
+msgid "The parse failed"
+msgstr "הניתוח נכשל"
+
+#: ../movie_info.py:148
+msgid "Unknown"
+msgstr "לא ידוע"
+
+#: ../menu_controller.py:34
+msgid "Default"
+msgstr "ברירת מחדל"
+
+#: ../menu_controller.py:46
+msgid "Rotate 90 degree clockwise"
+msgstr "סובב 90 מעלות בכיוון השעון"
+
+#: ../menu_controller.py:47
+msgid "Rotate 90 degree counterclockwise"
+msgstr "סובב 90 מעלות נגד כיוון השעון"
+
+#: ../menu_controller.py:48
+msgid "Flip horizontally"
+msgstr "הפוך אופקית"
+
+#: ../menu_controller.py:49
+msgid "Flip vertically"
+msgstr "הפוך אנכית"
+
+#: ../menu_controller.py:57
+msgid "Volume Up"
+msgstr "הגבר"
+
+#: ../menu_controller.py:58
+msgid "Volume Down"
+msgstr "הנמך"
+
+#: ../menu_controller.py:63
+msgid "Hide subtitle"
+msgstr "הסתר כתוביות"
+
+#: ../menu_controller.py:67
+msgid "Open manually"
+msgstr "פתח ידנית"
+
+#: ../menu_controller.py:68
+msgid "Subtitle selection"
+msgstr "בחירת כתוביות"
+
+#: ../menu_controller.py:69
+msgid "Subtitle setting"
+msgstr "הגדרות כתוביות"
+
+#: ../menu_controller.py:73
+msgid "Order"
+msgstr "סדר"
+
+#: ../menu_controller.py:74
+msgid "Random"
+msgstr "רנדומלי"
+
+#: ../menu_controller.py:75
+msgid "Single"
+msgstr "יחיד"
+
+#: ../menu_controller.py:76
+msgid "Repeat (Single)"
+msgstr "השמע שוב (בודד)"
+
+#: ../menu_controller.py:77
+msgid "Repeat (Playlist)"
+msgstr "השמע שוב (רשימת השמעה)"
+
+#: ../menu_controller.py:90
+msgid "Open a folder"
+msgstr "פתח תיקייה"
+
+#: ../menu_controller.py:91
+msgid "Open URL"
+msgstr "פתח קישור"
+
+#: ../menu_controller.py:95
+msgid "Always on top"
+msgstr "תמיד למעלה"
+
+#: ../menu_controller.py:98
+msgid "Play Sequence"
+msgstr "נגן רצף"
+
+#: ../menu_controller.py:100
+msgid "Frame"
+msgstr "פריים"
+
+#: ../menu_controller.py:101
+msgid "Sound"
+msgstr "שמע"
+
+#: ../menu_controller.py:104
+msgid "Options"
+msgstr "אפשרויות"
+
+#: ../menu_controller.py:105 ../menu_controller.py:122
+msgid "Information"
+msgstr "מידע"
+
+#: ../menu_controller.py:111 ../menu_controller.py:127
+msgid "Add folder"
+msgstr "הוסף תיקייה"
+
+#: ../menu_controller.py:113
+msgid "Remove from playlist"
+msgstr "הסר מרשימת השמעה"
+
+#: ../menu_controller.py:114
+msgid "Remove invalid file"
+msgstr "הסר קובץ לא תקין"
+
+#: ../menu_controller.py:115
+msgid "Export"
+msgstr "ייצא"
+
+#: ../menu_controller.py:116
+msgid "Import"
+msgstr "ייבא"
+
+#: ../menu_controller.py:121
+msgid "Open file location"
+msgstr "פתח תיקייה מכילה"
+
+#: ../menu_controller.py:376
+msgid "Exit mini mode"
+msgstr "צא ממצב מוקטן"

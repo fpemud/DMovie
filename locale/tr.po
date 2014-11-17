@@ -1,0 +1,682 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Sinan Eldem, 2014
+# yakup <mutouk@yandex.ru>, 2014
+# iron_man <yunus_bakir92@hotmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Movie\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-26 13:15+0800\n"
+"PO-Revision-Date: 2014-11-01 01:41+0000\n"
+"Last-Translator: yakup <mutouk@yandex.ru>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/deepin-movie/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../AboutSection.qml:6 ../PreferenceWindow.qml:108
+msgid "About"
+msgstr "Hakkında"
+
+#: ../AboutSection.qml:11 ../main.qml:442 ../window.py:68
+msgid "Deepin Movie"
+msgstr "Deepin Film"
+
+#: ../AboutSection.qml:26
+msgid "Version"
+msgstr "Versiyon"
+
+#: ../AboutSection.qml:42
+msgid ""
+"Deepin Movie is a video player designed for Linux users. It supports a "
+"variety of video formats."
+msgstr "Deepin Movie video oynatıcısı Linux kullanıcıları için tasarlanmıştır. O çeşitli video formatlarını destekler."
+
+#: ../AboutSection.qml:48
+msgid "Deepin Movie is free software licensed under GNU GPLv3"
+msgstr "Deepin Movie GNU GPLv3 lisansı altında ücretsiz bir programdır"
+
+#: ../ControlBar.qml:219
+msgid "Stop playing"
+msgstr "Oynatmayı durdur"
+
+#: ../ControlBar.qml:237 ../menu_controller.py:81
+msgid "Previous"
+msgstr "Önceki"
+
+#: ../ControlBar.qml:256
+msgid "Pause"
+msgstr "Duraklat"
+
+#: ../ControlBar.qml:256 ../menu_controller.py:99 ../menu_controller.py:109
+msgid "Play"
+msgstr "Oynat"
+
+#: ../ControlBar.qml:273 ../menu_controller.py:82
+msgid "Next"
+msgstr "Sonraki"
+
+#: ../ControlBar.qml:316 ../menu_controller.py:375
+msgid "Exit fullscreen"
+msgstr "Tam ekrandan çık"
+
+#: ../ControlBar.qml:316 ../PreferenceWindow.qml:328
+#: ../PreferenceWindow.qml:779 ../ShortcutsViewer.qml:44
+#: ../ShortcutsViewer.qml:125 ../menu_controller.py:93
+#: ../menu_controller.py:374
+msgid "Fullscreen"
+msgstr "Tam ekran"
+
+#: ../ControlBar.qml:333 ../PreferenceWindow.qml:593 ../ShortcutsViewer.qml:69
+#: ../menu_controller.py:89
+msgid "Open a file"
+msgstr "Dosya aç"
+
+#: ../ControlBar.qml:345 ../OpenFileDialog.qml:66 ../PreferenceWindow.qml:349
+#: ../ShortcutsViewer.qml:48 ../menu_controller.py:96
+msgid "Playlist"
+msgstr "Oynatma listesi"
+
+#: ../HotKeyInput.qml:15 ../HotKeyInputRow.qml:23 ../PreferenceWindow.qml:266
+#: ../PreferenceWindow.qml:287 ../PreferenceWindow.qml:308
+#: ../PreferenceWindow.qml:329 ../PreferenceWindow.qml:350
+#: ../PreferenceWindow.qml:371 ../PreferenceWindow.qml:392
+#: ../PreferenceWindow.qml:413 ../PreferenceWindow.qml:451
+#: ../PreferenceWindow.qml:472 ../PreferenceWindow.qml:493
+#: ../PreferenceWindow.qml:514 ../PreferenceWindow.qml:535
+#: ../PreferenceWindow.qml:556 ../PreferenceWindow.qml:594
+#: ../PreferenceWindow.qml:615 ../PreferenceWindow.qml:636
+#: ../PreferenceWindow.qml:674 ../PreferenceWindow.qml:695
+#: ../PreferenceWindow.qml:716 ../PreferenceWindow.qml:737
+#: ../PreferenceWindow.qml:771 ../PreferenceWindow.qml:779
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:33
+#: ../ShortcutsViewer.qml:37 ../ShortcutsViewer.qml:41
+#: ../ShortcutsViewer.qml:45 ../ShortcutsViewer.qml:49
+#: ../ShortcutsViewer.qml:53 ../ShortcutsViewer.qml:57
+#: ../ShortcutsViewer.qml:61 ../ShortcutsViewer.qml:70
+#: ../ShortcutsViewer.qml:74 ../ShortcutsViewer.qml:78
+#: ../ShortcutsViewer.qml:91 ../ShortcutsViewer.qml:95
+#: ../ShortcutsViewer.qml:99 ../ShortcutsViewer.qml:103
+#: ../ShortcutsViewer.qml:107 ../ShortcutsViewer.qml:111
+#: ../ShortcutsViewer.qml:120 ../ShortcutsViewer.qml:125
+#: ../ShortcutsViewer.qml:130 ../ShortcutsViewer.qml:140
+#: ../ShortcutsViewer.qml:144 ../ShortcutsViewer.qml:148
+#: ../ShortcutsViewer.qml:152
+msgid "Disabled"
+msgstr "Devre dışı"
+
+#: ../HotKeyInput.qml:16
+msgid "Please input a new shortcut"
+msgstr "Lütfen yeni kısayol girin"
+
+#: ../HotKeyInputRow.qml:29
+msgid "The shortcut you set "
+msgstr "Bu kısayolu ayarla"
+
+#: ../HotKeyInputRow.qml:30
+#, qt-format
+msgid "conflicts with the one used for \"%2\" in the \"%1\" category. "
+msgstr "\"%1\" kategorisinde \"%2\" için kullanılan biri ile çakışıyor."
+
+#: ../HotKeyInputRow.qml:31
+msgid "Do you want to replace it?"
+msgstr "Onu değiştirmek istiyor musunuz?"
+
+#: ../HotKeyInputRow.qml:95 ../main.qml:125
+msgid "Cancel"
+msgstr "Vazgeç"
+
+#: ../HotKeyInputRow.qml:106
+msgid "Replace"
+msgstr "Değiştir"
+
+#: ../InformationWindow.qml:64
+msgid "File type"
+msgstr "Dosya tipi"
+
+#: ../InformationWindow.qml:72
+msgid "File size"
+msgstr "Dosya boyutu"
+
+#: ../InformationWindow.qml:80
+msgid "Resolution"
+msgstr "Çözünürlük"
+
+#: ../InformationWindow.qml:88
+msgid "Movie duration"
+msgstr "Film süresi"
+
+#: ../InformationWindow.qml:100
+msgid "File path"
+msgstr "Dosya yolu"
+
+#: ../InformationWindow.qml:122
+msgid "Copy to clipboard"
+msgstr "Panoya kopyala"
+
+#: ../InformationWindow.qml:137 ../main.qml:124
+msgid "Confirm"
+msgstr "Onayla"
+
+#: ../MainController.qml:78 ../MainController.qml:494
+#: ../MainController.qml:548 ../MainController.qml:708 ../main.qml:84
+msgid "Invalid file"
+msgstr "Geçersiz dosya"
+
+#: ../MainController.qml:100 ../MainController.qml:500
+#: ../MainController.qml:738
+#, qt-format
+msgid "%1 files unable to be parsed have been excluded"
+msgstr ""
+
+#: ../MainController.qml:114
+msgid "Imported"
+msgstr "İçeri aktarılan"
+
+#: ../MainController.qml:406
+msgid "Play last movie played"
+msgstr "Son oynatılan videoyu oynat"
+
+#: ../MainController.qml:418 ../PreferenceWindow.qml:286
+#: ../ShortcutsViewer.qml:36 ../menu_controller.py:84
+msgid "Forward"
+msgstr "İleri"
+
+#: ../MainController.qml:426 ../PreferenceWindow.qml:307
+#: ../ShortcutsViewer.qml:40 ../menu_controller.py:85
+msgid "Rewind"
+msgstr "Geri sar"
+
+#: ../MainController.qml:434 ../MainController.qml:440
+#, qt-format
+msgid "(Press %1 to restore)"
+msgstr "(Geri yüklemek için %1 e basın)"
+
+#: ../MainController.qml:436 ../MainController.qml:442
+#: ../MainController.qml:447
+msgid "Playback rate: "
+msgstr "Çalma oranı:"
+
+#: ../MainController.qml:459 ../MainController.qml:468
+msgid "Volume: "
+msgstr "Ses:"
+
+#: ../MainController.qml:466 ../menu_controller.py:59
+msgid "Muted"
+msgstr "Sessiz"
+
+#: ../OpenFileDialog.qml:5 ../OpenFileDialog.qml:21 ../OpenFileDialog.qml:41
+msgid "Please choose one file or more"
+msgstr "Lütfen bir veya daha fazla dosya seçin"
+
+#: ../OpenFileDialog.qml:7 ../OpenFileDialog.qml:23 ../OpenFileDialog.qml:43
+msgid "Video files"
+msgstr "Video dosyaları"
+
+#: ../OpenFileDialog.qml:15
+msgid "All files"
+msgstr "Tüm dosyalar"
+
+#: ../OpenFileDialog.qml:31 ../OpenFileDialog.qml:51
+msgid "Please choose one file"
+msgstr "Lütfen bir dosya seçin"
+
+#: ../OpenFileDialog.qml:33
+msgid "Subtitle files"
+msgstr "Altyazı dosyaları"
+
+#: ../OpenFileDialog.qml:53 ../OpenFileDialog.qml:63
+msgid "Playlist files"
+msgstr "Oynatma listesi dosyaları"
+
+#: ../OpenFileDialog.qml:61
+msgid "Save as"
+msgstr "Farklı kaydet"
+
+#: ../OpenFolderDialog.qml:5
+msgid "Please choose a folder"
+msgstr "Lütfen klasör seçin"
+
+#: ../Playlist.qml:239
+msgid "Play mode"
+msgstr "Oynatma modu"
+
+#: ../Playlist.qml:252 ../menu_controller.py:110 ../menu_controller.py:126
+msgid "Add file"
+msgstr "Dosya Ekle"
+
+#: ../Playlist.qml:260 ../menu_controller.py:117
+msgid "Clear playlist"
+msgstr "Oynatma listesini temizle"
+
+#: ../PreferenceWindow.qml:178
+msgid "Enter fullscreen on opening file"
+msgstr "Yeni dosya açıldığında tam ekrana giriş yap"
+
+#: ../PreferenceWindow.qml:190
+msgid "Clear playlist on opening new file"
+msgstr "Yeni dosya açıldığında oynatma listesini temizle"
+
+#: ../PreferenceWindow.qml:195
+msgid "Resume playback after restarting player"
+msgstr "Oynatıcıyı tekrar başlattıktan sonra oynatmaya devam et"
+
+#: ../PreferenceWindow.qml:200
+msgid "Continue to next video automatically"
+msgstr "Sonraki videoyu otomatik olarak oynat"
+
+#: ../PreferenceWindow.qml:205
+msgid "Show preview when hovering over progress bar"
+msgstr "İlerleme çubuğunun üzerine gelindiğinde zamanı küçük önizleme olarak göster"
+
+#: ../PreferenceWindow.qml:260 ../PreferenceWindow.qml:444
+#: ../PreferenceWindow.qml:587 ../PreferenceWindow.qml:667
+msgid "Enable keyboard shortcuts"
+msgstr "Kısayol tuşlarını etkinleştir"
+
+#: ../PreferenceWindow.qml:265 ../PreferenceWindow.qml:771
+#: ../ShortcutsViewer.qml:32 ../ShortcutsViewer.qml:120
+msgid "Pause/Play"
+msgstr "Duraklat/Oynat"
+
+#: ../PreferenceWindow.qml:370 ../ShortcutsViewer.qml:52
+msgid "Accelerate playback"
+msgstr "Oynatmayı hızlandır"
+
+#: ../PreferenceWindow.qml:391 ../ShortcutsViewer.qml:56
+msgid "Decelerate playback"
+msgstr "Oynatmayı yavaşlat"
+
+#: ../PreferenceWindow.qml:412 ../ShortcutsViewer.qml:60
+msgid "Restore playback speed"
+msgstr "Oynatma hızını geri yükle"
+
+#: ../PreferenceWindow.qml:450 ../ShortcutsViewer.qml:90
+#: ../menu_controller.py:94 ../menu_controller.py:377
+msgid "Mini mode"
+msgstr "Mini mod"
+
+#: ../PreferenceWindow.qml:513 ../ShortcutsViewer.qml:102
+msgid "Volume up"
+msgstr "Sesi yükselt"
+
+#: ../PreferenceWindow.qml:534 ../ShortcutsViewer.qml:106
+msgid "Volume down"
+msgstr "Sesi kıs"
+
+#: ../PreferenceWindow.qml:614 ../ShortcutsViewer.qml:73
+msgid "Open previous"
+msgstr "Öncekini aç"
+
+#: ../PreferenceWindow.qml:635 ../ShortcutsViewer.qml:77
+msgid "Open next"
+msgstr "Sonrakini aç"
+
+#: ../PreferenceWindow.qml:673 ../ShortcutsViewer.qml:139
+msgid "Forward 0.5s"
+msgstr "0.5 s. ileri"
+
+#: ../PreferenceWindow.qml:694 ../ShortcutsViewer.qml:143
+msgid "Delay 0.5s"
+msgstr "Gecikme 0.5s"
+
+#: ../PreferenceWindow.qml:715 ../ShortcutsViewer.qml:147
+msgid "Subtitle up"
+msgstr "Altyazı yukarı"
+
+#: ../PreferenceWindow.qml:736 ../ShortcutsViewer.qml:151
+msgid "Subtitle down"
+msgstr "Altyazı aşağı"
+
+#: ../PreferenceWindow.qml:768 ../ShortcutsViewer.qml:119
+msgid "Left click"
+msgstr "Sol tıklama"
+
+#: ../PreferenceWindow.qml:776 ../ShortcutsViewer.qml:124
+msgid "Double click"
+msgstr "Çift tıklama"
+
+#: ../PreferenceWindow.qml:801
+msgid "Subtitles loaded automatically"
+msgstr "Altyazı otomatik olarak yüklendi"
+
+#: ../PreferenceWindow.qml:842
+msgid "Border width"
+msgstr "Sınır genişliği"
+
+#: ../PreferenceWindow.qml:55 ../PreferenceWindow.qml:71
+#: ../PreferenceWindow.qml:169 ../PreferenceWindow.qml:251
+#: ../ShortcutsViewer.qml:29
+msgid "Playback"
+msgstr "Oynatma"
+
+#: ../PreferenceWindow.qml:76 ../PreferenceWindow.qml:435
+#: ../ShortcutsViewer.qml:87
+msgid "Frame/Sound"
+msgstr "Çerçeve/Ses"
+
+#: ../PreferenceWindow.qml:81 ../PreferenceWindow.qml:578
+#: ../ShortcutsViewer.qml:66
+msgid "Files"
+msgstr "Dosyalar"
+
+#: ../PreferenceWindow.qml:91 ../PreferenceWindow.qml:759
+#: ../ShortcutsViewer.qml:116
+msgid "Other"
+msgstr "Diğer"
+
+#: ../PreferenceWindow.qml:86 ../PreferenceWindow.qml:658
+#: ../ShortcutsViewer.qml:136 ../menu_controller.py:102
+msgid "Subtitles"
+msgstr "Altyazılar"
+
+#: ../PreferenceWindow.qml:11
+msgid "Reset"
+msgstr "Sıfırla"
+
+#: ../PreferenceWindow.qml:15
+msgid "Black"
+msgstr "Siyah"
+
+#: ../PreferenceWindow.qml:16
+msgid "bleu de France"
+msgstr "Fransız mavisi"
+
+#: ../PreferenceWindow.qml:17
+msgid "Turquoise"
+msgstr "Turkuvaz"
+
+#: ../PreferenceWindow.qml:18
+msgid "UFO green"
+msgstr "UFO yeşil"
+
+#: ../PreferenceWindow.qml:19
+msgid "Green yellow"
+msgstr "Yeşil sarı"
+
+#: ../PreferenceWindow.qml:20
+msgid "Gorse"
+msgstr "Karaçalı"
+
+#: ../PreferenceWindow.qml:21
+msgid "Energy yellow"
+msgstr "Enerjik sarı"
+
+#: ../PreferenceWindow.qml:22
+msgid "Sun"
+msgstr "Paz"
+
+#: ../PreferenceWindow.qml:23
+msgid "Radical red"
+msgstr "Radikal kırmızı"
+
+#: ../PreferenceWindow.qml:24
+msgid "Lavender indigo"
+msgstr "Lavanta çivit"
+
+#: ../PreferenceWindow.qml:25
+msgid "Royal blue"
+msgstr "Kraliyet mavisi"
+
+#: ../PreferenceWindow.qml:26
+msgid "Aluminum"
+msgstr "Aliminyum"
+
+#: ../PreferenceWindow.qml:27
+msgid "Clean white"
+msgstr "Temiz beyaz"
+
+#: ../PreferenceWindow.qml:51 ../PreferenceWindow.qml:165
+msgid "Basic settings"
+msgstr "Basit ayarlar"
+
+#: ../PreferenceWindow.qml:60 ../PreferenceWindow.qml:229
+msgid "Time span"
+msgstr "Zaman dilimi"
+
+#: ../PreferenceWindow.qml:67 ../PreferenceWindow.qml:247
+msgid "Keyboard shortcuts"
+msgstr "Klavye kısayolları"
+
+#: ../PreferenceWindow.qml:98 ../PreferenceWindow.qml:795
+msgid "Subtitle settings"
+msgstr "Altyazı ayarları"
+
+#: ../PreferenceWindow.qml:184
+msgid "Apply the size last time closed"
+msgstr "Son kapatıldığı zamandaki boyutu uygula"
+
+#: ../PreferenceWindow.qml:210
+msgid "Allow multiple instances"
+msgstr "Çoklu çalışma izni"
+
+#: ../PreferenceWindow.qml:215
+msgid "Pause when minimized"
+msgstr "Küçültüldükten sonra duraklat"
+
+#: ../PreferenceWindow.qml:220
+msgid "Enable system popup notification"
+msgstr "Sistem bildirimlerini etkinleştir"
+
+#: ../PreferenceWindow.qml:238
+msgid "Forward/Rewind"
+msgstr "İleri/Geri"
+
+#: ../PreferenceWindow.qml:471 ../ShortcutsViewer.qml:94
+msgid "Rotate counterclockwise"
+msgstr "Saat yönünün tersine çevirin"
+
+#: ../PreferenceWindow.qml:492 ../ShortcutsViewer.qml:98
+msgid "Rotate clockwise"
+msgstr "Saat yönünde çevirin"
+
+#: ../PreferenceWindow.qml:555 ../ShortcutsViewer.qml:110
+msgid "Mute"
+msgstr "Sessiz"
+
+#: ../PreferenceWindow.qml:784 ../ShortcutsViewer.qml:129
+msgid "Scroll"
+msgstr "Kaydırma"
+
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:130
+#: ../VolumeButton.qml:44
+msgid "Volume"
+msgstr "Ses"
+
+#: ../PreferenceWindow.qml:807
+msgid "Font"
+msgstr "Yazı tipi"
+
+#: ../PreferenceWindow.qml:817
+msgid "Font color"
+msgstr "Yazı tipi rengi"
+
+#: ../PreferenceWindow.qml:833
+msgid "Size"
+msgstr "Boyut"
+
+#: ../PreferenceWindow.qml:851
+msgid "Border color"
+msgstr "Kenarlık rengi"
+
+#: ../PreferenceWindow.qml:867
+msgid "Position"
+msgstr "Pozisyon"
+
+#: ../PreferenceWindow.qml:872
+msgid "Bottom"
+msgstr "Alt"
+
+#: ../PreferenceWindow.qml:873
+msgid "Top"
+msgstr "En yüksek"
+
+#: ../PreferenceWindow.qml:879
+msgid "Subtitle Delay"
+msgstr "Altyazı Gecikmesi"
+
+#: ../TitleBar.qml:165
+msgid "Shown in a proportion of 1:1"
+msgstr "1:1 oranında göster"
+
+#: ../TitleBar.qml:177
+msgid "Shown in 1.5 times"
+msgstr "1.5 zaman içinde göster"
+
+#: ../TitleBar.qml:190
+msgid "Return to mini mode"
+msgstr "Mini moda dön"
+
+#: ../TitleBar.qml:190
+msgid "Shown in fullscreen"
+msgstr "Tam ekranda göster"
+
+#: ../TitleBar.qml:205
+msgid "Cancel \"On Top\""
+msgstr "\"Üstte\" iptal et"
+
+#: ../TitleBar.qml:205
+msgid "On Top"
+msgstr "Üstte"
+
+#: ../main.qml:123
+msgid "Please input the url of file played"
+msgstr "Lütfen oynatılan dosyanın url adresini girin"
+
+#: ../main.qml:140 ../main.qml:482 ../main.qml:488
+msgid "The parse failed"
+msgstr "Bu çözümleme başarısız oldu"
+
+#: ../movie_info.py:148
+msgid "Unknown"
+msgstr "Bilinmeyen"
+
+#: ../menu_controller.py:34
+msgid "Default"
+msgstr "Varsayılan"
+
+#: ../menu_controller.py:46
+msgid "Rotate 90 degree clockwise"
+msgstr "Saat yönünde 90 derece çevirin"
+
+#: ../menu_controller.py:47
+msgid "Rotate 90 degree counterclockwise"
+msgstr "Saat yönünün tersine 90 derece çevirin"
+
+#: ../menu_controller.py:48
+msgid "Flip horizontally"
+msgstr "Yatay olarak çevir"
+
+#: ../menu_controller.py:49
+msgid "Flip vertically"
+msgstr "Dikey olarak çevir"
+
+#: ../menu_controller.py:57
+msgid "Volume Up"
+msgstr "Sesi Yükselt"
+
+#: ../menu_controller.py:58
+msgid "Volume Down"
+msgstr "Sesi Kıs"
+
+#: ../menu_controller.py:63
+msgid "Hide subtitle"
+msgstr "Altyazıyı gizle"
+
+#: ../menu_controller.py:67
+msgid "Open manually"
+msgstr "Klavuzu aç"
+
+#: ../menu_controller.py:68
+msgid "Subtitle selection"
+msgstr "Altyazı seçimi"
+
+#: ../menu_controller.py:69
+msgid "Subtitle setting"
+msgstr "Altyazı ayarı"
+
+#: ../menu_controller.py:73
+msgid "Order"
+msgstr "Sıra"
+
+#: ../menu_controller.py:74
+msgid "Random"
+msgstr "Karışık"
+
+#: ../menu_controller.py:75
+msgid "Single"
+msgstr "Tek"
+
+#: ../menu_controller.py:76
+msgid "Repeat (Single)"
+msgstr "Tekrar (Tek)"
+
+#: ../menu_controller.py:77
+msgid "Repeat (Playlist)"
+msgstr "Tekrar (Oynatma listesi)"
+
+#: ../menu_controller.py:90
+msgid "Open a folder"
+msgstr "Klasör aç"
+
+#: ../menu_controller.py:91
+msgid "Open URL"
+msgstr "Url Aç"
+
+#: ../menu_controller.py:95
+msgid "Always on top"
+msgstr "Her zaman üste"
+
+#: ../menu_controller.py:98
+msgid "Play Sequence"
+msgstr "Sıralayıcıyı Oynat"
+
+#: ../menu_controller.py:100
+msgid "Frame"
+msgstr "Çerçeve"
+
+#: ../menu_controller.py:101
+msgid "Sound"
+msgstr "Ses"
+
+#: ../menu_controller.py:104
+msgid "Options"
+msgstr "Seçenekler"
+
+#: ../menu_controller.py:105 ../menu_controller.py:122
+msgid "Information"
+msgstr "Bilgilendirme"
+
+#: ../menu_controller.py:111 ../menu_controller.py:127
+msgid "Add folder"
+msgstr "Klasör ekle"
+
+#: ../menu_controller.py:113
+msgid "Remove from playlist"
+msgstr "Oynatma listesinden kaldır"
+
+#: ../menu_controller.py:114
+msgid "Remove invalid file"
+msgstr "Geçersiz dosyayı kaldır"
+
+#: ../menu_controller.py:115
+msgid "Export"
+msgstr "Dışarı aktar"
+
+#: ../menu_controller.py:116
+msgid "Import"
+msgstr "İçeri aktar"
+
+#: ../menu_controller.py:121
+msgid "Open file location"
+msgstr "Dosya konumunu aç"
+
+#: ../menu_controller.py:376
+msgid "Exit mini mode"
+msgstr "Mini moddan çık"

@@ -1,0 +1,680 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Heimen Stoffels <motionshot@vivaldi.net>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Deepin Movie\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-26 13:15+0800\n"
+"PO-Revision-Date: 2014-10-17 06:02+0000\n"
+"Last-Translator: deepin_transifex <xiabin@linuxdeepin.com>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/deepin-movie/language/nl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../AboutSection.qml:6 ../PreferenceWindow.qml:108
+msgid "About"
+msgstr "Over"
+
+#: ../AboutSection.qml:11 ../main.qml:442 ../window.py:68
+msgid "Deepin Movie"
+msgstr "Deepin Film"
+
+#: ../AboutSection.qml:26
+msgid "Version"
+msgstr "Versie"
+
+#: ../AboutSection.qml:42
+msgid ""
+"Deepin Movie is a video player designed for Linux users. It supports a "
+"variety of video formats."
+msgstr "Deepin Video is een videospeler ontworpen voor Linux-gebruikers. Het ondersteunt vele videoformaten."
+
+#: ../AboutSection.qml:48
+msgid "Deepin Movie is free software licensed under GNU GPLv3"
+msgstr "Deepin Video is vrije software gelicenseerd onder de GNU GPLv3"
+
+#: ../ControlBar.qml:219
+msgid "Stop playing"
+msgstr "Afspelen stoppen"
+
+#: ../ControlBar.qml:237 ../menu_controller.py:81
+msgid "Previous"
+msgstr "Vorige"
+
+#: ../ControlBar.qml:256
+msgid "Pause"
+msgstr "Pauzeren"
+
+#: ../ControlBar.qml:256 ../menu_controller.py:99 ../menu_controller.py:109
+msgid "Play"
+msgstr "Afspele"
+
+#: ../ControlBar.qml:273 ../menu_controller.py:82
+msgid "Next"
+msgstr "Volgende"
+
+#: ../ControlBar.qml:316 ../menu_controller.py:375
+msgid "Exit fullscreen"
+msgstr "Volledig scherm afsluiten"
+
+#: ../ControlBar.qml:316 ../PreferenceWindow.qml:328
+#: ../PreferenceWindow.qml:779 ../ShortcutsViewer.qml:44
+#: ../ShortcutsViewer.qml:125 ../menu_controller.py:93
+#: ../menu_controller.py:374
+msgid "Fullscreen"
+msgstr "Volledig Scherm"
+
+#: ../ControlBar.qml:333 ../PreferenceWindow.qml:593 ../ShortcutsViewer.qml:69
+#: ../menu_controller.py:89
+msgid "Open a file"
+msgstr "Een bestand openen"
+
+#: ../ControlBar.qml:345 ../OpenFileDialog.qml:66 ../PreferenceWindow.qml:349
+#: ../ShortcutsViewer.qml:48 ../menu_controller.py:96
+msgid "Playlist"
+msgstr "Afspeellijst"
+
+#: ../HotKeyInput.qml:15 ../HotKeyInputRow.qml:23 ../PreferenceWindow.qml:266
+#: ../PreferenceWindow.qml:287 ../PreferenceWindow.qml:308
+#: ../PreferenceWindow.qml:329 ../PreferenceWindow.qml:350
+#: ../PreferenceWindow.qml:371 ../PreferenceWindow.qml:392
+#: ../PreferenceWindow.qml:413 ../PreferenceWindow.qml:451
+#: ../PreferenceWindow.qml:472 ../PreferenceWindow.qml:493
+#: ../PreferenceWindow.qml:514 ../PreferenceWindow.qml:535
+#: ../PreferenceWindow.qml:556 ../PreferenceWindow.qml:594
+#: ../PreferenceWindow.qml:615 ../PreferenceWindow.qml:636
+#: ../PreferenceWindow.qml:674 ../PreferenceWindow.qml:695
+#: ../PreferenceWindow.qml:716 ../PreferenceWindow.qml:737
+#: ../PreferenceWindow.qml:771 ../PreferenceWindow.qml:779
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:33
+#: ../ShortcutsViewer.qml:37 ../ShortcutsViewer.qml:41
+#: ../ShortcutsViewer.qml:45 ../ShortcutsViewer.qml:49
+#: ../ShortcutsViewer.qml:53 ../ShortcutsViewer.qml:57
+#: ../ShortcutsViewer.qml:61 ../ShortcutsViewer.qml:70
+#: ../ShortcutsViewer.qml:74 ../ShortcutsViewer.qml:78
+#: ../ShortcutsViewer.qml:91 ../ShortcutsViewer.qml:95
+#: ../ShortcutsViewer.qml:99 ../ShortcutsViewer.qml:103
+#: ../ShortcutsViewer.qml:107 ../ShortcutsViewer.qml:111
+#: ../ShortcutsViewer.qml:120 ../ShortcutsViewer.qml:125
+#: ../ShortcutsViewer.qml:130 ../ShortcutsViewer.qml:140
+#: ../ShortcutsViewer.qml:144 ../ShortcutsViewer.qml:148
+#: ../ShortcutsViewer.qml:152
+msgid "Disabled"
+msgstr "Uitgeschakeld"
+
+#: ../HotKeyInput.qml:16
+msgid "Please input a new shortcut"
+msgstr "Een nieuwe snelkoppeling opgeven"
+
+#: ../HotKeyInputRow.qml:29
+msgid "The shortcut you set "
+msgstr "De ingestelde snelkoppeling"
+
+#: ../HotKeyInputRow.qml:30
+#, qt-format
+msgid "conflicts with the one used for \"%2\" in the \"%1\" category. "
+msgstr "conflicteert met de voor \"%2\" gebruikte in de categorie \"%1\"."
+
+#: ../HotKeyInputRow.qml:31
+msgid "Do you want to replace it?"
+msgstr "Wilt u het vervangen?"
+
+#: ../HotKeyInputRow.qml:95 ../main.qml:125
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: ../HotKeyInputRow.qml:106
+msgid "Replace"
+msgstr "Vervangen"
+
+#: ../InformationWindow.qml:64
+msgid "File type"
+msgstr "Bestandstype"
+
+#: ../InformationWindow.qml:72
+msgid "File size"
+msgstr "Bestandsgrootte"
+
+#: ../InformationWindow.qml:80
+msgid "Resolution"
+msgstr "Resolutie"
+
+#: ../InformationWindow.qml:88
+msgid "Movie duration"
+msgstr "Videoduur"
+
+#: ../InformationWindow.qml:100
+msgid "File path"
+msgstr "Bestandspad"
+
+#: ../InformationWindow.qml:122
+msgid "Copy to clipboard"
+msgstr "Kopiëren naar klembord"
+
+#: ../InformationWindow.qml:137 ../main.qml:124
+msgid "Confirm"
+msgstr "Bevestigen"
+
+#: ../MainController.qml:78 ../MainController.qml:494
+#: ../MainController.qml:548 ../MainController.qml:708 ../main.qml:84
+msgid "Invalid file"
+msgstr "Ongeldig bestand"
+
+#: ../MainController.qml:100 ../MainController.qml:500
+#: ../MainController.qml:738
+#, qt-format
+msgid "%1 files unable to be parsed have been excluded"
+msgstr ""
+
+#: ../MainController.qml:114
+msgid "Imported"
+msgstr ""
+
+#: ../MainController.qml:406
+msgid "Play last movie played"
+msgstr "Laatst afgespeelde video afspelen"
+
+#: ../MainController.qml:418 ../PreferenceWindow.qml:286
+#: ../ShortcutsViewer.qml:36 ../menu_controller.py:84
+msgid "Forward"
+msgstr "Vooruitspoelen"
+
+#: ../MainController.qml:426 ../PreferenceWindow.qml:307
+#: ../ShortcutsViewer.qml:40 ../menu_controller.py:85
+msgid "Rewind"
+msgstr "Terugspoelen"
+
+#: ../MainController.qml:434 ../MainController.qml:440
+#, qt-format
+msgid "(Press %1 to restore)"
+msgstr "(Druk op %1 om te herstellen)"
+
+#: ../MainController.qml:436 ../MainController.qml:442
+#: ../MainController.qml:447
+msgid "Playback rate: "
+msgstr "Afspeelsnelheid:"
+
+#: ../MainController.qml:459 ../MainController.qml:468
+msgid "Volume: "
+msgstr "Volume:"
+
+#: ../MainController.qml:466 ../menu_controller.py:59
+msgid "Muted"
+msgstr "Gedempt"
+
+#: ../OpenFileDialog.qml:5 ../OpenFileDialog.qml:21 ../OpenFileDialog.qml:41
+msgid "Please choose one file or more"
+msgstr "Kies één of meer bestanden"
+
+#: ../OpenFileDialog.qml:7 ../OpenFileDialog.qml:23 ../OpenFileDialog.qml:43
+msgid "Video files"
+msgstr ""
+
+#: ../OpenFileDialog.qml:15
+msgid "All files"
+msgstr ""
+
+#: ../OpenFileDialog.qml:31 ../OpenFileDialog.qml:51
+msgid "Please choose one file"
+msgstr ""
+
+#: ../OpenFileDialog.qml:33
+msgid "Subtitle files"
+msgstr ""
+
+#: ../OpenFileDialog.qml:53 ../OpenFileDialog.qml:63
+msgid "Playlist files"
+msgstr ""
+
+#: ../OpenFileDialog.qml:61
+msgid "Save as"
+msgstr "Opslaan als"
+
+#: ../OpenFolderDialog.qml:5
+msgid "Please choose a folder"
+msgstr "Kies een map"
+
+#: ../Playlist.qml:239
+msgid "Play mode"
+msgstr "Afspeelmodus"
+
+#: ../Playlist.qml:252 ../menu_controller.py:110 ../menu_controller.py:126
+msgid "Add file"
+msgstr "Bestand toevoegen"
+
+#: ../Playlist.qml:260 ../menu_controller.py:117
+msgid "Clear playlist"
+msgstr "Afspeellijst verwijderen"
+
+#: ../PreferenceWindow.qml:178
+msgid "Enter fullscreen on opening file"
+msgstr "Ga naar volledig scherm bij openen van bestand"
+
+#: ../PreferenceWindow.qml:190
+msgid "Clear playlist on opening new file"
+msgstr "Wis afspeellijst bij openen van nieuw bestand"
+
+#: ../PreferenceWindow.qml:195
+msgid "Resume playback after restarting player"
+msgstr "Afspelen voortzetten na herstarten van speler"
+
+#: ../PreferenceWindow.qml:200
+msgid "Continue to next video automatically"
+msgstr "Automatisch doorgaan naar volgende video"
+
+#: ../PreferenceWindow.qml:205
+msgid "Show preview when hovering over progress bar"
+msgstr "Voorbeeld tonen bij houden van muis op voortgangsbalk"
+
+#: ../PreferenceWindow.qml:260 ../PreferenceWindow.qml:444
+#: ../PreferenceWindow.qml:587 ../PreferenceWindow.qml:667
+msgid "Enable keyboard shortcuts"
+msgstr "Toetsenbordsneltoetsen inschakelen"
+
+#: ../PreferenceWindow.qml:265 ../PreferenceWindow.qml:771
+#: ../ShortcutsViewer.qml:32 ../ShortcutsViewer.qml:120
+msgid "Pause/Play"
+msgstr "Pauzeren/Afspelen"
+
+#: ../PreferenceWindow.qml:370 ../ShortcutsViewer.qml:52
+msgid "Accelerate playback"
+msgstr "Afspelen versnellen"
+
+#: ../PreferenceWindow.qml:391 ../ShortcutsViewer.qml:56
+msgid "Decelerate playback"
+msgstr "Afspelen vertragen"
+
+#: ../PreferenceWindow.qml:412 ../ShortcutsViewer.qml:60
+msgid "Restore playback speed"
+msgstr "Afspeelsnelheid herstellen"
+
+#: ../PreferenceWindow.qml:450 ../ShortcutsViewer.qml:90
+#: ../menu_controller.py:94 ../menu_controller.py:377
+msgid "Mini mode"
+msgstr "Mini-modus"
+
+#: ../PreferenceWindow.qml:513 ../ShortcutsViewer.qml:102
+msgid "Volume up"
+msgstr "Volume omhoog"
+
+#: ../PreferenceWindow.qml:534 ../ShortcutsViewer.qml:106
+msgid "Volume down"
+msgstr "Volume omlaag"
+
+#: ../PreferenceWindow.qml:614 ../ShortcutsViewer.qml:73
+msgid "Open previous"
+msgstr "Vorige openen"
+
+#: ../PreferenceWindow.qml:635 ../ShortcutsViewer.qml:77
+msgid "Open next"
+msgstr "Volgende openen"
+
+#: ../PreferenceWindow.qml:673 ../ShortcutsViewer.qml:139
+msgid "Forward 0.5s"
+msgstr "0.5s vooruitspoelen"
+
+#: ../PreferenceWindow.qml:694 ../ShortcutsViewer.qml:143
+msgid "Delay 0.5s"
+msgstr "0.5s vertragen"
+
+#: ../PreferenceWindow.qml:715 ../ShortcutsViewer.qml:147
+msgid "Subtitle up"
+msgstr "Ondertiteling omhoog"
+
+#: ../PreferenceWindow.qml:736 ../ShortcutsViewer.qml:151
+msgid "Subtitle down"
+msgstr "Ondertiteling omlaag"
+
+#: ../PreferenceWindow.qml:768 ../ShortcutsViewer.qml:119
+msgid "Left click"
+msgstr "Links klikken"
+
+#: ../PreferenceWindow.qml:776 ../ShortcutsViewer.qml:124
+msgid "Double click"
+msgstr "Dubbelklikken"
+
+#: ../PreferenceWindow.qml:801
+msgid "Subtitles loaded automatically"
+msgstr "Ondertitelingen automatisch geladen"
+
+#: ../PreferenceWindow.qml:842
+msgid "Border width"
+msgstr "Breedte van rand"
+
+#: ../PreferenceWindow.qml:55 ../PreferenceWindow.qml:71
+#: ../PreferenceWindow.qml:169 ../PreferenceWindow.qml:251
+#: ../ShortcutsViewer.qml:29
+msgid "Playback"
+msgstr "Afspelen"
+
+#: ../PreferenceWindow.qml:76 ../PreferenceWindow.qml:435
+#: ../ShortcutsViewer.qml:87
+msgid "Frame/Sound"
+msgstr "Frame/Geluid"
+
+#: ../PreferenceWindow.qml:81 ../PreferenceWindow.qml:578
+#: ../ShortcutsViewer.qml:66
+msgid "Files"
+msgstr "Bestanden"
+
+#: ../PreferenceWindow.qml:91 ../PreferenceWindow.qml:759
+#: ../ShortcutsViewer.qml:116
+msgid "Other"
+msgstr "Anders"
+
+#: ../PreferenceWindow.qml:86 ../PreferenceWindow.qml:658
+#: ../ShortcutsViewer.qml:136 ../menu_controller.py:102
+msgid "Subtitles"
+msgstr "Ondertitelingen"
+
+#: ../PreferenceWindow.qml:11
+msgid "Reset"
+msgstr "Opnieuw instellen"
+
+#: ../PreferenceWindow.qml:15
+msgid "Black"
+msgstr "Zwart"
+
+#: ../PreferenceWindow.qml:16
+msgid "bleu de France"
+msgstr "blauw uit Frankrijk"
+
+#: ../PreferenceWindow.qml:17
+msgid "Turquoise"
+msgstr "Turkoois"
+
+#: ../PreferenceWindow.qml:18
+msgid "UFO green"
+msgstr "UFO-groen"
+
+#: ../PreferenceWindow.qml:19
+msgid "Green yellow"
+msgstr "Groengeel"
+
+#: ../PreferenceWindow.qml:20
+msgid "Gorse"
+msgstr "Gaspeldoorn"
+
+#: ../PreferenceWindow.qml:21
+msgid "Energy yellow"
+msgstr "Energiek geel"
+
+#: ../PreferenceWindow.qml:22
+msgid "Sun"
+msgstr "zo"
+
+#: ../PreferenceWindow.qml:23
+msgid "Radical red"
+msgstr "Radicaal rood"
+
+#: ../PreferenceWindow.qml:24
+msgid "Lavender indigo"
+msgstr "Lavendelkleurig indigo"
+
+#: ../PreferenceWindow.qml:25
+msgid "Royal blue"
+msgstr "Royaal blauw"
+
+#: ../PreferenceWindow.qml:26
+msgid "Aluminum"
+msgstr "Aluminum"
+
+#: ../PreferenceWindow.qml:27
+msgid "Clean white"
+msgstr "Schoon wit"
+
+#: ../PreferenceWindow.qml:51 ../PreferenceWindow.qml:165
+msgid "Basic settings"
+msgstr "Basisinstellingen"
+
+#: ../PreferenceWindow.qml:60 ../PreferenceWindow.qml:229
+msgid "Time span"
+msgstr "Tijdsoverbrugging"
+
+#: ../PreferenceWindow.qml:67 ../PreferenceWindow.qml:247
+msgid "Keyboard shortcuts"
+msgstr "Toetsenbordsneltoetsen"
+
+#: ../PreferenceWindow.qml:98 ../PreferenceWindow.qml:795
+msgid "Subtitle settings"
+msgstr "Ondertitelingsinstellingen"
+
+#: ../PreferenceWindow.qml:184
+msgid "Apply the size last time closed"
+msgstr "De grootte van de laatste keer sluiten toepassen"
+
+#: ../PreferenceWindow.qml:210
+msgid "Allow multiple instances"
+msgstr "Meerdere processen toestaan"
+
+#: ../PreferenceWindow.qml:215
+msgid "Pause when minimized"
+msgstr "Pauzeren bij minimaliseren"
+
+#: ../PreferenceWindow.qml:220
+msgid "Enable system popup notification"
+msgstr "Systeemnotifications inschakelen"
+
+#: ../PreferenceWindow.qml:238
+msgid "Forward/Rewind"
+msgstr "Vooruitspoelen/Terugspoelen"
+
+#: ../PreferenceWindow.qml:471 ../ShortcutsViewer.qml:94
+msgid "Rotate counterclockwise"
+msgstr "Tegen de klok in draaien"
+
+#: ../PreferenceWindow.qml:492 ../ShortcutsViewer.qml:98
+msgid "Rotate clockwise"
+msgstr "Met de klok mee draaien"
+
+#: ../PreferenceWindow.qml:555 ../ShortcutsViewer.qml:110
+msgid "Mute"
+msgstr "Dempen"
+
+#: ../PreferenceWindow.qml:784 ../ShortcutsViewer.qml:129
+msgid "Scroll"
+msgstr "Scrollen"
+
+#: ../PreferenceWindow.qml:787 ../ShortcutsViewer.qml:130
+#: ../VolumeButton.qml:44
+msgid "Volume"
+msgstr "Volume"
+
+#: ../PreferenceWindow.qml:807
+msgid "Font"
+msgstr "Lettertype"
+
+#: ../PreferenceWindow.qml:817
+msgid "Font color"
+msgstr "Lettertypekleur"
+
+#: ../PreferenceWindow.qml:833
+msgid "Size"
+msgstr "Grootte"
+
+#: ../PreferenceWindow.qml:851
+msgid "Border color"
+msgstr "Randkleur"
+
+#: ../PreferenceWindow.qml:867
+msgid "Position"
+msgstr "Positie"
+
+#: ../PreferenceWindow.qml:872
+msgid "Bottom"
+msgstr "Onderkant"
+
+#: ../PreferenceWindow.qml:873
+msgid "Top"
+msgstr "Boven"
+
+#: ../PreferenceWindow.qml:879
+msgid "Subtitle Delay"
+msgstr "Ondertitelingsvertraging"
+
+#: ../TitleBar.qml:165
+msgid "Shown in a proportion of 1:1"
+msgstr "Weergegeven in een verhouding van 1:1"
+
+#: ../TitleBar.qml:177
+msgid "Shown in 1.5 times"
+msgstr "Weergegeven in 1.5 keer"
+
+#: ../TitleBar.qml:190
+msgid "Return to mini mode"
+msgstr "Terugkeren naar mini-modus"
+
+#: ../TitleBar.qml:190
+msgid "Shown in fullscreen"
+msgstr "Weergegeven in volledig scherm"
+
+#: ../TitleBar.qml:205
+msgid "Cancel \"On Top\""
+msgstr "\"Altijd bovenaan\" annuleren"
+
+#: ../TitleBar.qml:205
+msgid "On Top"
+msgstr "Altijd bovenaan"
+
+#: ../main.qml:123
+msgid "Please input the url of file played"
+msgstr ""
+
+#: ../main.qml:140 ../main.qml:482 ../main.qml:488
+msgid "The parse failed"
+msgstr ""
+
+#: ../movie_info.py:148
+msgid "Unknown"
+msgstr "Onbekend"
+
+#: ../menu_controller.py:34
+msgid "Default"
+msgstr "Standaard"
+
+#: ../menu_controller.py:46
+msgid "Rotate 90 degree clockwise"
+msgstr "90 graden met de klok mee draaien"
+
+#: ../menu_controller.py:47
+msgid "Rotate 90 degree counterclockwise"
+msgstr "90 graden tegen de klok in draaien"
+
+#: ../menu_controller.py:48
+msgid "Flip horizontally"
+msgstr "Horizontaal spiegelen"
+
+#: ../menu_controller.py:49
+msgid "Flip vertically"
+msgstr "Verticaal spiegelen"
+
+#: ../menu_controller.py:57
+msgid "Volume Up"
+msgstr "Volume omhoog"
+
+#: ../menu_controller.py:58
+msgid "Volume Down"
+msgstr "Volume omlaag"
+
+#: ../menu_controller.py:63
+msgid "Hide subtitle"
+msgstr "Ondertiteling verbergen"
+
+#: ../menu_controller.py:67
+msgid "Open manually"
+msgstr "Handmatig openen"
+
+#: ../menu_controller.py:68
+msgid "Subtitle selection"
+msgstr "Ondertitelingsselectie"
+
+#: ../menu_controller.py:69
+msgid "Subtitle setting"
+msgstr "Ondertitelingsinstelling"
+
+#: ../menu_controller.py:73
+msgid "Order"
+msgstr "Volgorde"
+
+#: ../menu_controller.py:74
+msgid "Random"
+msgstr "Willekeurig"
+
+#: ../menu_controller.py:75
+msgid "Single"
+msgstr "Eén"
+
+#: ../menu_controller.py:76
+msgid "Repeat (Single)"
+msgstr "Herhalen (één)"
+
+#: ../menu_controller.py:77
+msgid "Repeat (Playlist)"
+msgstr "Herhalen (afspeellijst)"
+
+#: ../menu_controller.py:90
+msgid "Open a folder"
+msgstr "Een map openen"
+
+#: ../menu_controller.py:91
+msgid "Open URL"
+msgstr "Open URL"
+
+#: ../menu_controller.py:95
+msgid "Always on top"
+msgstr "Altijd bovenaan"
+
+#: ../menu_controller.py:98
+msgid "Play Sequence"
+msgstr "Afspeelvolgorde"
+
+#: ../menu_controller.py:100
+msgid "Frame"
+msgstr "Frame"
+
+#: ../menu_controller.py:101
+msgid "Sound"
+msgstr "Geluid"
+
+#: ../menu_controller.py:104
+msgid "Options"
+msgstr "Opties"
+
+#: ../menu_controller.py:105 ../menu_controller.py:122
+msgid "Information"
+msgstr "Informatie"
+
+#: ../menu_controller.py:111 ../menu_controller.py:127
+msgid "Add folder"
+msgstr "Map toevoegen"
+
+#: ../menu_controller.py:113
+msgid "Remove from playlist"
+msgstr "Verwijderen uit afspeellijst"
+
+#: ../menu_controller.py:114
+msgid "Remove invalid file"
+msgstr "Ongeldig bestand verwijderen"
+
+#: ../menu_controller.py:115
+msgid "Export"
+msgstr "Exporteer"
+
+#: ../menu_controller.py:116
+msgid "Import"
+msgstr "Importeer"
+
+#: ../menu_controller.py:121
+msgid "Open file location"
+msgstr "Bestandslocatie openen"
+
+#: ../menu_controller.py:376
+msgid "Exit mini mode"
+msgstr "Mini-modus afsluiten"
