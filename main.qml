@@ -586,6 +586,10 @@ Rectangle {
         onMoveOutWindowButtons: titlebar.hideForPlaylist()
     }
 
+    MainMenu {
+        id: main_menu
+    }
+
     TitleBar {
         id: titlebar
         state: root.miniModeState() ? "minimal" : "normal"
@@ -595,7 +599,7 @@ Rectangle {
         anchors.horizontalCenter: main_window.horizontalCenter
         tooltipItem: tooltip
 
-        onMenuButtonClicked: _menu_controller.show_menu()
+        onMenuButtonClicked: main_menu.popup()
         onMinButtonClicked: main_controller.minimize()
         onMaxButtonClicked: windowNormalState ? main_controller.maximize() : main_controller.normalize()
         onCloseButtonClicked: main_controller.close()
