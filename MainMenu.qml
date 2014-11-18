@@ -19,8 +19,6 @@ Menu {
 //    signal showMovieInformation()
 //    signal openSubtitleFile()
 //    signal subtitleSelected(string subtitle)
-//    signal playNext()
-//    signal playPrevious()
 //    signal playForward()
 //    signal playBackward()
 //    signal volumeUp()
@@ -28,27 +26,10 @@ Menu {
 //    signal volumeMuted()
 //    signal showSubtitleSettings()
 
-//    signal playlistPlay()
-//    signal addItemToPlaylist()
-//    signal addFolderToPlaylist()
-//    signal removeItemFromPlaylist()
-//    signal removeInvalidItemsFromPlaylist()
-//    signal playlistExport()
-//    signal playlistImport()
-//    signal playlistClear()
-//    signal playlistShowClickedItemInFM()
-//    signal playlistInformation()
-//    signal togglePlaylist()
-
     MenuItem {
         id: _open_file
         text: "Open a file"
         shortcut: config.hotkeysFilesOpenFile
-    }
-
-    MenuItem {
-        id: _open_dir
-        text: "Open a folder"
     }
 
     MenuItem {
@@ -77,78 +58,12 @@ Menu {
         checkable: true
     }
 
-    MenuItem {
-        id: _toggle_playlist
-        text: "Playlist"
-        shortcut: config.hotkeysPlayTogglePlaylist
-    }
-
     MenuSeparator {
-    }
-
-    Menu {
-        id: _play_sequence
-        title: "Play Sequence"
-
-        ExclusiveGroup {
-            id: playSequenceGroup
-        }
-
-        MenuItem {
-            id: _play_sequence_in_order
-            text: "Order"
-            checkable: true
-            exclusiveGroup: playSequenceGroup
-            checked: true
-        }
-
-        MenuItem {
-            id: _play_sequence_random
-            text: "Random"
-            checkable: true
-            exclusiveGroup: playSequenceGroup
-        }
-
-        MenuItem {
-            id: _play_sequence_single
-            text: "Single"
-            checkable: true
-            exclusiveGroup: playSequenceGroup
-        }
-
-        MenuItem {
-            id: _play_sequence_single_cycle
-            text: "Repeat (Single)"
-            checkable: true
-            exclusiveGroup: playSequenceGroup
-        }
-
-        MenuItem {
-            id: _play_sequence_playlist_cycle
-            text: "Repeat (Playlist)"
-            checkable: true
-            exclusiveGroup: playSequenceGroup
-        }
     }
 
     Menu {
         id: _play
         title: "Play"
-
-        MenuItem {
-            id: _play_operation_previous
-            text: "Previous"
-            shortcut: config.hotkeysFilesPlayPrevious
-        }
-
-        MenuItem {
-            id: _play_operation_next
-            text: "Next"
-            shortcut: config.hotkeysFilesPlayNext
-        }
-
-        MenuSeparator {
-        }
 
         MenuItem {
             id: _play_operation_forward

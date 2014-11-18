@@ -61,7 +61,6 @@ from movie_info import movie_info
 from utils import utils, FindVideoThreadManager
 from constant import MAIN_QML
 from menu_controller import MenuController
-from file_monitor import FileMonitor
 
 if __name__ == "__main__":
     from dbus_services import (DeepinMovieServie, check_multiple_instances,
@@ -79,7 +78,6 @@ if __name__ == "__main__":
 
     windowView = Window(result or len(sys.argv) > 1)
     menu_controller = MenuController(windowView)
-    file_monitor = FileMonitor()
     findVideoThreadManager = FindVideoThreadManager()
     app._extra_window = weakref.ref(windowView)
 
@@ -87,9 +85,7 @@ if __name__ == "__main__":
 
     qml_context.setContextProperty("config", config)
     qml_context.setContextProperty("_utils", utils)
-    qml_context.setContextProperty("_findVideoThreadManager",
-                                   findVideoThreadManager)
-    qml_context.setContextProperty("_file_monitor", file_monitor)
+    qml_context.setContextProperty("_findVideoThreadManager", findVideoThreadManager)
     qml_context.setContextProperty("database", database)
     qml_context.setContextProperty("windowView", windowView)
     qml_context.setContextProperty("movieInfo", movie_info)

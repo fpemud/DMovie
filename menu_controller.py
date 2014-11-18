@@ -69,33 +69,19 @@ subtitle_sub_menu = [
     ("_subtitle_settings", _("Subtitle setting"))
 ]
 
-play_sequence_sub_menu = [
-    CheckableMenuItem("mode_group:radio:in_order", _("Order"), True),
-    CheckableMenuItem("mode_group:radio:random", _("Random")),
-    CheckableMenuItem("mode_group:radio:single", _("Single")),
-    CheckableMenuItem("mode_group:radio:single_cycle", _("Repeat (Single)")),
-    CheckableMenuItem("mode_group:radio:playlist_cycle", _("Repeat (Playlist)"))
-]
-
 play_sub_menu = [
-    ("_play_operation_previous", _("Previous"), (), (), config.hotkeysFilesPlayPrevious),
-    ("_play_operation_next", _("Next"), (), (), config.hotkeysFilesPlayNext),
-    None,
     ("_play_operation_forward", _("Forward"), (), (), config.hotkeysPlayForward),
     ("_play_operation_backward", _("Rewind"), (), (), config.hotkeysPlayBackward),
 ]
 
 right_click_menu = [
     ("_open_file", _("Open a file"), (), (), config.hotkeysFilesOpenFile),
-    ("_open_dir", _("Open a folder")),
     ("_open_url", _("Open URL")),
     None,
     ("_fullscreen_quit", _("Fullscreen"), (), (), config.hotkeysPlayToggleFullscreen),
     ("_mini_mode", _("Mini mode"), (), (), config.hotkeysFrameSoundToggleMiniMode),
     CheckableMenuItem("_on_top", _("Always on top"), False),
-    ("_toggle_playlist", _("Playlist"), (), (), config.hotkeysPlayTogglePlaylist),
     None,
-    ("_play_sequence", _("Play Sequence"), (), play_sequence_sub_menu),
     ("_play", _("Play"), (), play_sub_menu),
     ("_frame", _("Frame"), (), frame_sub_menu),
     ("_sound", _("Sound"), (), sound_sub_menu),
@@ -104,28 +90,6 @@ right_click_menu = [
     ("_preferences", _("Options")),
     ("_information", _("Information")),
 ]
-
-playlist_right_menu = [
-    ("_playlist_play", _("Play")),
-    ("_playlist_add_item", _("Add file")),
-    ("_playlist_add_folder", _("Add folder")),
-    None,
-    ("_playlist_remove_item", _("Remove from playlist")),
-    ("_playlist_remove_invalid", _("Remove invalid file")),
-    ("_playlist_export", _("Export")),
-    ("_playlist_import", _("Import")),
-    ("_playlist_clear", _("Clear playlist")),
-    None,
-] + play_sequence_sub_menu + [
-    None,
-    ("_playlist_open_position", _("Open file location")),
-    ("_playlist_information", _("Information")),
-]
-
-playlist_add_button_menu = (
-    ("_playlist_add_item", _("Add file")),
-    ("_playlist_add_folder", _("Add folder"))
-)
 
 FILE_START_TAG = "[[[[["
 FILE_END_TAG = "]]]]]"
@@ -165,26 +129,12 @@ class MenuController(QObject):
     showMovieInformation = pyqtSignal()
     openSubtitleFile = pyqtSignal()
     subtitleSelected = pyqtSignal(str, arguments=["subtitle"])
-    playNext = pyqtSignal()
-    playPrevious = pyqtSignal()
     playForward = pyqtSignal()
     playBackward = pyqtSignal()
     volumeUp = pyqtSignal()
     volumeDown = pyqtSignal()
     volumeMuted = pyqtSignal()
     showSubtitleSettings = pyqtSignal()
-
-    playlistPlay = pyqtSignal()
-    addItemToPlaylist = pyqtSignal()
-    addFolderToPlaylist = pyqtSignal()
-    removeItemFromPlaylist = pyqtSignal()
-    removeInvalidItemsFromPlaylist = pyqtSignal()
-    playlistExport = pyqtSignal()
-    playlistImport = pyqtSignal()
-    playlistClear = pyqtSignal()
-    playlistShowClickedItemInFM = pyqtSignal()
-    playlistInformation = pyqtSignal()
-    togglePlaylist = pyqtSignal()
 
     def __init__(self, window):
         super(MenuController, self).__init__()
@@ -242,26 +192,12 @@ class MenuController(QObject):
             self.scaleChanged.emit(2)
         elif _id == "_open_file":
             self.openDialog.emit("file")
-        elif _id == "_open_dir":
-            self.openDialog.emit("dir")
         elif _id == "_open_url":
             self.openDialog.emit("url")
         elif _id == "_mini_mode":
             self.toggleMiniMode.emit()
         elif _id == "_on_top":
             self.staysOnTop.emit(_checked)
-        elif _id == "_toggle_playlist":
-            self.togglePlaylist.emit()
-        elif _id == "mode_group:radio:in_order":
-            config.playerPlayOrderType = ORDER_TYPE_IN_ORDER
-        elif _id == "mode_group:radio:random":
-            config.playerPlayOrderType = ORDER_TYPE_RANDOM
-        elif _id == "mode_group:radio:single":
-            config.playerPlayOrderType = ORDER_TYPE_SINGLE
-        elif _id == "mode_group:radio:single_cycle":
-            config.playerPlayOrderType = ORDER_TYPE_SINGLE_CYCLE
-        elif _id == "mode_group:radio:playlist_cycle":
-            config.playerPlayOrderType = ORDER_TYPE_PLAYLIST_CYCLE
         elif _id == "_sound_muted":
             config.playerMuted = _checked
         elif _id == "_subtitle_hide":
@@ -274,10 +210,6 @@ class MenuController(QObject):
             self.playForward.emit()
         elif _id == "_play_operation_backward":
             self.playBackward.emit()
-        elif _id == "_play_operation_next":
-            self.playNext.emit()
-        elif _id == "_play_operation_previous":
-            self.playPrevious.emit()
         elif _id == "_sound_increase":
             self.volumeUp.emit()
         elif _id == "_sound_decrease":
@@ -290,28 +222,6 @@ class MenuController(QObject):
             self.showPreference.emit()
         elif _id == "_information":
             self.showMovieInformation.emit()
-
-        # playlist menu
-        elif _id == "_playlist_play":
-            self.playlistPlay.emit()
-        elif _id == "_playlist_add_item":
-            self.addItemToPlaylist.emit()
-        elif _id == "_playlist_add_folder":
-            self.addFolderToPlaylist.emit()
-        elif _id == "_playlist_remove_item":
-            self.removeItemFromPlaylist.emit()
-        elif _id == "_playlist_remove_invalid":
-            self.removeInvalidItemsFromPlaylist.emit()
-        elif _id == "_playlist_clear":
-            self.playlistClear.emit()
-        elif _id == "_playlist_open_position":
-            self.playlistShowClickedItemInFM.emit()
-        elif _id == "_playlist_information":
-            self.playlistInformation.emit()
-        elif _id == "_playlist_export":
-            self.playlistExport.emit()
-        elif _id == "_playlist_import":
-            self.playlistImport.emit()
 
     @pyqtSlot()
     def show_menu(self):
@@ -333,17 +243,6 @@ class MenuController(QObject):
             and movie_info.movie_duration != 0
 
         self.menu.getItemById("_on_top").checked = self._window.staysOnTop
-
-        self.menu.getItemById("mode_group:radio:in_order").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_IN_ORDER
-        self.menu.getItemById("mode_group:radio:random").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_RANDOM
-        self.menu.getItemById("mode_group:radio:single").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_SINGLE
-        self.menu.getItemById("mode_group:radio:single_cycle").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_SINGLE_CYCLE
-        self.menu.getItemById("mode_group:radio:playlist_cycle").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_PLAYLIST_CYCLE
 
         self.menu.getItemById("proportion:radio:_p_default").checked = \
             self._proportion == "proportion:radio:_p_default"
@@ -381,55 +280,4 @@ class MenuController(QObject):
             self._window.miniModeState() else _("Mini mode")
 
         self.menu.itemClicked.connect(self._menu_item_invoked)
-        self.menu.showRectMenu(QCursor.pos().x(), QCursor.pos().y())
-
-    @pyqtSlot(bool, str)
-    def show_playlist_menu(self, isGroup, url):
-        self.menu = Menu(playlist_right_menu)
-        self.menu.itemClicked.connect(self._menu_item_invoked)
-
-        self.menu.getItemById("mode_group:radio:in_order").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_IN_ORDER
-        self.menu.getItemById("mode_group:radio:random").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_RANDOM
-        self.menu.getItemById("mode_group:radio:single").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_SINGLE
-        self.menu.getItemById("mode_group:radio:single_cycle").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_SINGLE_CYCLE
-        self.menu.getItemById("mode_group:radio:playlist_cycle").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_PLAYLIST_CYCLE
-
-        self.menu.getItemById("_playlist_play").isActive = url != ""
-        self.menu.getItemById("_playlist_remove_item").isActive = \
-            isGroup or url != ""
-        self.menu.getItemById("_playlist_open_position").isActive = url != "" \
-            and utils.urlIsNativeFile(url)
-        self.menu.getItemById("_playlist_information").isActive = url != "" \
-            and utils.fileIsValidVideo(url)
-
-        self.menu.showRectMenu(QCursor.pos().x(), QCursor.pos().y())
-
-    @pyqtSlot()
-    def show_mode_menu(self):
-        self.menu = Menu(play_sequence_sub_menu)
-        self.menu.itemClicked.connect(self._menu_item_invoked)
-
-        self.menu.getItemById("mode_group:radio:in_order").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_IN_ORDER
-        self.menu.getItemById("mode_group:radio:random").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_RANDOM
-        self.menu.getItemById("mode_group:radio:single").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_SINGLE
-        self.menu.getItemById("mode_group:radio:single_cycle").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_SINGLE_CYCLE
-        self.menu.getItemById("mode_group:radio:playlist_cycle").checked = \
-            config.playerPlayOrderType == ORDER_TYPE_PLAYLIST_CYCLE
-
-        self.menu.showRectMenu(QCursor.pos().x(), QCursor.pos().y())
-
-    @pyqtSlot()
-    def show_add_button_menu(self):
-        self.menu = Menu(playlist_add_button_menu)
-        self.menu.itemClicked.connect(self._menu_item_invoked)
-
         self.menu.showRectMenu(QCursor.pos().x(), QCursor.pos().y())

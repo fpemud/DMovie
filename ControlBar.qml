@@ -28,9 +28,6 @@ DragableArea {
     signal playStopButtonClicked ()
     signal playPauseButtonClicked ()
     signal openFileButtonClicked ()
-    signal playlistButtonClicked ()
-    signal previousButtonClicked ()
-    signal nextButtonClicked ()
     signal toggleFullscreenClicked ()
 
     Behavior on opacity {
@@ -234,24 +231,6 @@ DragableArea {
                 }
 
                 ImageButton {
-                    tooltip: dsTr("Previous")
-                    tooltipItem: control_bar.tooltipItem
-
-                    normal_image: "image/previous_normal.svg"
-                    hover_image: "image/previous_hover_press.svg"
-                    press_image: "image/previous_hover_press.svg"
-                    sourceSize.width: 28
-                    sourceSize.height: 28
-
-                    anchors.verticalCenter: parent.verticalCenter
-                    onClicked: control_bar.previousButtonClicked()
-                }
-
-                Space {
-                    width: 25
-                }
-
-                ImageButton {
                     id: play_pause_button
                     tooltip: checkFlag ? dsTr("Pause") : dsTr("Play")
                     tooltipItem: control_bar.tooltipItem
@@ -263,24 +242,6 @@ DragableArea {
                     property bool checkFlag: false
 
                     onClicked: control_bar.playPauseButtonClicked()
-                }
-
-                Space {
-                    width: 25
-                }
-
-                ImageButton {
-                    tooltip: dsTr("Next")
-                    tooltipItem: control_bar.tooltipItem
-
-                    normal_image: "image/next_normal.svg"
-                    hover_image: "image/next_hover_press.svg"
-                    press_image: "image/next_hover_press.svg"
-                    sourceSize.width: 28
-                    sourceSize.height: 28
-
-                    anchors.verticalCenter: parent.verticalCenter
-                    onClicked: control_bar.nextButtonClicked()
                 }
 
                 Space {
@@ -340,28 +301,6 @@ DragableArea {
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: control_bar.openFileButtonClicked()
                 }
-
-                ImageButton {
-                    tooltip: dsTr("Playlist")
-                    tooltipItem: control_bar.tooltipItem
-
-                    normal_image: "image/playlist_open_normal.svg"
-                    hover_image: "image/playlist_open_hover_press.svg"
-                    press_image: "image/playlist_open_hover_press.svg"
-
-                    anchors.verticalCenter: parent.verticalCenter
-                    onClicked: control_bar.playlistButtonClicked()
-                }
-
-            /* ImageButton { */
-            /*     id: playerConfig */
-            /*     imageName: "image/player_config" */
-            /*     anchors.verticalCenter: parent.verticalCenter */
-
-            /*     onClicked: { */
-            /*         control_bar.configButtonClicked() */
-            /*     } */
-            /* } */
             }
         }
     }

@@ -70,7 +70,6 @@ MouseArea {
                 play()
             }
 
-            playlist.hide()
             showControls()
         }
 
@@ -82,7 +81,6 @@ MouseArea {
                 notifybar.show(dsTr("The parse failed"))
             }
             root.reset()
-            shouldAutoPlayNextOnInvalidFile && auto_play_next_on_invalid_timer.startWidthFile(invalidFile)
         }
 
         onInfoGotten: info_window.showContent(movie_info)
@@ -92,25 +90,11 @@ MouseArea {
     Connections {
         target: _findVideoThreadManager
 
-        onVideoFound: { addPlayListItem(path) }
         onFindVideoDone: {
             main_controller.shouldPlayThefirst && (movieInfo.movie_file = path)
 
             invalidCount > 0 && notifybar.show(dsTr("%1 files unable to be parsed have been excluded").arg(invalidCount))
         }
-    }
-
-    Connections {
-        target: database
-
-        onImportItemFound: {
-            playlist.addItem(categoryName, itemName, itemUrl)
-            database.record_video_position(itemUrl, itemPlayed)
-        }
-
-        onClearPlaylistItems: { main_controller.clearPlaylist() }
-
-        onImportDone: { notifybar.show(dsTr("Imported") + ": " + filename)}
     }
 
     Timer {
@@ -131,28 +115,12 @@ MouseArea {
     }
 
     Timer {
-        id: show_playlist_timer
-        interval: 100
-
-        onTriggered: {
-            if (mouseX >= main_window.width - program_constants.playlistTriggerThreshold) {
-                playlist.showHandle()
-            }
-        }
-    }
-
-    Timer {
         id: double_click_check_timer
         interval: 200
 
         onTriggered: {
             doSingleClick()
         }
-    }
-
-    Timer {
-        id: click_hide_playlist_timer
-        interval: 500
     }
 
     function _getActualWidthWithWidth(destWidth) {
@@ -227,8 +195,6 @@ MouseArea {
     }
 
     function doSingleClick() {
-        if (click_hide_playlist_timer.running) return
-
         if (config.othersLeftClick) {
             if (player.playbackState == MediaPlayer.PausedState) {
                 play()
@@ -239,8 +205,6 @@ MouseArea {
     }
 
     function doDoubleClick(mouse) {
-        if(click_hide_playlist_timer.running) playlist.hide()
-
         if (player.playbackState != MediaPlayer.StoppedState) {
             if (config.othersDoubleClick) {
                 toggleFullscreen()
@@ -248,40 +212,6 @@ MouseArea {
         } else {
             openFile()
         }
-    }
-
-    function _getPlaylistItemInfo(serie, url) {
-        var urlIsNativeFile = _utils.urlIsNativeFile(url)
-
-        url = url.replace("file://", "")
-        var pathDict = url.split("/")
-        var result = pathDict.slice(pathDict.length - 2, pathDict.length + 1)
-        var itemName = urlIsNativeFile ? result[result.length - 1].toString() : url
-
-        return [serie, itemName, url]
-    }
-
-    function addPlayListItem(url) {
-        var serie = config.playerAutoPlaySeries ? JSON.parse(_utils.getSeriesByName(url)) : null
-        if (serie && serie.name != "") {
-            for (var i = 0; i < serie.items.length; i++) {
-                var info = _getPlaylistItemInfo(serie.name, serie.items[i])
-                playlist.addItem(info[0], info[1], info[2])
-            }
-        } else {
-            var info = _getPlaylistItemInfo("", url)
-            playlist.addItem(info[0], info[1], info[2])
-        }
-    }
-
-    function addPlaylistStreamItem(url) {
-        playlist.addItem("", url.toString(), url.toString())
-    }
-
-    function clearPlaylist() {
-        playlist.clear()
-        database.lastPlayedFile = ""
-        database.playHistory = []
     }
 
     function close() {
@@ -385,14 +315,6 @@ MouseArea {
         windowView.staysOnTop = !windowView.staysOnTop
     }
 
-    function togglePlaylist() {
-        if (playlist.expanded) {
-            playlist.hide()
-        } else {
-            playlist.show()
-        }
-    }
-
     function flipHorizontal() { player.flipHorizontal(); controlbar.flipPreviewHorizontal() }
     function flipVertical() { player.flipVertical(); controlbar.flipPreviewVertical() }
     function rotateClockwise() {
@@ -421,12 +343,7 @@ MouseArea {
                 notifybar.show(dsTr("Play last movie played"))
                 movieInfo.movie_file = database.lastPlayedFile
             } else {
-                var playlistFirst = playlist.getFirst()
-                if (playlistFirst) {
-                    movieInfo.movie_file = playlistFirst
-                } else {
-                    openFile()
-                }
+                openFile()
             }
         }
     }
@@ -504,10 +421,7 @@ MouseArea {
     }
 
     function openFile() { open_file_dialog.state = "open_video_file"; open_file_dialog.open() }
-    function openDir() { open_folder_dialog.playFirst = true; open_folder_dialog.open() }
     function openUrl() { open_url_dialog.open() }
-    function openDirForPlaylist() { open_folder_dialog.playFirst = false; open_folder_dialog.open() }
-    function openFileForPlaylist() { open_file_dialog.state = "add_playlist_item"; open_file_dialog.open() }
     function openFileForSubtitle() { open_file_dialog.state = "open_subtitle_file"; open_file_dialog.open() }
 
     // playPaths is not quit perfect here, whether the play operation will
@@ -520,15 +434,8 @@ MouseArea {
             paths.push(file_path)
         }
 
-        if (paths.length > 0 && playFirst
-            && config.playerCleanPlaylistOnOpenNewFile) {
-            main_controller.clearPlaylist()
-        }
-
         if (paths.length == 1 && !_utils.pathIsDir(paths[0])) {
-            if (_utils.fileIsValidVideo(paths[0])) {
-                main_controller.addPlayListItem(paths[0])
-            } else {
+            if (!_utils.fileIsValidVideo(paths[0])) {
                 notifybar.show(dsTr("Invalid file") + ": " + paths[0])
             }
             if (playFirst) {
@@ -538,83 +445,6 @@ MouseArea {
             main_controller.shouldPlayThefirst = playFirst
             _findVideoThreadManager.getAllVideoFilesInPathList(paths)
         }
-    }
-
-    function playNextOf(file) {
-        var next = null
-
-        if (config.playerPlayOrderType == "ORDER_TYPE_RANDOM") {
-            next = playlist.getRandom()
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_IN_ORDER") {
-            next = playlist.getNextSource(file)
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_SINGLE") {
-            next = null
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_SINGLE_CYCLE") {
-            next = database.lastPlayedFile
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_PLAYLIST_CYCLE") {
-            next = playlist.getNextSourceCycle(file)
-        }
-
-        next ? (movieInfo.movie_file = next) : root.reset()
-    }
-
-    function playPreviousOf(file) {
-        var next = null
-
-        if (config.playerPlayOrderType == "ORDER_TYPE_RANDOM") {
-            next = playlist.getRandom()
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_IN_ORDER") {
-            next = playlist.getPreviousSource(file)
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_SINGLE") {
-            next = null
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_SINGLE_CYCLE") {
-            next = database.lastPlayedFile
-        } else if (config.playerPlayOrderType == "ORDER_TYPE_PLAYLIST_CYCLE") {
-            next = playlist.getPreviousSourceCycle(file)
-        }
-
-        next ? (movieInfo.movie_file = next) : root.reset()
-    }
-
-    function playNext() {
-        var next = null
-
-        if (config.playerPlayOrderType == "ORDER_TYPE_RANDOM") {
-            next = playlist.getRandom()
-        } else {
-            next = playlist.getNextSourceCycle(database.lastPlayedFile)
-        }
-
-        next ? (movieInfo.movie_file = next) : root.reset()
-    }
-    function playPrevious() {
-        if (database.lastPlayedFile) {
-            if (player.hasMedia && player.source != 0) {
-                var prevIndex = database.playHistory.lastIndexOf(database.lastPlayedFile) - 1
-
-                if (prevIndex > 0) {
-                    movieInfo.movie_file = database.playHistory[prevIndex]
-                } else {
-                    root.reset()
-                }
-            } else {
-                movieInfo.movie_file = database.lastPlayedFile
-            }
-        }
-    }
-
-    function importPlaylist() { open_file_dialog.state = "import_playlist"; open_file_dialog.open() }
-    function exportPlaylist() { open_file_dialog.state = "export_playlist"; open_file_dialog.open() }
-    function importPlaylistImpl(filename) {
-        if(_utils.fileIsPlaylist(filename)) {
-            database.importPlaylist(filename)
-        } else {
-            notifybar.show(dsTr("Invalid file") + ": " + filename)
-        }
-    }
-
-    function exportPlaylistImpl(filename) {
-        database.exportPlaylist(filename)
     }
 
     function setSubtitleVerticalPosition(percentage) {
@@ -653,7 +483,6 @@ MouseArea {
     }
 
     onPositionChanged: {
-        playlist.state = "inactive"
         windowView.setCursorVisible(true)
         mouse_area.cursorShape = Qt.ArrowCursor
         hide_controls_timer.restart()
@@ -661,11 +490,8 @@ MouseArea {
         if (!pressed) {
             changeCursor(getEdge(mouse))
 
-            if (mouseInControlsArea() && !playlist.expanded) {
+            if (mouseInControlsArea()) {
                 showControls()
-            }
-            else if (mouseInPlaylistTriggerArea) {
-                controlbar.status != "minimal" && show_playlist_timer.restart()
             }
         }
         else {
@@ -706,11 +532,6 @@ MouseArea {
             return
         }
 
-        if (playlist.expanded) {
-            playlist.hide()
-            click_hide_playlist_timer.start()
-        }
-
         if (mouse.button == Qt.RightButton) {
             _menu_controller.show_menu()
         } else {
@@ -723,11 +544,6 @@ MouseArea {
     onDoubleClicked: {
         if (mouse.button == Qt.RightButton) return
 
-        if (click_hide_playlist_timer.running) {
-            click_hide_playlist_timer.stop()
-            playlist.hide()
-        }
-
         if (double_click_check_timer.running) {
             double_click_check_timer.stop()
         } else {
@@ -739,38 +555,20 @@ MouseArea {
     DropArea {
         anchors.fill: parent
 
-        onPositionChanged: {
-            if (drag.x > parent.width - program_constants.playlistWidth) {
-                playlist.show()
-            }
-        }
-
         onDropped: {
-            shouldAutoPlayNextOnInvalidFile = false
-
-            var dragInPlaylist = drag.x > parent.width - program_constants.playlistWidth
-
             if (drop.urls.length == 1) {
                 var file_path = decodeURIComponent(drop.urls[0].toString().replace("file://", ""))
-                if (dragInPlaylist) {
-                    if (_utils.pathIsDir(file_path)) {
-                        main_controller.playPaths([file_path], false)
-                    } else if (_utils.fileIsValidVideo(file_path)) {
-                        addPlayListItem(file_path)
-                    }
+                if (_utils.pathIsDir(file_path)) {
+                    main_controller.playPaths([file_path], true)
+                } else if (_utils.fileIsValidVideo(file_path)) {
+                    main_controller.playPaths([file_path], true)
+                } else if (_utils.fileIsSubtitle(file_path)) {
+                    movieInfo.subtitle_file = file_path
                 } else {
-                    if (_utils.pathIsDir(file_path)) {
-                        main_controller.playPaths([file_path], true)
-                    } else if (_utils.fileIsValidVideo(file_path)) {
-                        main_controller.playPaths([file_path], true)
-                    } else if (_utils.fileIsSubtitle(file_path)) {
-                        movieInfo.subtitle_file = file_path
-                    } else {
-                        notifybar.show(dsTr("Invalid file") + ": " + file_path)
-                    }
+                    notifybar.show(dsTr("Invalid file") + ": " + file_path)
                 }
             } else {
-                main_controller.playPaths(drop.urls, !dragInPlaylist)
+                main_controller.playPaths(drop.urls, true)
             }
         }
     }

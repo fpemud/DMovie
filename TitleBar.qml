@@ -29,38 +29,38 @@ DragableArea {
             name: "normal"
             PropertyChanges {
                 target: appIcon
-                visible: true && !visibleForPlaylist
+                visible: true
             }
             PropertyChanges {
                 target: btn
-                visible: true && !visibleForPlaylist
+                visible: true
             }
             PropertyChanges {
                 target: title_text
-                visible: titlebar.titleVisibleSwitch && !visibleForPlaylist
+                visible: titlebar.titleVisibleSwitch
             }
             PropertyChanges {
                 target: quick_bar
-                visible: false && !visibleForPlaylist
+                visible: false
             }
         },
         State {
             name: "minimal"
             PropertyChanges {
                 target: appIcon
-                visible: false && !visibleForPlaylist
+                visible: false
             }
             PropertyChanges {
                 target: btn
-                visible: false && !visibleForPlaylist
+                visible: false
             }
             PropertyChanges {
                 target: title_text
-                visible: false && !visibleForPlaylist
+                visible: false
             }
             PropertyChanges {
                 target: quick_bar
-                visible: true && !visibleForPlaylist
+                visible: true
             }
         }
     ]
@@ -71,30 +71,6 @@ DragableArea {
 
     function hide() {
         visible = false
-    }
-
-    Timer {
-        id: show_for_playlist_timer
-        interval: 200
-        onTriggered: {
-            topPanelBackround.visible = false
-            visibleForPlaylist = true
-            show()
-        }
-    }
-
-    property bool visibleForPlaylist: false
-    function showForPlaylist() { 
-        show_for_playlist_timer.restart() 
-    }
-    function hideForPlaylist() { 
-        show_for_playlist_timer.stop()
-
-        if (visibleForPlaylist) {
-            topPanelBackround.visible = true
-            visibleForPlaylist = false
-            hide()
-        }
     }
 
     onDoubleClicked: titlebar.maxButtonClicked()

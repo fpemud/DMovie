@@ -247,11 +247,6 @@ class Utils(QObject):
         clipboard.setText(text, mode=clipboard.Clipboard)
 
     @pyqtSlot(str, result=bool)
-    def fileIsPlaylist(self, file_path):
-        mime_type = getFileMimeType(file_path)
-        return file_path.endswith(".dmpl") and mime_type == "application/xml"
-
-    @pyqtSlot(str, result=bool)
     def fileIsSubtitle(self, file_path):
         return get_file_type(file_path) in (FILE_TYPE_ASS, FILE_TYPE_SRT)
 
@@ -267,11 +262,6 @@ class Utils(QObject):
                 return False
         else:
             return False
-
-    @pyqtSlot(str, result=bool)
-    def playlistItemValidation(self, path):
-        pathIsUrl = not path.startswith("file://") and not path.startswith("/")
-        return self.fileIsValidVideo(path) or pathIsUrl
 
     @pyqtSlot(str)
     def showFileInFM(self, file_path):

@@ -20,7 +20,6 @@ Rectangle {
     property real actualScale: 1.0
 
     property bool hasResized: false
-    property bool shouldAutoPlayNextOnInvalidFile: false
 
     property rect primaryRect: {
         return Qt.rect(0, 0, Screen.desktopAvailableWidth, Screen.desktopAvailableHeight)
@@ -34,7 +33,6 @@ Rectangle {
                               height: root.height - program_constants.windowGlowRadius * 2; }
             PropertyChanges { target: titlebar; width: main_window.width; anchors.top: main_window.top }
             PropertyChanges { target: controlbar; width: main_window.width; anchors.bottom: main_window.bottom}
-            PropertyChanges { target: playlist; height: main_window.height; anchors.right: main_window.right }
             PropertyChanges { target: player; fillMode: VideoOutput.Stretch }
         },
         State {
@@ -43,7 +41,6 @@ Rectangle {
             PropertyChanges { target: main_window; width: root.width; height: root.height }
             PropertyChanges { target: titlebar; width: root.width; anchors.top: root.top }
             PropertyChanges { target: controlbar; width: root.width; anchors.bottom: root.bottom}
-            PropertyChanges { target: playlist; height: root.height; anchors.right: root.right }
             PropertyChanges { target: player; fillMode: VideoOutput.PreserveAspectFit }
         }
     ]
@@ -69,8 +66,6 @@ Rectangle {
         id: open_file_dialog
 
         onAccepted: {
-            shouldAutoPlayNextOnInvalidFile = false
-
             if (fileUrls.length > 0) {
                 if (state == "open_video_file") {
                     database.lastOpenedPath = folder
@@ -84,41 +79,8 @@ Rectangle {
                     } else {
                         notifybar.show(dsTr("Invalid file") + ": " + filename)
                     }
-                } else if (state == "add_playlist_item") {
-                    database.lastOpenedPath = folder
-
-                    main_controller.playPaths(fileUrls, false)
-                } else if (state == "import_playlist") {
-                    database.lastOpenedPlaylistPath = folder
-
-                    var filename = fileUrls[0].toString().replace("file://", "")
-                    main_controller.importPlaylistImpl(filename)
-                } else if (state == "export_playlist") {
-                    database.lastOpenedPlaylistPath = folder
-
-                    var filename = fileUrls[0].toString().replace("file://", "")
-                    if (filename.toString().search(".dmpl") == -1) {
-                        filename = filename + ".dmpl"
-                    }
-                    main_controller.exportPlaylistImpl(filename)
                 }
             }
-        }
-    }
-
-    OpenFolderDialog {
-        id: open_folder_dialog
-
-        folder: database.lastOpenedPath || _utils.homeDir
-
-        property bool playFirst: true
-
-        onAccepted: {
-            shouldAutoPlayNextOnInvalidFile = false
-
-            var folderPath = fileUrl.toString()
-            database.lastOpenedPath = folder // record last opened path
-            main_controller.playPaths([folderPath], playFirst)
         }
     }
 
@@ -144,10 +106,6 @@ Rectangle {
             if (input.search("://") == -1) {
                 notifybar.show(dsTr("The parse failed"))
             } else if (input != movieInfo.movie_file) {
-                if (config.playerCleanPlaylistOnOpenNewFile) {
-                    main_controller.clearPlaylist()
-                }
-                shouldAutoPlayNextOnInvalidFile = false
                 movieInfo.movie_file = input
             }
 
@@ -250,7 +208,6 @@ Rectangle {
         var firstIsUrl = false
         for (var i = 0; i < pathList.length; i++) {
             if (!_utils.urlIsNativeFile(pathList[i])) {
-                main_controller.addPlaylistStreamItem(pathList[i])
                 if (i == 0) {
                     movieInfo.movie_file = pathList[i]
                     firstIsUrl = true
@@ -304,20 +261,6 @@ Rectangle {
         return mouseInTitleBar || mouseInControlBar
     }
 
-    function mouseInPlaylistArea() {
-        var mousePos = windowView.getCursorPos()
-        return playlist.expanded && inRectCheck(Qt.point(mousePos.x - windowView.x, mousePos.y - windowView.y),
-                                            Qt.rect(main_window.width - program_constants.playlistWidth, 0,
-                                                program_constants.playlistWidth, main_window.height))
-    }
-
-    function mouseInPlaylistTriggerArea() {
-        var mousePos = windowView.getCursorPos()
-        return !playlist.expanded && inRectCheck(Qt.point(mousePos.x - windowView.x, mousePos.y - windowView.y),
-                                            Qt.rect(main_window.width - program_constants.playlistTriggerThreshold, titlebar.height,
-                                                    program_constants.playlistTriggerThreshold + 10, main_window.height - controlbar.height))
-    }
-
     /* to perform like a newly started program  */
     function reset() {
         player.resetRotationFlip()
@@ -358,28 +301,11 @@ Rectangle {
     function monitorWindowClose() {
         _utils.screenSaverUninhibit()
         config.save("Normal", "volume", player.volume)
-        playlist.syncDatabase()
         database.record_video_position(player.source, player.position)
         database.record_video_rotation(player.source, player.orientation)
         database.lastWindowWidth = windowView.width
         movieInfo.movie_file && (database.lastPlayedFile = movieInfo.movie_file)
         database.forceCommit()
-    }
-
-    Timer {
-        id: auto_play_next_on_invalid_timer
-        interval: 1000 * 2
-
-        property url invalidFile: ""
-
-        function startWidthFile(file) {
-            invalidFile = file
-            restart()
-        }
-
-        onTriggered: {
-            main_controller.playNextOf(invalidFile)
-        }
     }
 
     Timer {
@@ -454,45 +380,18 @@ Rectangle {
         // 2014/9/16 add: not ensures url playable, either
         onPlaying: {
             notifybar.hide()
-            auto_play_next_on_invalid_timer.stop()
             main_controller.setWindowTitle(movieInfo.movie_title)
 
             _utils.screenSaverInhibit()
 
             lastSource = source
             if (config.playerFullscreenOnOpenFile) main_controller.fullscreen()
-
-            if (_utils.urlIsNativeFile(source)) {
-                main_controller.addPlayListItem(source.toString().substring(7))
-            } else {
-                main_controller.addPlaylistStreamItem(source)
-            }
         }
 
         onStopped: {
             windowView.setTitle(dsTr("Deepin Movie"))
             _utils.screenSaverUninhibit()
             database.record_video_position(lastSource, lastPosition)
-
-            // onStopped will be triggered when we change the movie source,
-            // we do this to make sure that the follwing code executed only when
-            // the movie plays out.
-            var videoPLayedOut = movieInfo.movie_duration
-                                && ( Math.abs(position - movieInfo.movie_duration)
-                                    < program_constants.videoEndsThreshold)
-
-            if (_utils.urlIsNativeFile(lastSource)) {
-                if (videoPLayedOut) {
-                    shouldAutoPlayNextOnInvalidFile = true
-                    main_controller.playNextOf(database.lastPlayedFile)
-                }
-            } else {
-                if (position && duration
-                    &&Math.abs(position - duration) < program_constants.videoEndsThreshold) {
-                    shouldAutoPlayNextOnInvalidFile = true
-                    main_controller. playNextOf(database.lastPlayedFile)
-                }
-            }
         }
 
         onPlaybackStateChanged: controlbar.videoPlaying = player.playbackState == MediaPlayer.PlayingState
@@ -516,11 +415,6 @@ Rectangle {
         }
 
         onErrorChanged: {
-            if (movieInfo.movie_file.toString() == open_url_dialog.lastInput.toString())
-            {
-                playlist.removeItem(source)
-            }
-
             switch(error) {
                 case MediaPlayer.NetworkError:
                 case MediaPlayer.FormatError:
@@ -558,32 +452,6 @@ Rectangle {
         anchors.left: root.left
         anchors.topMargin: 60
         anchors.leftMargin: 30
-    }
-
-    Playlist {
-        id: playlist
-        width: 0
-        visible: false
-        window: windowView
-        maxWidth: main_window.width * 0.6
-        currentPlayingSource: player.source
-        tooltipItem: tooltip
-        canExpand: controlbar.status != "minimal"
-        anchors.right: main_window.right
-        anchors.verticalCenter: parent.verticalCenter
-
-        onShowed: root.hideControls()
-
-        onNewSourceSelected: {
-            shouldAutoPlayNextOnInvalidFile = false
-            movieInfo.movie_file = path
-        }
-        onModeButtonClicked: _menu_controller.show_mode_menu()
-        onAddButtonClicked: _menu_controller.show_add_button_menu()
-        onClearButtonClicked: main_controller.clearPlaylist()
-
-        onMoveInWindowButtons: titlebar.showForPlaylist()
-        onMoveOutWindowButtons: titlebar.hideForPlaylist()
     }
 
     MainMenu {
@@ -633,9 +501,6 @@ Rectangle {
             onTriggered: player.seek(destPos)
         }
 
-        onPreviousButtonClicked: { main_controller.playPrevious() }
-        onNextButtonClicked: { main_controller.playNext() }
-
         onChangeVolume: { main_controller.setVolume(volume) }
         onMutedSet: { main_controller.setMute(muted) }
 
@@ -644,7 +509,6 @@ Rectangle {
         onPlayStopButtonClicked: { root.reset() }
         onPlayPauseButtonClicked: { main_controller.togglePlay() }
         onOpenFileButtonClicked: { main_controller.openFile() }
-        onPlaylistButtonClicked: { playlist.toggleShow() }
         onPercentageSet: {
             if (movieInfo.movie_duration) {
                 delay_seek_timer.destPos = movieInfo.movie_duration * percentage

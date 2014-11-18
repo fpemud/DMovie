@@ -36,35 +36,6 @@ DFileDialog {
             defaultFileName = " "
             saveMode = false
             break
-
-            case "add_playlist_item":
-            title = dsTr("Please choose one file or more")
-            folder = database.lastOpenedPath || _utils.homeDir
-            nameFilters = [ dsTr("Video files") + videoFilter, allFilesFilter ]
-            selectMultiple = true
-            selectExisting = true
-            defaultFileName = " "
-            saveMode = false
-            break
-
-            case "import_playlist":
-            title = dsTr("Please choose one file")
-            folder = database.lastOpenedPlaylistPath || _utils.homeDir
-            nameFilters = [ dsTr("Playlist files") + "(*.dmpl)", allFilesFilter ]
-            selectMultiple = false
-            selectExisting = true
-            defaultFileName = " "
-            saveMode = false
-            break
-
-            case "export_playlist":
-            title = dsTr("Save as")
-            folder = database.lastOpenedPlaylistPath || _utils.homeDir
-            nameFilters = [ dsTr("Playlist files") + "(*.dmpl)", allFilesFilter ]
-            selectMultiple = true
-            selectExisting = false
-            defaultFileName = dsTr("Playlist") + ".dmpl"
-            saveMode = true
         }
     }
 }

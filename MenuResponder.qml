@@ -18,9 +18,6 @@ Connections {
     onFlipVertical: {
         main_controller.flipVertical()
     }
-    onTogglePlaylist: {
-        main_controller.togglePlaylist()
-    }
     onToggleFullscreen: {
         main_controller.toggleFullscreen()
     }
@@ -38,8 +35,6 @@ Connections {
     onOpenDialog: {
         if (arguments[0] == "file") {
             main_controller.openFile()
-        } else if (arguments[0] == "dir") {
-            main_controller.openDir()
         } else {
             main_controller.openUrl()
         }
@@ -55,8 +50,6 @@ Connections {
         && info_window.showContent(movieInfo.getMovieInfo(movieInfo.movie_file))
     }
 
-    onPlayPrevious: { main_controller.playPrevious() }
-    onPlayNext: { main_controller.playNext() }
     onPlayForward: { main_controller.forward() }
     onPlayBackward: { main_controller.backward() }
 
@@ -65,15 +58,4 @@ Connections {
     onVolumeMuted: { main_controller.toggleMute() }
 
     onShowSubtitleSettings: { preference_window.show(); preference_window.scrollToSubtitle() }
-
-    onPlaylistPlay: movieInfo.movie_file = playlist.clickedOnItemUrl
-    onAddItemToPlaylist: main_controller.openFileForPlaylist()
-    onAddFolderToPlaylist: main_controller.openDirForPlaylist()
-    onRemoveItemFromPlaylist: playlist.removeClickedItem()
-    onRemoveInvalidItemsFromPlaylist: playlist.removeInvalidItems(_utils.playlistItemValidation)
-    onPlaylistClear: main_controller.clearPlaylist()
-    onPlaylistShowClickedItemInFM: playlist.showClickedItemInFM()
-    onPlaylistInformation: movieInfo.getMovieInfo(playlist.clickedOnItemUrl)
-    onPlaylistExport: main_controller.exportPlaylist()
-    onPlaylistImport: main_controller.importPlaylist()
 }

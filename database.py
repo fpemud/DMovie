@@ -26,21 +26,12 @@ from constant import CONFIG_DIR
 from deepin_utils.file import touch_file
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, pyqtProperty, QObject, QTimer
 
-from playlist import DMPlaylist
-
 
 class Database(QObject):
-    localPlaylistChanged = pyqtSignal(str)
     lastPlayedFileChanged = pyqtSignal(str)
     lastOpenedPathChanged = pyqtSignal(str)
-    lastOpenedPlaylistPathChanged = pyqtSignal(str)
     lastWindowWidthChanged = pyqtSignal(int)
     playHistoryChanged = pyqtSignal()
-
-    clearPlaylistItems = pyqtSignal()
-    importItemFound = pyqtSignal(str, str, str, str,
-                                 arguments=["categoryName", "itemName", "itemUrl", "itemPlayed"])
-    importDone = pyqtSignal(str, arguments=["filename"])
 
     def __init__(self):
         QObject.__init__(self)
@@ -107,15 +98,6 @@ class Database(QObject):
     def updateMovieInfo(self, video_path, info):
         self.setValue(video_path, info)
 
-    @pyqtProperty(str, notify=localPlaylistChanged)
-    def playlist_local(self):
-        return self.getValue("playlist_local") or ""
-
-    @playlist_local.setter
-    def playlist_local(self, value):
-        self.setValue("playlist_local", value)
-        self.localPlaylistChanged.emit(value)
-
     @pyqtProperty(str, notify=lastPlayedFileChanged)
     def lastPlayedFile(self):
         return self.getValue("last_played_file") or ""
@@ -150,17 +132,6 @@ class Database(QObject):
         self.setValue("last_opened_path", value)
         self.lastOpenedPathChanged.emit(value)
 
-    @pyqtProperty(str, notify=lastOpenedPlaylistPathChanged)
-    def lastOpenedPlaylistPath(self):
-        return self.getValue("last_opened_playlist_path") or ""
-
-    @lastOpenedPlaylistPath.setter
-    def lastOpenedPlaylistPath(self, value):
-        value = value[7:] if value.startswith("file://") else value
-        value = os.path.dirname(value) if os.path.isfile(value) else value
-        self.setValue("last_opened_playlist_path", value)
-        self.lastOpenedPlaylistPathChanged.emit(value)
-
     @pyqtProperty(int, notify=lastWindowWidthChanged)
     def lastWindowWidth(self):
         return int(self.getValue("last_window_width") or 0)
@@ -169,43 +140,5 @@ class Database(QObject):
     def lastWindowWidth(self, value):
         self.setValue("last_window_width", value)
         self.lastWindowWidthChanged.emit(value)
-
-    @pyqtSlot(str)
-    def exportPlaylist(self, filename):
-        playlist = DMPlaylist()
-        playlistItems = json.loads(self.playlist_local)
-
-        for item in playlistItems:
-            try:
-                itemChild = json.loads(item["itemChild"])
-                if len(itemChild) != 0 and item["itemUrl"] == "":
-                    cate = playlist.appendCategory(
-                        item["itemName"].encode("utf-8"))
-                    for child in itemChild:
-                        cate.appendItem(child["itemName"].encode("utf-8"),
-                                        child["itemUrl"].encode("utf-8"),
-                                        str(self.fetch_video_position(child["itemUrl"])))
-                else:
-                    playlist.appendItem(item["itemName"].encode("utf-8"),
-                                        item["itemUrl"].encode("utf-8"),
-                                        str(self.fetch_video_position(item["itemUrl"])))
-            except Exception as e:
-                print e
-
-        playlist.writeTo(filename)
-
-    @pyqtSlot(str)
-    def importPlaylist(self, filename):
-        self.clearPlaylistItems.emit()
-
-        playlist = DMPlaylist.readFrom(filename)
-        for category in playlist.getAllCategories():
-            for item in category.getAllItems():
-                self.importItemFound.emit(category.name, item.name,
-                                          item.source, item.played)
-        for item in playlist.getAllItems():
-            self.importItemFound.emit(None, item.name, item.source, item.played)
-
-        self.importDone.emit(filename)
 
 database = Database()

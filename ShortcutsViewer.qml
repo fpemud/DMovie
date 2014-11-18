@@ -59,10 +59,6 @@ DWindow {
                             shortcut: config.hotkeysPlayToggleFullscreen+"" || dsTr("Disabled")
                         }
                         ShortcutsLabel {
-                            title: dsTr("Playlist")
-                            shortcut: config.hotkeysPlayTogglePlaylist+"" || dsTr("Disabled")
-                        }
-                        ShortcutsLabel {
                             title: dsTr("Accelerate playback")
                             shortcut: config.hotkeysPlaySpeedUp+"" || dsTr("Disabled")
                         }
@@ -82,14 +78,6 @@ DWindow {
                         ShortcutsLabel {
                             title: dsTr("Open a file")
                             shortcut: config.hotkeysFilesOpenFile+"" || dsTr("Disabled")
-                        }
-                        ShortcutsLabel {
-                            title: dsTr("Open previous")
-                            shortcut: config.hotkeysFilesPlayPrevious+"" || dsTr("Disabled")
-                        }
-                        ShortcutsLabel {
-                            title: dsTr("Open next")
-                            shortcut: config.hotkeysFilesPlayNext+"" || dsTr("Disabled")
                         }
                     }
                 }

@@ -30,12 +30,6 @@ from PyQt5.QtCore import pyqtSlot, pyqtProperty, pyqtSignal, QObject
 # ADJUST_TYPE_LAST_TIME = "ADJUST_TYPE_LAST_TIME"
 # ADJUST_TYPE_FULLSCREEN = "ADJUST_TYPE_FULLSCREEN"
 
-ORDER_TYPE_RANDOM = "ORDER_TYPE_RANDOM"
-ORDER_TYPE_IN_ORDER = "ORDER_TYPE_IN_ORDER"
-ORDER_TYPE_SINGLE = "ORDER_TYPE_SINGLE"
-ORDER_TYPE_SINGLE_CYCLE = "ORDER_TYPE_SINGLE_CYCLE"
-ORDER_TYPE_PLAYLIST_CYCLE = "ORDER_TYPE_PLAYLIST_CYCLE"
-
 DEFAULT_CONFIG = [
     ("Player", [("volume", 1.0),
                 ("muted", False),
@@ -43,8 +37,6 @@ DEFAULT_CONFIG = [
                 # ("adjustType", ADJUST_TYPE_WINDOW_VIDEO),
                 ("applyLastClosedSize", False),
                 ("fullscreenOnOpenFile", False),
-                ("playOrderType", ORDER_TYPE_PLAYLIST_CYCLE),
-                ("cleanPlaylistOnOpenNewFile", False),
                 ("autoPlayFromLast", True),
                 ("autoPlaySeries", True),
                 ("showPreview", True),
@@ -57,7 +49,6 @@ DEFAULT_CONFIG = [
                      ("forward", "Right"),
                      ("backward", "Left"),
                      ("toggleFullscreen", "Return"),
-                     ("togglePlaylist", "F3"),
                      ("speedUp", "Ctrl+Right"),
                      ("slowDown", "Ctrl+Left"),
                      ("restoreSpeed", "R")]),
@@ -74,9 +65,7 @@ DEFAULT_CONFIG = [
                           ("subtitleMoveUp", "Shift+Up"),
                           ("subtitleMoveDown", "Shift+Down"), ]),
     ("HotkeysFiles", [("hotkeyEnabled", True),
-                      ("openFile", "Ctrl+O"),
-                      ("playPrevious", "PgUp"),
-                      ("playNext", "PgDown"), ]),
+                      ("openFile", "Ctrl+O"), ]),
     ("Subtitle", [("autoLoad", True),
                   ("fontSize", 20),
                   ("fontFamily", ""),

@@ -8,10 +8,6 @@ Item {
     property int controlbarHeight: 64
     property int controlbarTriggerThreshold: 50
     
-    property int playlistWidth: 218
-    property int playlistMinWidth: 218
-    property int playlistTriggerThreshold: 60
-
     property int simplifiedModeTriggerWidth: 438
     property int hideVolumeBarTriggerWidth: 600
     property int transitionModeTriggerWidth: 638

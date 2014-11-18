@@ -178,17 +178,10 @@ DPreferenceWindow {
                 checked: config.playerFullscreenOnOpenFile
                 onClicked: config.playerFullscreenOnOpenFile = checked
             }
-
             DCheckBox {
                 text: dsTr("Apply the size last time closed")
                 checked: config.playerApplyLastClosedSize
                 onClicked: config.playerApplyLastClosedSize = checked
-            }
-
-            DCheckBox {
-                text: dsTr("Clear playlist on opening new file")
-                checked: config.playerCleanPlaylistOnOpenNewFile
-                onClicked: config.playerCleanPlaylistOnOpenNewFile = checked
             }
             DCheckBox {
                 text: dsTr("Resume playback after restarting player")
@@ -343,27 +336,6 @@ DPreferenceWindow {
                 }
 
                 onHotkeyCancelled: { setShortcut(config.hotkeysPlayToggleFullscreen) }
-            }
-            HotKeyInputRow {
-                title: dsTr("Playlist")
-                hotKey: config.hotkeysPlayTogglePlaylist+"" || dsTr("Disabled")
-                actualSettingEntry: "hotkeysPlayTogglePlaylist"
-
-                onHotkeySet: {
-                    var checkResult = preference_view.checkShortcutsDuplication(title, text)
-                    if (checkResult != null) {
-                        warning(checkResult[0], checkResult[1])
-                    } else {
-                        setShortcut(text)
-                    }
-                }
-
-                onHotkeyReplaced: {
-                    preference_view.disableShortcut(title, text)
-                    setShortcut(text)
-                }
-
-                onHotkeyCancelled: { setShortcut(config.hotkeysPlayTogglePlaylist) }
             }
             HotKeyInputRow {
                 title: dsTr("Accelerate playback")
@@ -609,48 +581,6 @@ DPreferenceWindow {
 
                 onHotkeyCancelled: { setShortcut(config.hotkeysFilesOpenFile) }
             }
-            HotKeyInputRow {
-                title: dsTr("Open previous")
-                hotKey: config.hotkeysFilesPlayPrevious+"" || dsTr("Disabled")
-                actualSettingEntry: "hotkeysFilesPlayPrevious"
-
-                onHotkeySet: {
-                    var checkResult = preference_view.checkShortcutsDuplication(title, text)
-                    if (checkResult != null) {
-                        warning(checkResult[0], checkResult[1])
-                    } else {
-                        setShortcut(text)
-                    }
-                }
-
-                onHotkeyReplaced: {
-                    preference_view.disableShortcut(title, text)
-                    setShortcut(text)
-                }
-
-                onHotkeyCancelled: { setShortcut(config.hotkeysFilesPlayPrevious) }
-            }
-            HotKeyInputRow {
-                title: dsTr("Open next")
-                hotKey: config.hotkeysFilesPlayNext+"" || dsTr("Disabled")
-                actualSettingEntry: "hotkeysFilesPlayNext"
-
-                onHotkeySet: {
-                    var checkResult = preference_view.checkShortcutsDuplication(title, text)
-                    if (checkResult != null) {
-                        warning(checkResult[0], checkResult[1])
-                    } else {
-                        setShortcut(text)
-                    }
-                }
-
-                onHotkeyReplaced: {
-                    preference_view.disableShortcut(title, text)
-                    setShortcut(text)
-                }
-
-                onHotkeyCancelled: { setShortcut(config.hotkeysFilesPlayNext) }
-            }
         }
         SectionContent {
             id: keyboard_subtitle
@@ -889,10 +819,6 @@ DPreferenceWindow {
 
                 onValueChanged: player.subtitleDelay = value * 1000
             }
-
-            // FileInputRow {
-            //     title: "Subtitle directory:"
-            // }
         }
         // SectionContent {
         //     id: screenshot
