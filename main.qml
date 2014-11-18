@@ -304,7 +304,6 @@ Rectangle {
         database.record_video_position(player.source, player.position)
         database.record_video_rotation(player.source, player.orientation)
         database.lastWindowWidth = windowView.width
-        movieInfo.movie_file && (database.lastPlayedFile = movieInfo.movie_file)
         database.forceCommit()
     }
 
@@ -403,8 +402,6 @@ Rectangle {
         }
 
         onSourceChanged: {
-            source.toString().trim() && (database.lastPlayedFile = source)
-
             resetRotationFlip()
 
             var rotation = database.fetch_video_rotation(source)

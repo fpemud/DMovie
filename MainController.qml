@@ -339,12 +339,7 @@ MouseArea {
         if (player.hasMedia && player.source != "") {
             player.playbackState == MediaPlayer.PlayingState ? pause() : play()
         } else {
-            if (database.lastPlayedFile) {
-                notifybar.show(dsTr("Play last movie played"))
-                movieInfo.movie_file = database.lastPlayedFile
-            } else {
-                openFile()
-            }
+            openFile()
         }
     }
 

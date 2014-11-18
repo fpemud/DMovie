@@ -28,10 +28,8 @@ from PyQt5.QtCore import pyqtSlot, pyqtSignal, pyqtProperty, QObject, QTimer
 
 
 class Database(QObject):
-    lastPlayedFileChanged = pyqtSignal(str)
     lastOpenedPathChanged = pyqtSignal(str)
     lastWindowWidthChanged = pyqtSignal(int)
-    playHistoryChanged = pyqtSignal()
 
     def __init__(self):
         QObject.__init__(self)
@@ -97,29 +95,6 @@ class Database(QObject):
     @pyqtSlot(str, str, result=str)
     def updateMovieInfo(self, video_path, info):
         self.setValue(video_path, info)
-
-    @pyqtProperty(str, notify=lastPlayedFileChanged)
-    def lastPlayedFile(self):
-        return self.getValue("last_played_file") or ""
-
-    @lastPlayedFile.setter
-    def lastPlayedFile(self, value):
-        self.setValue("last_played_file", value)
-        self.lastPlayedFileChanged.emit(value)
-        if not value in self.playHistory:
-            playHistory = self.playHistory
-            playHistory.append(value)
-            self.setValue("play_history", json.dumps(playHistory))
-
-    @pyqtProperty("QVariant", notify=playHistoryChanged)
-    def playHistory(self):
-        historyStr = self.getValue("play_history") or "[]"
-        return json.loads(historyStr)
-
-    @playHistory.setter
-    def playHistory(self, value):
-        self.setValue("play_history", json.dumps(value))
-        self.playHistoryChanged.emit()
 
     @pyqtProperty(str, notify=lastOpenedPathChanged)
     def lastOpenedPath(self):
