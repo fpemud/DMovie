@@ -28,7 +28,6 @@ from deepin_menu.menu import Menu, CheckableMenuItem
 from movie_info import movie_info, get_subtitle_from_movie
 from config import *
 from i18n import _
-from utils import utils
 
 frame_sub_menu = [
     CheckableMenuItem("proportion:radio:_p_default", _("Default"), True),

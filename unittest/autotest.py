@@ -15,6 +15,7 @@ import pylkc
 
 
 class Test_Linux_3_17(unittest.TestCase):
+
     def setUp(self):
         self.rootDir = os.path.join(curDir, "linux-3.17")
 
@@ -32,6 +33,7 @@ class Test_Linux_3_17(unittest.TestCase):
 
 
 class Test_Linux_3_16(unittest.TestCase):
+
     def setUp(self):
         self.rootDir = os.path.join(curDir, "linux-3.16")
 
@@ -54,4 +56,4 @@ def suite():
     return suite
 
 if __name__ == "__main__":
-    unittest.main(defaultTest = 'suite')
+    unittest.main(defaultTest='suite')
