@@ -1,0 +1,10 @@
+Element Desktop related TODO list:
+1. command line argument
+2. open element of type "dmovie"
+
+Other TODO list:
+1. re-add last played file history, but should have a UI mode similiar to gedit's recent files.
+2. remove preview function, too disturbing. Remove the code to lower the maintainance cost.
+3. fix the width of config dialog
+4. fix the glith in ControlBar
+
