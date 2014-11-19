@@ -1,6 +1,7 @@
 Element Desktop related TODO list:
 1. command line argument
 2. open element of type "dmovie"
+3. showcase function
 
 Other TODO list:
 1. re-add last played file history, but should have a UI mode similiar to gedit's recent files.

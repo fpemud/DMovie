@@ -202,21 +202,15 @@ Rectangle {
         return file_path.indexOf("file://") != -1 ? file_path.substring(7) : file_path
     }
 
-    function playPaths(pathList) {
-        var pathList = JSON.parse(pathList)
-        var pathsExceptUrls = new Array()
-        var firstIsUrl = false
-        for (var i = 0; i < pathList.length; i++) {
-            if (!_utils.urlIsNativeFile(pathList[i])) {
-                if (i == 0) {
-                    movieInfo.movie_file = pathList[i]
-                    firstIsUrl = true
-                }
-            } else {
-                pathsExceptUrls.push(pathList[i])
-            }
+    function playPath(path) {
+        path = JSON.parse(path)
+
+        if (!_utils.fileIsValidVideo(path)) {
+            notifybar.show(dsTr("Invalid file") + ": " + path)
+            return
         }
-        main_controller.playPaths(pathsExceptUrls, !firstIsUrl)
+
+        movieInfo.movie_file = path
     }
 
     function showControls() {

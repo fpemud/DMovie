@@ -36,13 +36,16 @@ import os
 import sys
 import json
 import signal
+import argparse
 import weakref
 
 from PyQt5.QtCore import Qt, QUrl, QTranslator, QLocale, QLibraryInfo
+from PyQt5.QtCore import QCommandLineParser, QCommandLineOption
 from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QApplication
 
-from constant import PROJECT_NAME, MAIN_QML
+from constant import PROJECT_NAME, PROJECT_VERSION
+from constant import MAIN_QML
 
 if os.name == 'posix':
     QCoreApplication.setAttribute(Qt.AA_X11InitThreads, True)
@@ -51,8 +54,8 @@ appTranslator = QTranslator()
 translationsPath = "qt_" + QLocale.system().name()
 appTranslator.load("qt_zh_CN.qm", QLibraryInfo.location(QLibraryInfo.TranslationsPath))
 app = QApplication(sys.argv)
-app.setApplicationName(PROJECT_NAME)
-app.setApplicationVersion("2.1")
+QApplication.setApplicationName(PROJECT_NAME)
+QApplication.setApplicationVersion(PROJECT_VERSION)
 app.installTranslator(appTranslator)
 app.setQuitOnLastWindowClosed(True)
 
@@ -62,11 +65,10 @@ from config import config
 from movie_info import movie_info
 from utils import utils, FindVideoThreadManager
 from menu_controller import MenuController
+from dbus_services import (DeepinMovieServie, check_multiple_instances,
+                           DeepinMovieInterface, session_bus, DBUS_PATH)
 
 if __name__ == "__main__":
-    from dbus_services import (DeepinMovieServie, check_multiple_instances,
-                               DeepinMovieInterface, session_bus, DBUS_PATH)
-
     result = check_multiple_instances()
     if result:
         dbus_service = DeepinMovieServie(app)
@@ -76,6 +78,14 @@ if __name__ == "__main__":
             dbus_interface = DeepinMovieInterface()
             dbus_interface.play(json.dumps(sys.argv[1:]))
             os._exit(0)
+
+    parser = QCommandLineParser()
+    parser.setApplicationDescription(PROJECT_NAME)
+    parser.addHelpOption()
+    parser.addVersionOption()
+    parser.addOption(QCommandLineOption("full-screen", "Play in full screen mode"))
+    parser.addPositionalArgument("element", "Element path")
+    parser.process(app)
 
     windowView = Window(result or len(sys.argv) > 1)
     menu_controller = MenuController(windowView)
@@ -95,7 +105,8 @@ if __name__ == "__main__":
     windowView.setSource(QUrl.fromLocalFile(MAIN_QML))
     windowView.initWindowSize()
     windowView.show()
-    windowView.play(json.dumps(sys.argv[1:]))
+    if len(parser.positionalArguments()) > 0:
+        windowView.play(parser.positionalArguments()[0])
 
     windowView.windowStateChanged.connect(windowView.rootObject().monitorWindowState)
     app.lastWindowClosed.connect(windowView.rootObject().monitorWindowClose)

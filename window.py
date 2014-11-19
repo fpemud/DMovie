@@ -113,16 +113,8 @@ class Window(QQuickView):
         return WINDOW_GLOW_RADIUS
 
     @pyqtSlot(str)
-    def play(self, pathList):
-        paths = json.loads(pathList)
-        realPathList = []
-        for path in paths:
-            realpath = os.path.realpath(path)
-            if os.path.exists(realpath):
-                realPathList.append(realpath)
-            else:
-                realPathList.append(path)
-        self.rootObject().playPaths(json.dumps(realPathList))
+    def play(self, path):
+        self.rootObject().playPath(json.dumps(path))
 
     @pyqtSlot(int)
     def setDeepinWindowShadowHint(self, width):
