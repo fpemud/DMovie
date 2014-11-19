@@ -69,6 +69,14 @@ from dbus_services import (DeepinMovieServie, check_multiple_instances,
                            DeepinMovieInterface, session_bus, DBUS_PATH)
 
 if __name__ == "__main__":
+    parser = QCommandLineParser()
+    parser.setApplicationDescription(PROJECT_NAME)
+    parser.addHelpOption()
+    parser.addVersionOption()
+    parser.addOption(QCommandLineOption("full-screen", "Play in full screen mode"))
+    parser.addPositionalArgument("element", "Element path")
+    parser.process(app)
+
     result = check_multiple_instances()
     if result:
         dbus_service = DeepinMovieServie(app)
@@ -79,21 +87,12 @@ if __name__ == "__main__":
             dbus_interface.play(json.dumps(sys.argv[1:]))
             os._exit(0)
 
-    parser = QCommandLineParser()
-    parser.setApplicationDescription(PROJECT_NAME)
-    parser.addHelpOption()
-    parser.addVersionOption()
-    parser.addOption(QCommandLineOption("full-screen", "Play in full screen mode"))
-    parser.addPositionalArgument("element", "Element path")
-    parser.process(app)
-
     windowView = Window(result or len(sys.argv) > 1)
     menu_controller = MenuController(windowView)
     findVideoThreadManager = FindVideoThreadManager()
     app._extra_window = weakref.ref(windowView)
 
     qml_context = windowView.rootContext()
-
     qml_context.setContextProperty("config", config)
     qml_context.setContextProperty("_utils", utils)
     qml_context.setContextProperty("_findVideoThreadManager", findVideoThreadManager)

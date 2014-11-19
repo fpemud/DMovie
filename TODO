@@ -10,3 +10,6 @@ Other TODO list:
 4. remove deepin-menu dependence
 5. polish the main-menu, use DMenu/DMenuItem?
 6. fix "libpng warning: iCCP: known incorrect sRGB profile"
+7. move all the source code into "src" directory
+8. fix program name in command line help
+9. remove DeepInShadowHint?
