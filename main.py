@@ -38,18 +38,20 @@ import json
 import signal
 import weakref
 
-from PyQt5 import QtCore
+from PyQt5.QtCore import Qt, QUrl, QTranslator, QLocale, QLibraryInfo
 from PyQt5.QtCore import QCoreApplication
-if os.name == 'posix':
-    QCoreApplication.setAttribute(QtCore.Qt.AA_X11InitThreads, True)
-
-# from PyQt5.QtGui import QFont
-from PyQt5.QtCore import QTranslator, QLocale, QLibraryInfo
 from PyQt5.QtWidgets import QApplication
+
+from constant import PROJECT_NAME, MAIN_QML
+
+if os.name == 'posix':
+    QCoreApplication.setAttribute(Qt.AA_X11InitThreads, True)
+
 appTranslator = QTranslator()
 translationsPath = "qt_" + QLocale.system().name()
 appTranslator.load("qt_zh_CN.qm", QLibraryInfo.location(QLibraryInfo.TranslationsPath))
 app = QApplication(sys.argv)
+app.setApplicationName(PROJECT_NAME)
 app.setApplicationVersion("2.1")
 app.installTranslator(appTranslator)
 app.setQuitOnLastWindowClosed(True)
@@ -59,7 +61,6 @@ from database import database
 from config import config
 from movie_info import movie_info
 from utils import utils, FindVideoThreadManager
-from constant import MAIN_QML
 from menu_controller import MenuController
 
 if __name__ == "__main__":
@@ -91,7 +92,7 @@ if __name__ == "__main__":
     qml_context.setContextProperty("movieInfo", movie_info)
     qml_context.setContextProperty("_menu_controller", menu_controller)
 
-    windowView.setSource(QtCore.QUrl.fromLocalFile(MAIN_QML))
+    windowView.setSource(QUrl.fromLocalFile(MAIN_QML))
     windowView.initWindowSize()
     windowView.show()
     windowView.play(json.dumps(sys.argv[1:]))
