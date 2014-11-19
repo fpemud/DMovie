@@ -26,8 +26,7 @@ import subprocess
 from ConfigParser import ConfigParser
 
 import magic
-md = magic.open(magic.MAGIC_MIME_TYPE)
-md.load()
+md = magic.Magic(mime=True)
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, pyqtProperty
@@ -101,13 +100,13 @@ def sortSeries(serieName, series):
 def getFileMimeType(filename):
     result = None
     try:
-        result = md.file(filename)
+        result = md.from_file(filename)
     except Exception:
         try:
-            result = md.file(filename.encode("utf-8"))
+            result = md.from_file(filename.encode("utf-8"))
         except Exception:
             try:
-                result = md.file(filename.encode("gbk"))
+                result = md.from_file(filename.encode("gbk"))
             except Exception:
                 pass
     return result
