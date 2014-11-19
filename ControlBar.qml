@@ -13,11 +13,9 @@ DragableArea {
     property alias percentage: progressbar.percentage
     property alias videoPlaying: play_pause_button.checkFlag
     property alias muted: volume_button.muted
-    property alias widthHeightScale: videoPreview.widthHeightScale
     property alias dragbarVisible: drag_point.visible
     property alias windowFullscreenState: toggle_fullscreen_button.checkFlag
     property alias status: buttonArea.state
-    property bool previewHasVideo: false
 
     property QtObject tooltipItem
 
@@ -47,41 +45,6 @@ DragableArea {
         play_pause_button.checkFlag = false
     }
 
-    function showPreview(mouseX, percentage, mode) {
-        if (config.playerShowPreview) {
-            videoPreview.state = mode
-            if (control_bar.previewHasVideo && videoPreview.source != "" && movieInfo.movie_duration != 0) {
-                videoPreview.visible = true
-                videoPreview.x = Math.min(Math.max(mouseX - videoPreview.width / 2, 0),
-                                          width - videoPreview.width)
-                videoPreview.y = progressbar.y - videoPreview.height - 10
-
-                if (mouseX <= videoPreview.cornerWidth / 2) {
-                    videoPreview.cornerPos = mouseX + videoPreview.cornerWidth / 2
-                    videoPreview.cornerType = "left"
-                } else if (mouseX >= width - videoPreview.cornerWidth / 2) {
-                    videoPreview.cornerPos = mouseX - width + videoPreview.width - videoPreview.cornerWidth / 2
-                    videoPreview.cornerType = "right"
-                } else if (mouseX < videoPreview.width / 2) {
-                    videoPreview.cornerPos = mouseX
-                    videoPreview.cornerType = "center"
-                } else if (mouseX >= width - videoPreview.width / 2) {
-                    videoPreview.cornerPos = mouseX - width + videoPreview.width
-                    videoPreview.cornerType = "center"
-                } else {
-                    videoPreview.cornerPos = videoPreview.width / 2
-                    videoPreview.cornerType = "center"
-                }
-                videoPreview.seek(percentage)
-            }
-        }
-    }
-
-    function flipPreviewHorizontal() { videoPreview.flipHorizontal() }
-    function flipPreviewVertical() { videoPreview.flipVertical() }
-    function rotatePreviewClockwise() { videoPreview.rotateClockwise() }
-    function rotatePreviewAntilockwise() { videoPreview.rotateAnticlockwise() }
-
     function emulateVolumeButtonHover() { volume_button.emulateHover() }
 
     LinearGradient {
@@ -108,22 +71,13 @@ DragableArea {
             id: progressbar
             width: control_bar.width
 
-            onWidthChanged: { progressbar.update() }
-
-            Preview {
-                id: videoPreview
-                source: movieInfo.movie_file
-                visible: false
+            onWidthChanged: {
+                progressbar.update()
             }
 
-            onMouseOver: { control_bar.showPreview(mouseX, percentage,  "normal") }
-            onMouseDrag: { control_bar.showPreview(mouseX, percentage, "minimal") }
-
-            onMouseExit: {
-                videoPreview.visible = false
+            onPercentageSet: {
+                control_bar.percentageSet(percentage)
             }
-
-            onPercentageSet: control_bar.percentageSet(percentage)
         }
 
         Item {

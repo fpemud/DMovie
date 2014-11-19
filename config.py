@@ -39,7 +39,6 @@ DEFAULT_CONFIG = [
                 ("fullscreenOnOpenFile", False),
                 ("autoPlayFromLast", True),
                 ("autoPlaySeries", True),
-                ("showPreview", True),
                 ("forwardRewindStep", 5.0),
                 ("multipleProgramsAllowed", False),
                 ("notificationsEnabled", True),

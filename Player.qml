@@ -19,8 +19,6 @@ Video {
     property real subtitleVerticalPosition: 0.2
     property int subtitleDelay: 0
 
-    property bool isPreview: false
-
     function flipHorizontal() {
         if (flip.axis.y == 1) {
             flip.axis.y = 0
@@ -69,7 +67,7 @@ Video {
     }
 
     // onPlaying: { pause_notify.visible = false }
-    // onPaused: { if(!isPreview) pause_notify.visible = true }
+    // onPaused: { pause_notify.visible = true }
 
     // PauseNotify { 
     //     id: pause_notify

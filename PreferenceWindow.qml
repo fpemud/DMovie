@@ -194,11 +194,6 @@ DPreferenceWindow {
                 onClicked: config.playerAutoPlaySeries = checked
             }
             DCheckBox {
-                text: dsTr("Show preview when hovering over progress bar")
-                checked: config.playerShowPreview
-                onClicked: config.playerShowPreview = checked
-            }
-            DCheckBox {
                 text: dsTr("Allow multiple instances")
                 checked: config.playerMultipleProgramsAllowed
                 onClicked: config.playerMultipleProgramsAllowed = checked

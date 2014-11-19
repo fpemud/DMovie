@@ -482,8 +482,6 @@ Rectangle {
         volume: config.playerVolume
         percentage: player.position / movieInfo.movie_duration
         muted: config.playerMuted
-        widthHeightScale: root.widthHeightScale
-        previewHasVideo: player.hasVideo
         dragbarVisible: root.state == "normal"
         timeInfoVisible: player.source != "" && player.hasMedia && movieInfo.movie_duration != 0
         tooltipItem: tooltip

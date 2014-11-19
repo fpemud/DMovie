@@ -315,17 +315,15 @@ MouseArea {
         windowView.staysOnTop = !windowView.staysOnTop
     }
 
-    function flipHorizontal() { player.flipHorizontal(); controlbar.flipPreviewHorizontal() }
-    function flipVertical() { player.flipVertical(); controlbar.flipPreviewVertical() }
+    function flipHorizontal() { player.flipHorizontal() }
+    function flipVertical() { player.flipVertical() }
     function rotateClockwise() {
         player.rotateClockwise()
-        controlbar.rotatePreviewClockwise()
         movieInfo.rotate()
         database.record_video_rotation(player.source, player.orientation)
     }
     function rotateAnticlockwise() {
         player.rotateAnticlockwise()
-        controlbar.rotatePreviewAntilockwise()
         movieInfo.rotate()
         database.record_video_rotation(player.source, player.orientation)
     }
