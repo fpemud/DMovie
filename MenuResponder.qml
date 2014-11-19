@@ -6,18 +6,6 @@ import QtQuick 2.1
 Connections {
     target: _menu_controller
 
-    onClockwiseRotate: {
-        main_controller.rotateClockwise()
-    }
-    onAntiClosewiseRotate: {
-        main_controller.rotateAnticlockwise()
-    }
-    onFlipHorizontal: {
-        main_controller.flipHorizontal()
-    }
-    onFlipVertical: {
-        main_controller.flipVertical()
-    }
     onToggleFullscreen: {
         main_controller.toggleFullscreen()
     }

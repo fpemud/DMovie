@@ -53,8 +53,6 @@ DEFAULT_CONFIG = [
                      ("restoreSpeed", "R")]),
     ("HotkeysFrameSound", [("hotkeyEnabled", True),
                            ("toggleMiniMode", "F2"),
-                           ("rotateClockwise", "W"),
-                           ("rotateAnticlockwise", "E"),
                            ("increaseVolume", "Up"),
                            ("decreaseVolume", "Down"),
                            ("toggleMute", "M"), ]),

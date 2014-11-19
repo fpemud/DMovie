@@ -4,10 +4,6 @@ import QtQuick.Controls 1.2
 Menu {
     id: rightClickMenu
 
-//    signal clockwiseRotate()
-//    signal antiClosewiseRotate()
-//    signal flipHorizontal()
-//    signal flipVertical()
 //    signal toggleFullscreen()
 //    signal toggleMiniMode()
 //    signal screenShot()
@@ -163,31 +159,6 @@ Menu {
             text: "2"
             checkable: true
             exclusiveGroup: _frame_s
-        }
-
-        MenuSeparator {
-        }
-
-        MenuItem {
-            id: _turn_right
-            text: "Rotate 90 degree clockwise"
-            shortcut: config.hotkeysFrameSoundRotateClockwise
-        }
-
-        MenuItem {
-            id: _turn_left
-            text: "Rotate 90 degree counterclockwise"
-            shortcut: config.hotkeysFrameSoundRotateAnticlockwise
-        }
-
-        MenuItem {
-            id: _flip_horizontal
-            text: "Flip horizontally"
-        }
-
-        MenuItem {
-            id: _flip_vertial
-            text: "Flip vertically"
         }
     }
 

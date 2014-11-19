@@ -93,14 +93,6 @@ DWindow {
                             shortcut: config.hotkeysFrameSoundToggleMiniMode+"" || dsTr("Disabled")
                         }
                         ShortcutsLabel {
-                            title: dsTr("Rotate counterclockwise")
-                            shortcut: config.hotkeysFrameSoundRotateAnticlockwise+"" || dsTr("Disabled")
-                        }
-                        ShortcutsLabel {
-                            title: dsTr("Rotate clockwise")
-                            shortcut: config.hotkeysFrameSoundRotateClockwise+"" || dsTr("Disabled")
-                        }
-                        ShortcutsLabel {
                             title: dsTr("Volume up")
                             shortcut: config.hotkeysFrameSoundIncreaseVolume+"" || dsTr("Disabled")
                         }

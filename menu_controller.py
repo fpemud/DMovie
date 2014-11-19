@@ -41,11 +41,6 @@ frame_sub_menu = [
     CheckableMenuItem("scale:radio:_s_1", "1", True),
     CheckableMenuItem("scale:radio:_s_1_5", "1.5"),
     CheckableMenuItem("scale:radio:_s_2", "2"),
-    None,
-    ("_turn_right", _("Rotate 90 degree clockwise"), (), (), config.hotkeysFrameSoundRotateClockwise),
-    ("_turn_left", _("Rotate 90 degree counterclockwise"), (), (), config.hotkeysFrameSoundRotateAnticlockwise),
-    ("_flip_horizontal", _("Flip horizontally")),
-    ("_flip_vertial", _("Flip vertically")),
 ]
 
 sound_sub_menu = [
@@ -112,10 +107,6 @@ def _subtitle_file_from_menu_item_id(id):
 
 class MenuController(QObject):
 
-    clockwiseRotate = pyqtSignal()
-    antiClosewiseRotate = pyqtSignal()
-    flipHorizontal = pyqtSignal()
-    flipVertical = pyqtSignal()
     toggleFullscreen = pyqtSignal()
     toggleMiniMode = pyqtSignal()
     screenShot = pyqtSignal()
@@ -147,15 +138,7 @@ class MenuController(QObject):
     # items are clicked, we just change the configuration, config.py will takes
     # care of it for you .
     def _menu_item_invoked(self, _id, _checked):
-        if _id == "_turn_right":
-            self.clockwiseRotate.emit()
-        elif _id == "_turn_left":
-            self.antiClosewiseRotate.emit()
-        elif _id == "_flip_horizontal":
-            self.flipHorizontal.emit()
-        elif _id == "_flip_vertial":
-            self.flipVertical.emit()
-        elif _id == "_fullscreen_quit":
+        if _id == "_fullscreen_quit":
             self.toggleFullscreen.emit()
         elif _id == "_screenshot":
             self.screenShot.emit()

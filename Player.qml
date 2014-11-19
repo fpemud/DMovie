@@ -4,7 +4,6 @@ import QtMultimedia 5.0
 Video {
     id: video
     autoPlay: false
-    transform: flip
     visible: playbackState != MediaPlayer.StoppedState
 
     property bool hasMedia: hasVideo || hasAudio
@@ -18,53 +17,6 @@ Video {
     property alias subtitleShow: subtitle.visible
     property real subtitleVerticalPosition: 0.2
     property int subtitleDelay: 0
-
-    function flipHorizontal() {
-        if (flip.axis.y == 1) {
-            flip.axis.y = 0
-        } else {
-            if (flip.axis.x == 1) {
-                flip.axis.x = 0
-                video.orientation -= 180
-            } else {
-                flip.axis.y = 1
-            }
-        }
-    }
-
-    function flipVertical() {
-        if (flip.axis.x == 1) {
-            flip.axis.x = 0
-        } else {
-            if (flip.axis.y == 1) {
-                flip.axis.y = 0
-                video.orientation -= 180
-            } else {
-                flip.axis.x = 1
-            }
-        }
-    }
-
-    function rotateClockwise() { video.orientation -= 90 }
-    function rotateAnticlockwise() { video.orientation += 90 }
-
-    function resetRotationFlip() {
-        video.orientation = 0
-        flip.axis.x = 0
-        flip.axis.y = 0
-        flip.axis.z = 0
-        flip.angle = 180
-    }
-
-    Rotation { 
-        id: flip
-        origin.x: width / 2
-        origin.y: height / 2
-        axis.x: 0
-        axis.y: 0
-        axis.z: 0
-        angle: 180
-    }
 
     // onPlaying: { pause_notify.visible = false }
     // onPaused: { pause_notify.visible = true }

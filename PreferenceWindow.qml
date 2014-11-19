@@ -434,48 +434,6 @@ DPreferenceWindow {
                 onHotkeyCancelled: { setShortcut(config.hotkeysFrameSoundToggleMiniMode) }
             }
             HotKeyInputRow {
-                title: dsTr("Rotate counterclockwise")
-                hotKey: config.hotkeysFrameSoundRotateAnticlockwise+"" || dsTr("Disabled")
-                actualSettingEntry: "hotkeysFrameSoundRotateAnticlockwise"
-
-                onHotkeySet: {
-                    var checkResult = preference_view.checkShortcutsDuplication(title, text)
-                    if (checkResult != null) {
-                        warning(checkResult[0], checkResult[1])
-                    } else {
-                        setShortcut(text)
-                    }
-                }
-
-                onHotkeyReplaced: {
-                    preference_view.disableShortcut(title, text)
-                    setShortcut(text)
-                }
-
-                onHotkeyCancelled: { setShortcut(config.hotkeysFrameSoundRotateAnticlockwise) }
-            }
-            HotKeyInputRow {
-                title: dsTr("Rotate clockwise")
-                hotKey: config.hotkeysFrameSoundRotateClockwise+"" || dsTr("Disabled")
-                actualSettingEntry: "hotkeysFrameSoundRotateClockwise"
-
-                onHotkeySet: {
-                    var checkResult = preference_view.checkShortcutsDuplication(title, text)
-                    if (checkResult != null) {
-                        warning(checkResult[0], checkResult[1])
-                    } else {
-                        setShortcut(text)
-                    }
-                }
-
-                onHotkeyReplaced: {
-                    preference_view.disableShortcut(title, text)
-                    setShortcut(text)
-                }
-
-                onHotkeyCancelled: { setShortcut(config.hotkeysFrameSoundRotateClockwise) }
-            }
-            HotKeyInputRow {
                 title: dsTr("Volume up")
                 hotKey: config.hotkeysFrameSoundIncreaseVolume+"" || dsTr("Disabled")
                 actualSettingEntry: "hotkeysFrameSoundIncreaseVolume"

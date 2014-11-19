@@ -257,7 +257,6 @@ Rectangle {
 
     /* to perform like a newly started program  */
     function reset() {
-        player.resetRotationFlip()
         root.state = "normal"
         titlebar.title = ""
         movieInfo.movie_file = ""
@@ -296,7 +295,6 @@ Rectangle {
         _utils.screenSaverUninhibit()
         config.save("Normal", "volume", player.volume)
         database.record_video_position(player.source, player.position)
-        database.record_video_rotation(player.source, player.orientation)
         database.lastWindowWidth = windowView.width
         database.forceCommit()
     }
@@ -396,13 +394,6 @@ Rectangle {
         }
 
         onSourceChanged: {
-            resetRotationFlip()
-
-            var rotation = database.fetch_video_rotation(source)
-            var rotateClockwiseCount = Math.abs(Math.round((rotation % 360 - 360) % 360 / 90))
-            for (var i = 0; i < rotateClockwiseCount; i++) {
-                main_controller.rotateClockwise()
-            }
         }
 
         onErrorChanged: {

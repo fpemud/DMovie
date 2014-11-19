@@ -62,17 +62,6 @@ class Database(QObject):
         movieInfo = json.loads(self.getMovieInfo(video_path))
         return int(movieInfo.get("position", 0))
 
-    @pyqtSlot(str, int)
-    def record_video_rotation(self, video_path, video_rotation):
-        movieInfo = json.loads(self.getMovieInfo(video_path))
-        movieInfo["rotation"] = video_rotation
-        self.updateMovieInfo(video_path, json.dumps(movieInfo))
-
-    @pyqtSlot(str, result=int)
-    def fetch_video_rotation(self, video_path):
-        movieInfo = json.loads(self.getMovieInfo(video_path))
-        return int(movieInfo.get("rotation", 0))
-
     def getValue(self, key):
         self.video_db_cursor.execute(
             "SELECT value FROM settings WHERE key=?", (key,)
