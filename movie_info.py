@@ -31,7 +31,6 @@ from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 from subtitles import Parser, SUPPORTED_FILE_TYPES
 from constant import DEFAULT_WIDTH, DEFAULT_HEIGHT, WINDOW_GLOW_RADIUS
 from media_info import parse_info
-from logger import logger
 from i18n import _
 from utils import utils
 
@@ -137,7 +136,6 @@ class MovieInfo(QObject):
 
     @movie_file.setter
     def movie_file(self, filepath):
-        logger.info("set movie_file %s" % filepath)
         self.filepath = filepath
 
         self._parseFile(filepath)
