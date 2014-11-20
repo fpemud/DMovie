@@ -13,3 +13,5 @@ Other TODO list:
 7. move all the source code into "src" directory
 8. fix program name in command line help
 9. remove DeepInShadowHint?
+10. change install path from /usr/share/dmovie to /usr/lib/DMovie
+11. fix the Ctrl+C processing

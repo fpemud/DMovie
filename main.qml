@@ -190,14 +190,13 @@ Rectangle {
     }
 
     function playPath(path) {
-        path = JSON.parse(path)
+        // if (!_utils.fileIsValidVideo(path)) {
+        //     notifybar.show(dsTr("Invalid file") + ": " + path)
+        //     return
+        // }
 
-        if (!_utils.fileIsValidVideo(path)) {
-            notifybar.show(dsTr("Invalid file") + ": " + path)
-            return
-        }
-
-        movieInfo.set_element_dmovie(path)
+        console.log(JSON.parse(path))
+        movieInfo.set_element_dmovie(JSON.parse(path))
     }
 
     function showControls() {
