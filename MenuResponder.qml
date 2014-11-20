@@ -28,8 +28,6 @@ Connections {
         }
     }
 
-    onOpenSubtitleFile: { main_controller.openFileForSubtitle() }
-
     onSubtitleSelected: movieInfo.subtitle_file = subtitle
 
     onShowPreference: { preference_window.show() }

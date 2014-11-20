@@ -104,5 +104,3 @@ class Database(QObject):
     def lastWindowWidth(self, value):
         self.setValue("last_window_width", value)
         self.lastWindowWidthChanged.emit(value)
-
-database = Database()

@@ -23,7 +23,7 @@
 import os
 import glob
 import json
-#import elemlib
+import elemlib
 
 from PyQt5.QtCore import QObject
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
@@ -67,25 +67,34 @@ class MovieInfo(QObject):
 
     fileInvalid = pyqtSignal()
 
-    def __init__(self, filepath=""):
+    def __init__(self):
         QObject.__init__(self)
 
-        self.media_info = None
-        self.movie_file = filepath
         self.elem_obj = None
+        self.movie_file = ""
+        self.media_info = None
 
-    def set_dmovie_element(self, element_path):
+    def close(self):
         if self.elem_obj is not None:
             self.elem_obj.close()
 
-        #self.elem_obj = elemlib.open_element(element_path, "r")
+        self.media_info = None
+        self.movie_file = ""
+        self.elem_obj = None
 
-    def parseFile(self, filepath):
-        filepath = filepath.replace("file://", "")
-        if os.path.exists(filepath):
-            self.media_info = parse_info(filepath)
-        else:
-            self.media_info = {}
+    @pyqtSlot(str)
+    def set_element_dmovie(self, element_path):
+        self.close()
+
+        self.elem_obj = elemlib.open_element(element_path, "ro")
+
+        for fbasename in os.listdir(element_path):
+            fname = os.path.join(element_path, fbasename)
+            if utils.fileIsValidVideo(fname):
+                self.movie_file = fname
+                break
+        if self.movie_file == "":
+            raise Exception("No valid video file")
 
     @pyqtProperty(int, notify=movieDurationChanged)
     def movie_duration(self):
@@ -105,8 +114,7 @@ class MovieInfo(QObject):
 
     @pyqtProperty(str, notify=movieTitleChanged)
     def movie_title(self):
-        return os.path.basename(self.filepath) \
-            if utils.urlIsNativeFile(self.filepath) else self.filepath
+        return self.elem_obj.get_info().get_name()
 
     @pyqtProperty(str, notify=movieTypeChanged)
     def movie_type(self):
@@ -132,7 +140,7 @@ class MovieInfo(QObject):
         logger.info("set movie_file %s" % filepath)
         self.filepath = filepath
 
-        self.parseFile(filepath)
+        self._parseFile(filepath)
         self.media_width = self.media_info.get("video_width") or DEFAULT_WIDTH
         self.media_height = self.media_info.get("video_height") or DEFAULT_HEIGHT
         self.media_duration = self.media_info.get("general_duration") or 0
@@ -172,3 +180,10 @@ class MovieInfo(QObject):
             "movie_duration": self.movie_duration
         }
         return json.dumps(result)
+
+    def _parseFile(self, filepath):
+        filepath = filepath.replace("file://", "")
+        if os.path.exists(filepath):
+            self.media_info = parse_info(filepath)
+        else:
+            self.media_info = {}

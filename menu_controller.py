@@ -116,7 +116,6 @@ class MenuController(QObject):
     staysOnTop = pyqtSignal(bool, arguments=["onTop"])
     showPreference = pyqtSignal()
     showMovieInformation = pyqtSignal()
-    openSubtitleFile = pyqtSignal()
     subtitleSelected = pyqtSignal(str, arguments=["subtitle"])
     playForward = pyqtSignal()
     playBackward = pyqtSignal()
@@ -183,8 +182,6 @@ class MenuController(QObject):
             config.playerMuted = _checked
         elif _id == "_subtitle_hide":
             self._window.subtitleVisible = not _checked
-        elif _id == "_subtitle_manual":
-            self.openSubtitleFile.emit()
         elif _id.startswith("_subtitles:radio"):
             self.subtitleSelected.emit(_subtitle_file_from_menu_item_id(_id))
         elif _id == "_play_operation_forward":

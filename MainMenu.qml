@@ -13,7 +13,6 @@ Menu {
 //    signal staysOnTop(bool onTop)
 //    signal showPreference()
 //    signal showMovieInformation()
-//    signal openSubtitleFile()
 //    signal subtitleSelected(string subtitle)
 //    signal playForward()
 //    signal playBackward()

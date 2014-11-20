@@ -84,17 +84,6 @@ MouseArea {
         }
     }
 
-    property bool shouldPlayThefirst: true
-    Connections {
-        target: _findVideoThreadManager
-
-        onFindVideoDone: {
-            main_controller.shouldPlayThefirst && (movieInfo.movie_file = path)
-
-            invalidCount > 0 && notifybar.show(dsTr("%1 files unable to be parsed have been excluded").arg(invalidCount))
-        }
-    }
-
     Timer {
         id: seek_to_last_watched_timer
         interval: 500
@@ -398,31 +387,26 @@ MouseArea {
         setMute(!player.muted)
     }
 
-    function openFile() { open_file_dialog.state = "open_video_file"; open_file_dialog.open() }
+    function openFile() { open_file_dialog.open() }
     function openUrl() { open_url_dialog.open() }
-    function openFileForSubtitle() { open_file_dialog.state = "open_subtitle_file"; open_file_dialog.open() }
 
     // playPaths is not quit perfect here, whether the play operation will
     // be performed is decided by the playFirst parameter.
-    function playPaths(pathList, playFirst) {
-        var paths = []
-        for (var i = 0; i < pathList.length; i++) {
-            var file_path = pathList[i].toString().replace("file://", "")
-            file_path = decodeURIComponent(file_path)
-            paths.push(file_path)
+    function playPaths(pathList) {
+        if (pathList.length != 1) {
+            notifybar.show(dsTr("Multiple paths"))
+            return
         }
 
-        if (paths.length == 1 && !_utils.pathIsDir(paths[0])) {
-            if (!_utils.fileIsValidVideo(paths[0])) {
-                notifybar.show(dsTr("Invalid file") + ": " + paths[0])
-            }
-            if (playFirst) {
-                movieInfo.movie_file = paths[0]
-            }
-        } else {
-            main_controller.shouldPlayThefirst = playFirst
-            _findVideoThreadManager.getAllVideoFilesInPathList(paths)
-        }
+        var file_path = pathList[0].toString().replace("file://", "")
+        file_path = decodeURIComponent(file_path)
+
+        //if (!_utils.fileIsValidVideo(file_path)) {
+        //    notifybar.show(dsTr("Invalid file") + ": " + file_path)
+        //    return
+        //}
+
+        movieInfo.set_element_dmovie(file_path)
     }
 
     function setSubtitleVerticalPosition(percentage) {

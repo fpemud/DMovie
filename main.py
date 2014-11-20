@@ -59,57 +59,65 @@ app.installTranslator(appTranslator)
 app.setQuitOnLastWindowClosed(True)
 
 from window import Window
-from database import database
+from database import Database
 from config import config
 from movie_info import MovieInfo
-from utils import utils, FindVideoThreadManager
+from utils import utils
 from menu_controller import MenuController
 from dbus_services import (DeepinMovieServie, check_multiple_instances,
                            DeepinMovieInterface, session_bus, DBUS_PATH)
 
 if __name__ == "__main__":
-    parser = QCommandLineParser()
-    parser.setApplicationDescription(PROJECT_NAME)
-    parser.addHelpOption()
-    parser.addVersionOption()
-    parser.addOption(QCommandLineOption("full-screen", "Play in full screen mode"))
-    parser.addPositionalArgument("element", "Element path")
-    parser.process(app)
+    windowView = None
+    menu_controller = None
+    database = None
+    movie_info = None
 
-    result = check_multiple_instances()
-    if result:
-        dbus_service = DeepinMovieServie(app)
-        session_bus.registerObject(DBUS_PATH, dbus_service)
-    else:
-        if not config.playerMultipleProgramsAllowed:
-            dbus_interface = DeepinMovieInterface()
-            dbus_interface.play(json.dumps(sys.argv[1:]))
-            os._exit(0)
+    try:
+        parser = QCommandLineParser()
+        parser.setApplicationDescription(PROJECT_NAME)
+        parser.addHelpOption()
+        parser.addVersionOption()
+        parser.addOption(QCommandLineOption("full-screen", "Play in full screen mode"))
+        parser.addPositionalArgument("element", "Element path")
+        parser.process(app)
 
-    windowView = Window(result or len(sys.argv) > 1)
-    menu_controller = MenuController(windowView)
-    movie_info = MovieInfo()
-    findVideoThreadManager = FindVideoThreadManager()
-    app._extra_window = weakref.ref(windowView)
+        result = check_multiple_instances()
+        if result:
+            dbus_service = DeepinMovieServie(app)
+            session_bus.registerObject(DBUS_PATH, dbus_service)
+        else:
+            if not config.playerMultipleProgramsAllowed:
+                dbus_interface = DeepinMovieInterface()
+                dbus_interface.play(json.dumps(sys.argv[1:]))
+                os._exit(0)
 
-    qml_context = windowView.rootContext()
-    qml_context.setContextProperty("config", config)
-    qml_context.setContextProperty("_utils", utils)
-    qml_context.setContextProperty("_findVideoThreadManager", findVideoThreadManager)
-    qml_context.setContextProperty("database", database)
-    qml_context.setContextProperty("windowView", windowView)
-    qml_context.setContextProperty("movieInfo", movie_info)
-    qml_context.setContextProperty("_menu_controller", menu_controller)
+        windowView = Window(result or len(sys.argv) > 1)
+        menu_controller = MenuController(windowView)
+        database = Database()
+        movie_info = MovieInfo()
+        app._extra_window = weakref.ref(windowView)
 
-    windowView.setSource(QUrl.fromLocalFile(MAIN_QML))
-    windowView.initWindowSize()
-    windowView.show()
-    if len(parser.positionalArguments()) > 0:
-        windowView.play(parser.positionalArguments()[0])
+        qml_context = windowView.rootContext()
+        qml_context.setContextProperty("config", config)
+        qml_context.setContextProperty("_utils", utils)
+        qml_context.setContextProperty("database", database)
+        qml_context.setContextProperty("windowView", windowView)
+        qml_context.setContextProperty("movieInfo", movie_info)
+        qml_context.setContextProperty("_menu_controller", menu_controller)
 
-    windowView.windowStateChanged.connect(windowView.rootObject().monitorWindowState)
-    app.lastWindowClosed.connect(windowView.rootObject().monitorWindowClose)
-    app.focusWindowChanged.connect(windowView.focusWindowChangedSlot)
+        windowView.setSource(QUrl.fromLocalFile(MAIN_QML))
+        windowView.initWindowSize()
+        windowView.show()
+        if len(parser.positionalArguments()) > 0:
+            windowView.play(parser.positionalArguments()[0])
 
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
-    sys.exit(app.exec_())
+        windowView.windowStateChanged.connect(windowView.rootObject().monitorWindowState)
+        app.lastWindowClosed.connect(windowView.rootObject().monitorWindowClose)
+        app.focusWindowChanged.connect(windowView.focusWindowChangedSlot)
+
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
+        sys.exit(app.exec_())
+    finally:
+        if movie_info is not None:
+            movie_info.close()

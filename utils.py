@@ -129,10 +129,12 @@ class FindVideoThread(QThread):
             if utils.pathIsDir(path):
                 self._process_path_list(utils.getAllFilesInDir(path))
             elif utils.fileIsValidVideo(path):
+                print "valid, %s" % (path)
                 self._first_video = self._first_video or path
                 self.videoFound.emit(path)
                 self._valid_files_count += 1
             else:
+                print "invalid, %s" % (path)
                 self._invalid_files_count += 1
 
     def run(self):
@@ -255,6 +257,7 @@ class Utils(QObject):
             file_path = file_path[7:]
         if os.path.exists(file_path):
             mime_type = getFileMimeType(file_path)
+            print "file: %s, mime: %s" % (file_path, mime_type)
             if mime_type:
                 return mime_type in all_supported_mime_types
             else:

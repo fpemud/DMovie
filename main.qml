@@ -62,25 +62,12 @@ Rectangle {
         screenSize: primaryRect
     }
 
-    OpenFileDialog {
+    OpenFolderDialog {
         id: open_file_dialog
 
         onAccepted: {
-            if (fileUrls.length > 0) {
-                if (state == "open_video_file") {
-                    database.lastOpenedPath = folder
-                    main_controller.playPaths(fileUrls, true)
-                } else if (state == "open_subtitle_file") {
-                    database.lastOpenedPath = folder
-                    var filename = fileUrls[0].toString().replace("file://", "")
-
-                    if (_utils.fileIsSubtitle(filename)) {
-                        movieInfo.subtitle_file = filename
-                    } else {
-                        notifybar.show(dsTr("Invalid file") + ": " + filename)
-                    }
-                }
-            }
+            database.lastOpenedPath = fileUrl
+            main_controller.playPaths([fileUrl], true)
         }
     }
 
@@ -106,7 +93,7 @@ Rectangle {
             if (input.search("://") == -1) {
                 notifybar.show(dsTr("The parse failed"))
             } else if (input != movieInfo.movie_file) {
-                movieInfo.movie_file = input
+                movieInfo.set_element_dmovie(input)
             }
 
             lastInput = input
@@ -210,7 +197,7 @@ Rectangle {
             return
         }
 
-        movieInfo.movie_file = path
+        movieInfo.set_element_dmovie(path)
     }
 
     function showControls() {
@@ -259,7 +246,7 @@ Rectangle {
     function reset() {
         root.state = "normal"
         titlebar.title = ""
-        movieInfo.movie_file = ""
+        movieInfo.close()
         main_controller.stop()
         controlbar.reset()
         showControls()
