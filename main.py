@@ -36,7 +36,6 @@ import os
 import sys
 import json
 import signal
-import argparse
 import weakref
 
 from PyQt5.QtCore import Qt, QUrl, QTranslator, QLocale, QLibraryInfo

@@ -25,7 +25,8 @@ import glob
 import json
 #import elemlib
 
-from PyQt5.QtCore import QObject, QThread, pyqtProperty, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QObject
+from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot
 
 from subtitles import Parser, SUPPORTED_FILE_TYPES
 from constant import DEFAULT_WIDTH, DEFAULT_HEIGHT, WINDOW_GLOW_RADIUS
@@ -162,12 +163,12 @@ class MovieInfo(QObject):
     @pyqtSlot(result=str)
     def getMovieInfo(self):
         result = {
-            "movie_title": movie_info.movie_title,
-            "movie_type": movie_info.movie_type,
-            "movie_width": movie_info.movie_width,
-            "movie_height": movie_info.movie_height,
-            "movie_path": movie_info.movie_file,
-            "movie_size": movie_info.movie_size,
-            "movie_duration": movie_info.movie_duration
+            "movie_title": self.movie_title,
+            "movie_type": self.movie_type,
+            "movie_width": self.movie_width,
+            "movie_height": self.movie_height,
+            "movie_path": self.movie_file,
+            "movie_size": self.movie_size,
+            "movie_duration": self.movie_duration
         }
         return json.dumps(result)

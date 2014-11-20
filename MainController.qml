@@ -82,8 +82,6 @@ MouseArea {
             }
             root.reset()
         }
-
-        onInfoGotten: info_window.showContent(movie_info)
     }
 
     property bool shouldPlayThefirst: true

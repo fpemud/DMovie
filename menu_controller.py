@@ -25,7 +25,6 @@ from PyQt5.QtCore import QObject, pyqtSlot, pyqtSignal, Qt
 from PyQt5.QtGui import QCursor
 from deepin_menu.menu import Menu, CheckableMenuItem
 
-from movie_info import movie_info, get_subtitle_from_movie
 from config import *
 from i18n import _
 

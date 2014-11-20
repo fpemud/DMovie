@@ -21,7 +21,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from deepin_utils import config
+from gi.repository import GLib
+
 from constant import CONFIG_DIR
 from PyQt5.QtCore import pyqtSlot, pyqtProperty, pyqtSignal, QObject
 
@@ -89,67 +90,64 @@ class Config(QObject):
         if not os.path.exists(self.config_path):
             if not os.path.exists(CONFIG_DIR):
                 os.makedirs(CONFIG_DIR)
-            self.config = config.Config(self.config_path)
-            self.config.config_parser.optionxform = str
-            self.config.default_config = DEFAULT_CONFIG
-            self.config.load_default()
-            self.config.write()
+            self.config = GLib.KeyFile()
+            self._load_default(DEFAULT_CONFIG, self.config)
+            self.config.save_to_file(self.config_path)
         else:
-            self.config = config.Config(self.config_path)
-            self.config.config_parser.optionxform = str
-            self.config.load()
+            self.config = GLib.KeyFile()
+            self.config.load_from_file(self.config_path, GLib.KeyFileFlags.NONE)
 
     @pyqtProperty("QVariant")
     def hotKeysPlay(self):
         result = []
-        for item in self.config.items("HotkeysPlay"):
+        for item in self.config.get_keys("HotkeysPlay"):
             result.append({"command": item[0], "key": item[1]})
         return result
 
     @pyqtProperty("QVariant")
     def hotkeysFrameSound(self):
         result = []
-        for item in self.config.items("HotkeysFrameSound"):
+        for item in self.config.get_keys("HotkeysFrameSound"):
             result.append({"command": item[0], "key": item[1]})
         return result
 
     @pyqtProperty("QVariant")
     def hotkeysFiles(self):
         result = []
-        for item in self.config.items("HotkeysFiles"):
+        for item in self.config.get_keys("HotkeysFiles"):
             result.append({"command": item[0], "key": item[1]})
         return result
 
     @pyqtProperty("QVariant")
     def hotkeysSubtitles(self):
         result = []
-        for item in self.config.items("HotkeysSubtitles"):
+        for item in self.config.get_keys("HotkeysSubtitles"):
             result.append({"command": item[0], "key": item[1]})
         return result
 
     @pyqtProperty("QVariant")
     def hotKeysOthers(self):
         result = []
-        for item in self.config.items("HotkeysOthers"):
+        for item in self.config.get_keys("HotkeysOthers"):
             result.append({"command": item[0], "key": item[1]})
         return result
 
     @pyqtSlot(str, str, result=str)
     def fetch(self, section, option):
-        return self.config.get(section, option)
+        return self.config.get_string(section, option)
 
     @pyqtSlot(str, str, result=float)
     def fetchFloat(self, section, option):
-        return self.config.getfloat(section, option)
+        return self.config.get_double(section, option)
 
     @pyqtSlot(str, str, result=bool)
     def fetchBool(self, section, option):
-        return self.config.getboolean(section, option)
+        return self.config.get_boolean(section, option)
 
     @pyqtSlot(str, str, str)
     def save(self, section, option, value):
-        self.config.set(section, option, value)
-        self.config.write()
+        self.config.set_value(section, option, str(value))
+        self.config.save_to_file(self.config_path)
 
     @pyqtSlot()
     def resetHotkeys(self):
@@ -158,8 +156,13 @@ class Config(QObject):
                 continue
             for key, value in items:
                 itemName = property_name_func(section, key)
-
                 setattr(config, itemName, value)
+
+    @staticmethod
+    def _load_default(config_data_struct, config):
+        for section, items in DEFAULT_CONFIG:
+            for key, value in items:
+                config.set_value(section, key, str(value))
 
     # automatically make config entries accessable as qt properties.
     for section, items in DEFAULT_CONFIG:
