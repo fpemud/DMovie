@@ -23,6 +23,7 @@
 import os
 import glob
 import json
+#import elemlib
 
 from PyQt5.QtCore import QObject, QThread, pyqtProperty, pyqtSignal, pyqtSlot
 
@@ -53,27 +54,6 @@ def get_subtitle_from_movie(movie_file):
     return result or ("",)
 
 
-class GetMovieInfoThread(QThread):
-    infoGotten = pyqtSignal(str)
-
-    def __init__(self, filePath):
-        super(GetMovieInfoThread, self).__init__()
-        self._filePath = filePath
-
-    def run(self):
-        movie_info = MovieInfo(self._filePath)
-        result = {
-            "movie_title": movie_info.movie_title,
-            "movie_type": movie_info.movie_type,
-            "movie_width": movie_info.movie_width,
-            "movie_height": movie_info.movie_height,
-            "movie_path": movie_info.movie_file,
-            "movie_size": movie_info.movie_size,
-            "movie_duration": movie_info.movie_duration
-        }
-        self.infoGotten.emit(json.dumps(result))
-
-
 class MovieInfo(QObject):
     movieSourceChanged = pyqtSignal(str, arguments=["movie_file", ])
     movieTitleChanged = pyqtSignal(str, arguments=["movie_title", ])
@@ -85,13 +65,19 @@ class MovieInfo(QObject):
     subtitleChanged = pyqtSignal(str, arguments=["subtitle_file", ])
 
     fileInvalid = pyqtSignal()
-    infoGotten = pyqtSignal(str, arguments=["movie_info", ])
 
     def __init__(self, filepath=""):
         QObject.__init__(self)
 
         self.media_info = None
         self.movie_file = filepath
+        self.elem_obj = None
+
+    def set_dmovie_element(self, element_path):
+        if self.elem_obj is not None:
+            self.elem_obj.close()
+
+        #self.elem_obj = elemlib.open_element(element_path, "r")
 
     def parseFile(self, filepath):
         filepath = filepath.replace("file://", "")
@@ -173,25 +159,15 @@ class MovieInfo(QObject):
     def get_subtitle_at(self, timestamp):
         return self._parser.get_subtitle_at(timestamp)
 
-    @pyqtSlot(str)
-    def getMovieInfo(self, file_path):
-        if file_path == self.movie_file:
-            result = {
-                "movie_title": movie_info.movie_title,
-                "movie_type": movie_info.movie_type,
-                "movie_width": movie_info.movie_width,
-                "movie_height": movie_info.movie_height,
-                "movie_path": movie_info.movie_file,
-                "movie_size": movie_info.movie_size,
-                "movie_duration": movie_info.movie_duration
-            }
-            self.infoGotten.emit(json.dumps(result))
-        else:
-            self._thread = GetMovieInfoThread(file_path)
-            self._thread.infoGotten.connect(lambda x: self.infoGotten.emit(x))
-            self._thread.start()
-
-movie_info = MovieInfo()
-
-if __name__ == '__main__':
-    print movie_info.getMovieInfo("/home/hualet/Desktop/HD2.mkv")
+    @pyqtSlot(result=str)
+    def getMovieInfo(self):
+        result = {
+            "movie_title": movie_info.movie_title,
+            "movie_type": movie_info.movie_type,
+            "movie_width": movie_info.movie_width,
+            "movie_height": movie_info.movie_height,
+            "movie_path": movie_info.movie_file,
+            "movie_size": movie_info.movie_size,
+            "movie_duration": movie_info.movie_duration
+        }
+        return json.dumps(result)

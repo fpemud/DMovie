@@ -34,8 +34,10 @@ Connections {
 
     onShowPreference: { preference_window.show() }
 
-    onShowMovieInformation: { player.source && player.hasVideo
-        && info_window.showContent(movieInfo.getMovieInfo(movieInfo.movie_file))
+    onShowMovieInformation: {
+        if (player.source && player.hasVideo) {
+            info_window.showContent(movieInfo.getMovieInfo())
+        }
     }
 
     onPlayForward: { main_controller.forward() }

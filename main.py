@@ -62,7 +62,7 @@ app.setQuitOnLastWindowClosed(True)
 from window import Window
 from database import database
 from config import config
-from movie_info import movie_info
+from movie_info import MovieInfo
 from utils import utils, FindVideoThreadManager
 from menu_controller import MenuController
 from dbus_services import (DeepinMovieServie, check_multiple_instances,
@@ -89,6 +89,7 @@ if __name__ == "__main__":
 
     windowView = Window(result or len(sys.argv) > 1)
     menu_controller = MenuController(windowView)
+    movie_info = MovieInfo()
     findVideoThreadManager = FindVideoThreadManager()
     app._extra_window = weakref.ref(windowView)
 
