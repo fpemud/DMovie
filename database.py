@@ -22,8 +22,8 @@
 import os
 import json
 import sqlite3
+from utils import touch_file
 from constant import CONFIG_DIR
-from deepin_utils.file import touch_file
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, pyqtProperty, QObject, QTimer
 
 

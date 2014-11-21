@@ -111,6 +111,33 @@ def getFileMimeType(filename):
                 pass
     return result
 
+def touch_file(filepath): 
+    ''' 
+    Touch file, equivalent to command `touch filepath`. 
+
+    If filepath's parent directory is not exist, this function will create parent directory first. 
+
+    @param filepath: Target path to touch. 
+    ''' 
+    # Create directory first. 
+    touch_file_dir(filepath) 
+
+    # Touch file. 
+    if os.path.exists(filepath): 
+        os.utime(filepath, None) 
+    else: 
+        open(filepath, 'w').close() 
+
+def get_command_output_first_line(commands, in_shell=False): 
+    ''' 
+    Run command and return first line of output. 
+
+    @param commands: Input commands. 
+    @return: Return first line of command output. 
+    '''
+    process = subprocess.Popen(commands, stdout=subprocess.PIPE, shell=in_shell) 
+    process.wait() 
+    return process.stdout.readline() 
 
 class FindVideoThread(QThread):
     videoFound = pyqtSignal(str, arguments=["path", ])

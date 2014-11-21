@@ -28,7 +28,7 @@ import pysrt
 import tempfile
 from datetime import timedelta
 from chardet.universaldetector import UniversalDetector
-from deepin_utils.process import get_command_output_first_line
+from utils import get_command_output_first_line
 
 SUPPORTED_FILE_TYPES = ("ass", "srt")
 
