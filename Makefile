@@ -9,10 +9,9 @@ install:
 	install -m 0755 DMovie "$(DESTDIR)/$(prefix)/bin"
 
 	install -d -m 0755 "$(DESTDIR)/$(prefix)/share/$(PACKAGE_NAME)"
-	cp -r src/* "$(DESTDIR)/$(prefix)/share/$(PACKAGE_NAME)"
+	cp -r core/* "$(DESTDIR)/$(prefix)/share/$(PACKAGE_NAME)"
 	cp -r locale "$(DESTDIR)/$(prefix)/share/$(PACKAGE_NAME)"
 	cp -r image "$(DESTDIR)/$(prefix)/share/$(PACKAGE_NAME)"
-	cp -r widgets "$(DESTDIR)/$(prefix)/share/$(PACKAGE_NAME)"
 
 uninstall:
 	rm -f "$(DESTDIR)/$(prefix)/bin/DMovie"
