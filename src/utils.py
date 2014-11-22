@@ -31,7 +31,6 @@ from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot, pyqtProperty
 
-from subtitles import *
 from dbus_interfaces import screenSaverInterface
 
 all_supported_video_exts = ["*.3g2", "*.3gp", "*.3gp2", "*.3gpp", "*.amv",
@@ -274,7 +273,7 @@ class Utils(QObject):
 
     @pyqtSlot(str, result=bool)
     def fileIsSubtitle(self, file_path):
-        return get_file_type(file_path) in (FILE_TYPE_ASS, FILE_TYPE_SRT)
+        return file_name.endswith("ass") or file_name.endswith("saa") or file_name.endswith("srt")
 
     @pyqtSlot(str, result=bool)
     def fileIsValidVideo(self, file_path):
