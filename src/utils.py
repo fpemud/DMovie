@@ -127,6 +127,12 @@ def touch_file(filepath):
     else: 
         open(filepath, 'w').close() 
 
+def touch_file_dir(filepath):
+    # Create directory first.
+    dir = os.path.dirname(filepath)
+    if not os.path.exists(dir):
+        os.makedirs(dir)
+
 def get_command_output_first_line(commands, in_shell=False): 
     ''' 
     Run command and return first line of output. 
