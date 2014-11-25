@@ -54,6 +54,23 @@ def get_subtitle_from_movie(movie_file):
     return result or ("",)
 
 
+DEFECT_SPLIT_FILE = 1
+DEFECT_WATERMARK = 2
+DEFECT_EMBED_SUBTITLES = 3
+DEFECT_SHOT_VERSION = 4
+
+class FileFilter:
+	pass
+
+class MovieData:
+
+	def __init__(self, path):
+		self.path = ""
+		self.file_list = []
+		self.media_info = None
+
+
+
 class MovieInfo(QObject):
     movieSourceChanged = pyqtSignal(str, arguments=["movie_file", ])
     movieTitleChanged = pyqtSignal(str, arguments=["movie_title", ])
@@ -70,8 +87,19 @@ class MovieInfo(QObject):
         QObject.__init__(self)
 
         self.elem_obj = None
-        self.movie_file = ""
-        self.media_info = None
+
+		self.runtime = -1
+		self.aspect_ratio = (-1, -1)
+		self.wiki_links = dict()
+		self.imdb_link = ""
+		self.defects = set()
+		self.global_fileters = set
+		self.file_filters = dict()
+		self.movie_data = []
+		self.cur_movie_data_index = -1
+
+        self.movie_file = ""				# deprecated
+        self.media_info = None				# deprecated
 
     def close(self):
         if self.elem_obj is not None:
@@ -87,7 +115,7 @@ class MovieInfo(QObject):
 
         self.elem_obj = elemlib.open_element(element_path, "ro")
 
-        for fbasename in os.listdir(element_path):
+        for fbasename in sorted(os.listdir(element_path)):
             fname = os.path.join(element_path, fbasename)
             if utils.fileIsValidVideo(fname):
                 self.movie_file = fname
