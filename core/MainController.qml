@@ -63,7 +63,6 @@ MouseArea {
 
             var last_watched_pos = database.fetch_video_position(player.source)
             if (config.playerAutoPlayFromLast
-                && _utils.urlIsNativeFile(player.source)
                 && Math.abs(last_watched_pos - movieInfo.movie_duration) > program_constants.videoEndsThreshold) {
                 seek_to_last_watched_timer.schedule(last_watched_pos)
             } else {
@@ -74,12 +73,7 @@ MouseArea {
         }
 
         onFileInvalid: {
-            var invalidFile = movieInfo.movie_file
-            if (_utils.urlIsNativeFile(invalidFile)) {
-                notifybar.show(dsTr("Invalid file") + ": " + movieInfo.movie_title)
-            } else {
-                notifybar.show(dsTr("The parse failed"))
-            }
+            notifybar.show(dsTr("Invalid file") + ": " + movieInfo.movie_title)
             root.reset()
         }
     }
