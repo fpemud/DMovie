@@ -3,7 +3,6 @@ import QtMultimedia 5.0
  
 Video {
     id: video
-    autoPlay: false
     visible: playbackState != MediaPlayer.StoppedState
 
     property bool hasMedia: hasVideo || hasAudio
