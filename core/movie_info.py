@@ -58,9 +58,9 @@ DEFECT_SPLIT_FILE = 1
 DEFECT_WATERMARK = 2
 DEFECT_EMBED_SUBTITLES = 3
 DEFECT_SHOT_VERSION = 4
-
-class FileFilter:
-	pass
+DEFECT_INCOMPLETE = 5
+DEFECT_TRIM_NEEDED = 6
+DEFECT_NO_TS_PAR2 = 7
 
 class MovieData:
 
@@ -93,8 +93,6 @@ class MovieInfo(QObject):
 		self.wiki_links = dict()
 		self.imdb_link = ""
 		self.defects = set()
-		self.global_fileters = set
-		self.file_filters = dict()
 		self.movie_data = []
 		self.cur_movie_data_index = -1
 
@@ -102,18 +100,27 @@ class MovieInfo(QObject):
         self.media_info = None				# deprecated
 
     def close(self):
+		self.cur_movie_data_index = -1
+		self.movie_data = []
+		self.defects = set()
+		self.imdb_link = ""
+		self.wiki_links = dict()
+		self.aspect_ratio = (-1, -1)
+		self.runtime = -1
+
         if self.elem_obj is not None:
             self.elem_obj.close()
-
-        self.media_info = None
-        self.movie_file = ""
         self.elem_obj = None
+
+        self.media_info = None				# deprecated
+        self.movie_file = ""				# deprecated
 
     @pyqtSlot(str)
     def set_element_dmovie(self, element_path):
         self.close()
 
         self.elem_obj = elemlib.open_element(element_path, "ro")
+        self._parseMovieInfoXml(os.path.join(element_path, "movie_info.xml"))
 
         for fbasename in sorted(os.listdir(element_path)):
             fname = os.path.join(element_path, fbasename)
@@ -213,3 +220,7 @@ class MovieInfo(QObject):
             self.media_info = parse_info(filepath)
         else:
             self.media_info = {}
+
+    def _parseMovieInfoXml(self, filepath):
+    	pass
+    
