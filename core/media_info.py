@@ -173,7 +173,6 @@ def parse_info(filename):
                     set_par(result, 'audio_language', value)
     return result
 
-if __name__ == '__main__':
-    print sys.argv[1]
-    r = parse_info(sys.argv[1])
-    pprint(r)
+def get_maximum_audio_codec(self, codec_list):
+	return ""
+

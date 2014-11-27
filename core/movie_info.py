@@ -22,7 +22,6 @@
 
 import os
 import glob
-import json
 import elemlib
 
 from PyQt5.QtCore import QObject
@@ -35,192 +34,293 @@ from i18n import _
 from utils import utils
 
 
-def get_subtitle_from_movie(movie_file):
-    '''
-    movie_file is like file:///home/user/movie.mp4
-    '''
-    if movie_file.startswith("file://"):
-        movie_file = movie_file[7:]
-    dir_name = os.path.dirname(movie_file)
-    name_without_ext = movie_file.rpartition(".")[0]
-    if name_without_ext == "":
-        return ("",)
+class MovieInfo2(QObject):
 
-    result = []
-    for ext in SUPPORTED_FILE_TYPES:
-        try_ext = "%s/*.%s" % (dir_name, ext)
-        all_this_ext = glob.glob(try_ext)
-        result += filter(lambda x: name_without_ext in x, all_this_ext)
-    return result or ("",)
+	def __init__(self):
+		self.runtime = -1
+		self.aspect_ratio = (-1, -1)
+		self.wiki_links = dict()
+		self.imdb_link = ""
+		self.defects = set()
 
 
-DEFECT_SPLIT_FILE = 1
-DEFECT_WATERMARK = 2
-DEFECT_EMBED_SUBTITLES = 3
-DEFECT_SHOT_VERSION = 4
-DEFECT_INCOMPLETE = 5
-DEFECT_TRIM_NEEDED = 6
-DEFECT_NO_TS_PAR2 = 7
+class MovieAvLevel(QObject):
 
-class MovieData:
+	def __init__(self):
+		self.video_format = ""
+		self.audio_format = ""
+		self.frame_rate = -1
+		self.scanning_method = ""				# "interlaced" "progressive"
+		self.width = -1
+		self.height = -1
+		self.aspect_ratio = (-1, -1)			# inaccurate if calculated by self.width and self.height
+		self.audio_languages = []				# list<str>
+		self.subtitle_languages = []			# list<str>
 
-	def __init__(self, path):
-		self.path = ""
+	@property
+	def standard(self):
+		t = (self.width, self.height)
+		if t == (320, 240) or t == (352, 240) or t == (427, 240):
+			ret = "240"
+		elif t == (352, 288) or t == (482, 272):
+			ret = "288"
+		elif t == (480, 360) or t == (640, 360):
+			ret = "360"
+		elif t == (640, 480) or t == (720, 480) or t == (800, 480) or t == (854, 480):
+			ret = "480"
+		elif t == (720, 576) or t == (704, 576):
+			ret = "576"
+		elif t == (1280, 720):
+			ret = "720"
+		elif t == (1920, 1080):
+			ret = "1080"
+		elif t == (3840, 2160):
+			ret = "2160"
+		elif t == (7680, 4320):
+			ret = "4320"
+		else:
+			ret = ""
+
+		if ret != "":
+			ret += self.scanning_method[0]
+
+		return ret
+
+
+class MovieData(QObject):
+
+	def __init__(self, directory_path):
+		self.directory_path = ""
 		self.file_list = []
-		self.media_info = None
+		self.movie_type = None
+		self.movie_width = None
+		self.movie_height = None
+		self.movie_size = None
+		self.movie_duration = None
+		self.video_format = None
+		self.audio_format = None
 
+		# get all the video files
+        for fbasename in sorted(os.listdir(directory_path)):
+            fname = os.path.join(element_path, fbasename)
+            if utils.fileIsValidVideo(fname):
+                self.file_list.append(fname)
+        if len(self.file_list) == 0:
+            raise Exception("No video file in movie data directory %s" % (directory_path))
+
+		# get media information for every video file
+        media_info_list = []
+		for f in self.file_list:
+			media_info_list.append(parse_info(filepath))
+
+		# check media information
+		for m in media_info_list[1:]:
+			if media_info_list[0].get("general_extension") != m.get("general_extension"):
+				raise Exception("")
+			if media_info_list[0].get("video_width") != m.get("video_width"):
+				raise Exception("")
+			if media_info_list[0].get("video_height") != m.get("video_height"):
+				raise Exception("")
+
+		# get final media information
+		self.movie_type = media_info_list[0].get("general_extension") or _("Unknown")
+		self.movie_width = media_info_list[0].get("video_width") or DEFAULT_WIDTH
+		self.movie_height = media_info_list[0].get("video_height") or DEFAULT_HEIGHT
+		self.movie_size = int(media_info_list[0].get("general_size") or 0)
+		self.movie_duration = media_info_list[0].get("general_duration") or 0
+		self.video_format = None
+		self.audio_format = None
+
+
+class MovieElement(QObject):
+	"""Contains static information"""
+
+	DEFECT_SPLIT_FILE = 1				# movie should be in a single file, not seperate files
+	DEFECT_WATERMARK = 2				# movie has watermark
+	DEFECT_EMBED_SUBTITLES = 3			# movie file has embeded subtitles, the subtitles should be contained in seperate file, in text format
+	DEFECT_SHOT_VERSION = 4				# movie file is shot version, not clear
+	DEFECT_INCOMPLETE = 5				# movie file is clipped, not the full version
+	DEFECT_TRIM_NEEDED = 6				# movie file contains uneccessary header or footer, mostly ads
+	DEFECT_NO_TS_PAR2 = 7				# *.ts file should have corresponding .par2 files as its checksum
+	DEFECT_INCONSISTENT = 8				# movie data are not consistent
+	DEFECT_NO_ORIGINAL = 9				# no original movie data
+
+    def __init__(self, element_path):
+        QObject.__init__(self)
+
+        self._elem_obj = elemlib.open_element(element_path, "ro")
+
+		self._info = MovieInfo2()
+		self._original_data_dir = ""
+		self._movie_data_set = set()
+		self._subtitles = dict()
+
+		self._cur_movie_data = None
+		self._cur_av_level = None
+		self._max_av_level = None
+
+		# parse movie_info.xml
+        self._parseMovieInfoXml(os.path.join(element_path, "movie_info.xml"))
+
+		# get movie data set
+        for fbasename in sorted(os.listdir(element_path)):
+            fname = os.path.join(element_path, fbasename)
+			if not (os.path.isdir(fname) or re.match("^data[0-9]+$", fbasename)):
+				continue
+			self._movie_data_set.add(MovieData(fname))
+
+		# get subtitle dict
+	    result = []
+	    for ext in SUPPORTED_FILE_TYPES:
+	        result += glob.glob("%s/*.%s" % (element_path, ext))
+
+		# get maximum audio video level
+		pass
+
+		# select current movie data
+		pass
+
+		# get current audio video level
+		pass
+
+    def close(self):
+        if self._elem_obj is not None:
+            self._elem_obj.close()
+        self._elem_obj = None
+
+    def _parseMovieInfoXml(self, filepath):
+    	pass
 
 
 class MovieInfo(QObject):
-    movieSourceChanged = pyqtSignal(str, arguments=["movie_file", ])
-    movieTitleChanged = pyqtSignal(str, arguments=["movie_title", ])
-    movieSizeChanged = pyqtSignal(int, arguments=["movie_size", ])
-    movieTypeChanged = pyqtSignal(str, arguments=["movie_type", ])
-    movieDurationChanged = pyqtSignal(int, arguments=["movie_duration", ])
-    movieWidthChanged = pyqtSignal(int, arguments=["movie_width", ])
-    movieHeightChanged = pyqtSignal(int, arguments=["movie_height", ])
-    subtitleChanged = pyqtSignal(str, arguments=["subtitle_file", ])
+	"""Contains static information and playing information"""
 
-    fileInvalid = pyqtSignal()
+    fileChanged = pyqtSignal(str, int, arguments=["cur_file", "cur_position"])
+
+	### initialization ###
 
     def __init__(self):
         QObject.__init__(self)
+        self._elem = None
+        self._audio_lang = ""
+        self._subtitle_lang = ""
+        self._subtitle_parser = None
+        self._position = -1
 
-        self.elem_obj = None
-
-		self.runtime = -1
-		self.aspect_ratio = (-1, -1)
-		self.wiki_links = dict()
-		self.imdb_link = ""
-		self.defects = set()
-		self.movie_data = []
-		self.cur_movie_data_index = -1
-
-        self.movie_file = ""				# deprecated
-        self.media_info = None				# deprecated
-
+    @pyqtSlot()
     def close(self):
-		self.cur_movie_data_index = -1
-		self.movie_data = []
-		self.defects = set()
-		self.imdb_link = ""
-		self.wiki_links = dict()
-		self.aspect_ratio = (-1, -1)
-		self.runtime = -1
-
-        if self.elem_obj is not None:
-            self.elem_obj.close()
-        self.elem_obj = None
-
-        self.media_info = None				# deprecated
-        self.movie_file = ""				# deprecated
+        self._position = -1
+        self._subtitle_parser = None
+        self._subtitle_lang = ""
+        self._audio_lang = ""
+        if self._elem is not None:
+            self._elem.close()
+        self._elem = None
 
     @pyqtSlot(str)
     def set_element_dmovie(self, element_path):
         self.close()
+        try:
+	        self._elem = MovieElement(element_path)
+	        if len(self._elem.cur_av_level.audio_languages) > 0:
+		        self._audio_lang = self._elem.cur_av_level.audio_languages[0]
+			if len(self._elem.cur_av_level.subtitle_languages) > 0:
+				lang = self._elem.cur_av_level.subtitle_languages[0]
+		        self._subtitle_lang = lang
+		        self._subtitle_parser = Parser(self._elem._subtitles[lang])
+	        self._position = 0
+		except:
+			self.close()
+			raise
 
-        self.elem_obj = elemlib.open_element(element_path, "ro")
-        self._parseMovieInfoXml(os.path.join(element_path, "movie_info.xml"))
+	### movie play settings ###
 
-        for fbasename in sorted(os.listdir(element_path)):
-            fname = os.path.join(element_path, fbasename)
-            if utils.fileIsValidVideo(fname):
-                self.movie_file = fname
-                break
-        if self.movie_file == "":
-            raise Exception("No valid video file")
+    @pyqtSlot(str)
+    def set_audio_language(self, lang):
+		if lang not in self._elem.cur_av_level.audio_languages:
+			raise Exception("invalid audio language")
+		self._audio_lang = lang
+		# fixme
 
-    @pyqtProperty(int, notify=movieDurationChanged)
-    def movie_duration(self):
-        return int(self.media_duration)
+    @pyqtSlot(str)
+    def set_subtitle_language(self, lang):
+		if lang not in self._elem.cur_av_level.subtitle_languages:
+			raise Exception("invalid subtitle language")
 
-    @pyqtProperty(int, notify=movieWidthChanged)
-    def movie_width(self):
-        return int(self.media_width)
+		old_lang = self._subtitle_lang
+		old_parser = self._subtitle_parser
+        try:
+			self._subtitle_lang = lang
+	        self._subtitle_parser = Parser(self._elem._subtitles[lang])
+		except:
+			self._subtitle_lang = old_lang
+	        self._subtitle_parser = old_parser
+			raise
 
-    @pyqtProperty(int, notify=movieHeightChanged)
-    def movie_height(self):
-        return int(self.media_height)
+    @pyqtSlot(int)
+    def set_position(self, new_position):
+		self._position = new_position
+    	self.fileChanged.emit("", -1)
 
-    @pyqtProperty(str, notify=movieSourceChanged)
-    def movie_file(self):
-        return self.filepath
+	### basic information ###
 
-    @pyqtProperty(str, notify=movieTitleChanged)
+    @pyqtProperty(str)
     def movie_title(self):
-        return self.elem_obj.get_info().get_name()
+        return self._elem._elem_obj.get_info().get_name()
 
-    @pyqtProperty(str, notify=movieTypeChanged)
-    def movie_type(self):
-        return self.media_type
+    @pyqtProperty(int)
+    def movie_width(self):
+        return self._elem._cur_movie_data.movie_width
 
-    @pyqtProperty(int, notify=movieSizeChanged)
-    def movie_size(self):
-        return self.media_size
+    @pyqtProperty(int)
+    def movie_height(self):
+        return self._elem._cur_movie_data.movie_height
 
-    @pyqtProperty(str, notify=subtitleChanged)
-    def subtitle_file(self):
-        return self._subtitle_file
+    @pyqtProperty(QObject)
+	def movie_info(self):
+		return self._elem._info
 
-    @subtitle_file.setter
-    def subtitle_file(self, value):
-        value = value[7:] if value.startswith("file://") else value
-        self._subtitle_file = value
-        self.subtitleChanged.emit(value)
-        self._parser = Parser(value)
+    @pyqtProperty(QObject)
+	def max_av_level(self):
+		return self._elem._max_av_level
 
-    @movie_file.setter
-    def movie_file(self, filepath):
-        self.filepath = filepath
+    @pyqtProperty(QObject)
+	def cur_av_level(self):
+		return self._elem._cur_av_level
 
-        self._parseFile(filepath)
-        self.media_width = self.media_info.get("video_width") or DEFAULT_WIDTH
-        self.media_height = self.media_info.get("video_height") or DEFAULT_HEIGHT
-        self.media_duration = self.media_info.get("general_duration") or 0
-        self.media_size = int(self.media_info.get("general_size") or 0)
-        self.media_type = self.media_info.get("general_extension") or _("Unknown")
-        self.media_width = int(self.media_width) + 2 * WINDOW_GLOW_RADIUS
-        self.media_height = int(self.media_height) + 2 * WINDOW_GLOW_RADIUS
-        self.media_duration = int(self.media_duration)
-        self.subtitle_file = get_subtitle_from_movie(self.filepath)[0]
+    @pyqtProperty(QArray)
+	def subtitle_languages(self):
+		return self._elem._subtitles.keys()
 
-        self.movieTitleChanged.emit(os.path.basename(filepath))
-        self.movieTypeChanged.emit(self.media_type)
-        self.movieSizeChanged.emit(self.media_size)
-        self.movieWidthChanged.emit(self.media_width)
-        self.movieHeightChanged.emit(self.media_height)
-        self.movieDurationChanged.emit(self.media_duration)
-        self.movieSourceChanged.emit(filepath)
+	### dynamic information ###
 
-        if not (filepath == ""
-                or self.media_info == {}
-                or utils.fileIsValidVideo(filepath)):
-            self.fileInvalid.emit()
+    @pyqtProperty(int)
+    def movie_duration(self):
+        return self._elem._cur_movie_data.movie_duration
 
-    @pyqtSlot(int, result=str)
-    def get_subtitle_at(self, timestamp):
-        return self._parser.get_subtitle_at(timestamp)
+    @pyqtProperty(str)
+    def audio_language(self):
+        return self._audio_lang
 
-    @pyqtSlot(result=str)
-    def getMovieInfo(self):
-        result = {
-            "movie_title": self.movie_title,
-            "movie_type": self.movie_type,
-            "movie_width": self.movie_width,
-            "movie_height": self.movie_height,
-            "movie_path": self.movie_file,
-            "movie_size": self.movie_size,
-            "movie_duration": self.movie_duration
-        }
-        return json.dumps(result)
+    @pyqtProperty(str)
+    def subtitle_language(self):
+        return self._subtitle_lang
 
-    def _parseFile(self, filepath):
-        filepath = filepath.replace("file://", "")
-        if os.path.exists(filepath):
-            self.media_info = parse_info(filepath)
-        else:
-            self.media_info = {}
+    @pyqtProperty(int)
+    def cur_position(self):
+        return self._position
 
-    def _parseMovieInfoXml(self, filepath):
-    	pass
-    
+    @pyqtProperty(str)
+    def cur_file(self):
+        return ""
+
+    @pyqtProperty(int)
+    def cur_file_position(self):
+        return -1
+
+    @pyqtProperty(str)
+    def subtitle_now(self):
+    	if self._subtitle_parser is not None:
+	    	return self._subtitle_parser.get_subtitle_at(self._position)
+	    else:
+       		return ""

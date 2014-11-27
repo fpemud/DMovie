@@ -248,7 +248,7 @@ class MenuController(QObject):
 
         self.menu.getItemById("_subtitle_hide").checked = \
             not self._window.subtitleVisible
-        subtitles = get_subtitle_from_movie(movie_info.movie_file)
+        subtitles = movie_info.movie_file)
         subtitles = _subtitle_menu_items_from_files(subtitles)
         self.menu.getItemById("_subtitle_choose").setSubMenu(Menu(subtitles))
 
