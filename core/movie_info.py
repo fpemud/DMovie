@@ -86,13 +86,14 @@ class MovieAvLevel(QObject):
 
 		return ret
 
+	@property
+	def standard_full(self):
+		return "%s/%d" % (self.standard, self.frame_rate)
 
 class MovieData(QObject):
 
 	def __init__(self, directory_path):
 		self.directory_path = ""
-		self.is_original = false
-		self.defects = []
 		self.file_list = []
 		self.movie_type = None
 		self.movie_width = None
@@ -155,7 +156,10 @@ class MovieElement(QObject):
 		self._movie_data_list = []
 		self._subtitles = dict()
 
+		self._ori_movie_data_index_list = []
+		self._cur_movie_data_index = -1
 		self._cur_movie_data = None
+
 		self._cur_av_level = None
 		self._max_av_level = None
 
@@ -189,7 +193,60 @@ class MovieElement(QObject):
         self._elem_obj = None
 
     def _parseMovieInfoXml(self, filepath):
-    	pass
+        # set default value
+        self.moduleDict = dict()
+
+        # parse file
+        h = _MovieInfoFileXmlHandler(self. moduleDict)
+        xml.sax.parse(self.param.modulesFile, h)
+
+        # post process
+        for m in self.moduleDict:
+            # check parse result
+            strList = m.split("-")
+            if len(strList) < 3:
+                raise Exception("Invalid module name \"%s\"" % (m))
+
+            moduleScope = strList[0]
+            moduleType = strList[1]
+            moduleId = "-".join(strList[2:])
+            if moduleScope not in ["sys", "usr"]:
+                raise Exception("Invalid module scope for module name \"%s\"" % (m))
+            if moduleType not in ["server", "client", "peer"]:
+                raise Exception("Invalid module type for module name \"%s\"" % (m))
+            if len(moduleId) > 32:
+                raise Exception("Module id is too long for module name \"%s\"" % (m))
+            if re.match("[A-Za-z0-9_]+", moduleId) is None:
+                raise Exception("Invalid module id for module name \"%s\"" % (m))
+
+            moduleObj = None
+            exec("import %s" % (m.replace("-", "_")))
+            exec("moduleObj = %s.ModuleObject()" % (m.replace("-", "_")))
+
+            if m != moduleObj.getModuleName():
+                raise Exception("Module \"%s\" does not exists" % (m))
+            if True:
+                propDict = moduleObj.getPropDict()
+                if "allow-local-peer" not in propDict:
+                    raise Exception("Property \"allow-local-peer\" not provided by module \"%s\"" % (m))
+                if "suid" not in propDict:
+                    raise Exception("Property \"suid\" not provided by module \"%s\"" % (m))
+                if "standalone" not in propDict:
+                    raise Exception("Property \"standalone\" not provided by module \"%s\"" % (m))
+                if not isinstance(propDict["allow-local-peer"], bool):
+                    raise Exception("Property \"allow-local-peer\" in module \"%s\" should be of type bool" % (m))
+                if not isinstance(propDict["suid"], bool):
+                    raise Exception("Property \"suid\" in module \"%s\" should be of type bool" % (m))
+                if not isinstance(propDict["standalone"], bool):
+                    raise Exception("Property \"standalone\" in module \"%s\" should be of type bool" % (m))
+                if moduleScope == "sys" and propDict["suid"]:
+                    raise Exception("Property \"suid\" in module \"%s\" must be equal to False" % (m))
+
+            # fill SnCfgModuleInfo object
+            self.moduleDict[m].moduleScope = moduleScope
+            self.moduleDict[m].moduleType = moduleType
+            self.moduleDict[m].moduleId = moduleId
+            self.moduleDict[m].moduleObj = moduleObj
 
 
 class MovieModule(QObject):
@@ -324,3 +381,78 @@ class MovieModule(QObject):
 	    	return self._subtitle_parser.get_subtitle_at(self._position)
 	    else:
        		return ""
+
+
+class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
+    INIT = 0
+    IN_ROOT = 1
+    IN_RUNTIME = 2
+    IN_ASPECT_RATIO = 3
+    IN_LINKS = 4
+    IN_LINES_WIKI = 5
+    IN_LINKS_IMDB = 6
+    IN_DATA = 7
+    IN_DATA_ORIGINAL = 8
+    IN_DATA_DEFECTS = 9
+    IN_DATA_DEFECT_WATERMARK = 10
+    IN_DATA_DEFECT_EMBED_SUBTITLES = 11
+    IN_DATA_DEFECT_SHOT_VERSION = 12
+    IN_DATA_DEFECT_INCOMPLETE = 13
+    IN_DATA_DEFECT_TRIM_NEEDED = 14
+    IN_DATA_DEFECT_TS_WITHOUT_PAR2 = 15
+
+    def __init__(self):
+        xml.sax.handler.ContentHandler.__init__(self)
+        self.state = self.INIT
+
+		self.runtime = -1
+		self.aspect_ratio = (-1, -1)
+		self.wiki_links = dict()			# dict<lang:str, url:str>
+		self.imdb_link = ""
+		self.data_dict = dict()				# dict<dir:str, (is_original:bool, defects:list<int>)>
+
+    def startElement(self, name, attrs):
+        if name == "movie-info" and self.state == self.INIT:
+            self.state = self.IN_ROOT
+		elif name == "runtime" and self.state == self.IN_ROOT:
+			self.state = self.IN_RUNTIME
+		elif name == "aspect-ratio" and self.state == self.IN_ROOT:
+			self.state = self.IN_ASPECT_RATIO
+
+
+            
+        elif name == "links" and self.state == self.IN_ROOT:
+            self.state = self.IN_LINKS
+        elif name == "data" and self.state == self.IN_DATA:
+            self.state = self.IN_LINKS
+            self.cur_data_dir = attrs["directory"]
+        elif name == "defects" and self.state == self.IN_DATA:
+        else:
+            raise Exception("Failed to parse modules file")
+
+    def endElement(self, name):
+        if name == "movie-info" and self.state == self.IN_ROOT:
+            self.state = self.INIT
+		elif name == "runtime" and self.state == self.IN_RUNTIME:
+			self.state = self.IN_ROOT
+		elif name == "aspect-ratio" and self.state == self.IN_ASPECT_RATIO:
+			self.state = self.IN_ROOT
+
+
+
+        elif name == "links" and self.state == self.IN_LINKS:
+            self.state = self.IN_ROOT
+        elif name == "data" and self.state == self.IN_DATA:
+            self.state = self.IN_ROOT
+        else:
+            raise Exception("Failed to parse modules file")
+
+    def characters(self, content):
+        if self.state == self.IN_RUNTIME:
+            self.runtime = int(content)
+        elif self.state == self.IN_ASPECT_RATIO:
+			r = content.split(":")
+            self.aspect_ratio = (float(r[0]), float(r[1]))
+        else:
+            pass
+
