@@ -34,7 +34,7 @@ from i18n import _
 from utils import utils
 
 
-class MovieInfo2(QObject):
+class MovieInfo(QObject):
 
 	def __init__(self):
 		self.runtime = -1
@@ -91,6 +91,8 @@ class MovieData(QObject):
 
 	def __init__(self, directory_path):
 		self.directory_path = ""
+		self.is_original = false
+		self.defects = []
 		self.file_list = []
 		self.movie_type = None
 		self.movie_width = None
@@ -135,24 +137,22 @@ class MovieData(QObject):
 class MovieElement(QObject):
 	"""Contains static information"""
 
-	DEFECT_SPLIT_FILE = 1				# movie should be in a single file, not seperate files
-	DEFECT_WATERMARK = 2				# movie has watermark
-	DEFECT_EMBED_SUBTITLES = 3			# movie file has embeded subtitles, the subtitles should be contained in seperate file, in text format
-	DEFECT_SHOT_VERSION = 4				# movie file is shot version, not clear
-	DEFECT_INCOMPLETE = 5				# movie file is clipped, not the full version
-	DEFECT_TRIM_NEEDED = 6				# movie file contains uneccessary header or footer, mostly ads
-	DEFECT_NO_TS_PAR2 = 7				# *.ts file should have corresponding .par2 files as its checksum
-	DEFECT_INCONSISTENT = 8				# movie data are not consistent
-	DEFECT_NO_ORIGINAL = 9				# no original movie data
+	DEFECT_INCONSISTENT = 1				# global defect: movie data are not consistent
+	DEFECT_NO_ORIGINAL = 2				# global defect: no any original movie data
+	DEFECT_WATERMARK = 10				# per-data defect: movie has watermark
+	DEFECT_EMBED_SUBTITLES = 11			# per-data defect: movie file has embeded subtitles, the subtitles should be contained in seperate file, in text format
+	DEFECT_SHOT_VERSION = 12			# per-data defect: movie file is shot version, not clear
+	DEFECT_INCOMPLETE = 13				# per-data defect: movie file is clipped, not the full version
+	DEFECT_TRIM_NEEDED = 14				# per-data defect: movie file contains uneccessary header or footer, mostly ads
+	DEFECT_TS_WITHOUT_PAR2 = 15			# per-data defect: *.ts file should have corresponding .par2 files as its checksum
 
     def __init__(self, element_path):
         QObject.__init__(self)
 
         self._elem_obj = elemlib.open_element(element_path, "ro")
 
-		self._info = MovieInfo2()
-		self._original_data_dir = ""
-		self._movie_data_set = set()
+		self._info = MovieInfo()
+		self._movie_data_list = []
 		self._subtitles = dict()
 
 		self._cur_movie_data = None
@@ -167,7 +167,7 @@ class MovieElement(QObject):
             fname = os.path.join(element_path, fbasename)
 			if not (os.path.isdir(fname) or re.match("^data[0-9]+$", fbasename)):
 				continue
-			self._movie_data_set.add(MovieData(fname))
+			self._movie_data_list.append(MovieData(fname))
 
 		# get subtitle dict
 	    result = []
@@ -192,7 +192,7 @@ class MovieElement(QObject):
     	pass
 
 
-class MovieInfo(QObject):
+class MovieModule(QObject):
 	"""Contains static information and playing information"""
 
     fileChanged = pyqtSignal(str, int, arguments=["cur_file", "cur_position"])

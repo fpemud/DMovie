@@ -16,3 +16,7 @@ Other TODO list:
 9. remove DeepInShadowHint?
 10. change install path from /usr/share/dmovie to /usr/lib/DMovie
 11. fix the Ctrl+C processing
+12. do not affect playing if invalid file is opened
+13. bugfix: cannot remember size Change-Id: I80998832c8dc66034ec414ca20f2daaa35740592
+14. change backend to qtav (why?) Change-Id: I13f4e4c7de6b6d066703f727bee2cd8261bdb54b
+15. cherry pick some deepin-movie's new image
