@@ -135,7 +135,7 @@ class MovieData(QObject):
 		self.audio_format = None
 
 
-class MovieElement(QObject):
+class MovieElem(QObject):
 	"""Contains static information"""
 
 	DEFECT_INCONSISTENT = 1				# global defect: movie data are not consistent
@@ -278,7 +278,7 @@ class MovieModule(QObject):
     def set_element_dmovie(self, element_path):
         self.close()
         try:
-	        self._elem = MovieElement(element_path)
+	        self._elem = MovieElem(element_path)
 	        if len(self._elem.cur_av_level.audio_languages) > 0:
 		        self._audio_lang = self._elem.cur_av_level.audio_languages[0]
 			if len(self._elem.cur_av_level.subtitle_languages) > 0:
@@ -382,6 +382,11 @@ class MovieModule(QObject):
 	    else:
        		return ""
 
+class MovieInfoXmlSyntaxError(Exception):
+
+    def __init__(self, message):
+        super(MovieInfoParseError, self).__init__(message)
+
 
 class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
     INIT = 0
@@ -394,12 +399,7 @@ class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
     IN_DATA = 7
     IN_DATA_ORIGINAL = 8
     IN_DATA_DEFECTS = 9
-    IN_DATA_DEFECT_WATERMARK = 10
-    IN_DATA_DEFECT_EMBED_SUBTITLES = 11
-    IN_DATA_DEFECT_SHOT_VERSION = 12
-    IN_DATA_DEFECT_INCOMPLETE = 13
-    IN_DATA_DEFECT_TRIM_NEEDED = 14
-    IN_DATA_DEFECT_TS_WITHOUT_PAR2 = 15
+    IN_DATA_DEFECTS_DEFECT = 10
 
     def __init__(self):
         xml.sax.handler.ContentHandler.__init__(self)
@@ -411,6 +411,11 @@ class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
 		self.imdb_link = ""
 		self.data_dict = dict()				# dict<dir:str, (is_original:bool, defects:list<int>)>
 
+		self.cur_wiki_lang = None
+		self.cur_data_dir = None
+		self.cur_data_original = None
+		self.cur_data_defects = None
+
     def startElement(self, name, attrs):
         if name == "movie-info" and self.state == self.INIT:
             self.state = self.IN_ROOT
@@ -418,15 +423,45 @@ class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
 			self.state = self.IN_RUNTIME
 		elif name == "aspect-ratio" and self.state == self.IN_ROOT:
 			self.state = self.IN_ASPECT_RATIO
-
-
-            
         elif name == "links" and self.state == self.IN_ROOT:
             self.state = self.IN_LINKS
-        elif name == "data" and self.state == self.IN_DATA:
-            self.state = self.IN_LINKS
-            self.cur_data_dir = attrs["directory"]
+		elif name == "wikipedia" and self.state == self.IN_LINKS:
+            self.state = self.IN_LINES_WIKI
+            self.cur_wiki_lang = attrs.get("lang", "")
+            if self.cur_wiki_lang in self.wiki_links:
+				raise MovieInfoXmlSyntaxError("duplicate wikipedia link language %s" % (self.cur_wiki_lang))
+		elif name == "imdb" and self.state == self.IN_LINKS:
+            self.state = self.IN_LINES_IMDB
+        elif name == "data" and self.state == self.IN_ROOT:
+            self.state = self.IN_DATA
+            self.cur_data_dir = attrs.get("directory", "")
+			if self.cur_data_dir in self.data_dict:
+				raise MovieInfoXmlSyntaxError("duplicate data directory %s" % (self.cur_data_dir))
+            self.cur_data_original = False
+            self.cur_data_defects = []
+		elif name == "original" and self.state == self.IN_DATA:
+			self.state = self.IN_DATA_ORIGINAL
+            self.cur_data_original = True
         elif name == "defects" and self.state == self.IN_DATA:
+			self.state = self.IN_DATA_DEFECTS
+		elif name == "watermark" and self.state == self.IN_DATA_DEFECTS:
+			self.state = self.IN_DATA_DEFECTS_DEFECT
+			self.cur_data_defects.append(MovieElem.DEFECT_WATERMARK
+		elif name == "embed-subtitles" and self.state == self.IN_DATA_DEFECTS:
+			self.state = self.IN_DATA_DEFECTS_DEFECT
+			self.cur_data_defects.append(MovieElem.DEFECT_EMBED_SUBTITLES
+		elif name == "shot-version" and self.state == self.IN_DATA_DEFECTS:
+			self.state = self.IN_DATA_DEFECTS_DEFECT
+			self.cur_data_defects.append(MovieElem.DEFECT_SHOT_VERSION
+		elif name == "incomplete" and self.state == self.IN_DATA_DEFECTS:
+			self.state = self.IN_DATA_DEFECTS_DEFECT
+			self.cur_data_defects.append(MovieElem.DEFECT_INCOMPLETE
+		elif name == "trim-needed" and self.state == self.IN_DATA_DEFECTS:
+			self.state = self.IN_DATA_DEFECTS_DEFECT
+			self.cur_data_defects.append(MovieElem.DEFECT_TRIM_NEEDED
+		elif name == "ts-without-par2" and self.state == self.IN_DATA_DEFECTS:
+			self.state = self.IN_DATA_DEFECTS_DEFECT
+			self.cur_data_defects.append(MovieElem.DEFECT_TS_WITHOUT_PAR2
         else:
             raise Exception("Failed to parse modules file")
 
@@ -437,13 +472,35 @@ class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
 			self.state = self.IN_ROOT
 		elif name == "aspect-ratio" and self.state == self.IN_ASPECT_RATIO:
 			self.state = self.IN_ROOT
-
-
-
         elif name == "links" and self.state == self.IN_LINKS:
             self.state = self.IN_ROOT
+		elif name == "wikipedia" and self.state == self.IN_LINKS_WIKI:
+			self.cur_wiki_lang = None
+            self.state = self.IN_LINKS
+		elif name == "imdb" and self.state == self.IN_LINKS_IMDB:
+            self.state = self.IN_LINES
         elif name == "data" and self.state == self.IN_DATA:
+			self.data_dict[self.cur_data_dir] = (self.cur_data_original, self.cur_data_defects)
+			self.cur_data_defects = None
+			self.cur_data_original = None
+			self.cur_data_dir = None
             self.state = self.IN_ROOT
+		elif name == "original" and self.state == self.IN_DATA_ORIGINAL:
+			self.state = self.IN_DATA
+		elif name == "defects" and self.state == self.IN_DATA_DEFECTS:
+			self.state = self.IN_DATA
+		elif name == "watermark" and self.state == self.IN_DATA_DEFECTS_DEFECT:
+			self.state = self.IN_DATA_DEFECTS
+		elif name == "embed-subtitles" and self.state == self.IN_DATA_DEFECTS_DEFECT:
+			self.state = self.IN_DATA_DEFECTS
+		elif name == "shot-version" and self.state == self.IN_DATA_DEFECTS_DEFECT:
+			self.state = self.IN_DATA_DEFECTS
+		elif name == "incomplete" and self.state == self.IN_DATA_DEFECTS_DEFECT:
+			self.state = self.IN_DATA_DEFECTS
+		elif name == "trim-needed" and self.state == self.IN_DATA_DEFECTS_DEFECT:
+			self.state = self.IN_DATA_DEFECTS
+		elif name == "ts-without-par2" and self.state == self.IN_DATA_DEFECTS_DEFECT:
+			self.state = self.IN_DATA_DEFECTS
         else:
             raise Exception("Failed to parse modules file")
 
@@ -453,6 +510,10 @@ class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
         elif self.state == self.IN_ASPECT_RATIO:
 			r = content.split(":")
             self.aspect_ratio = (float(r[0]), float(r[1]))
+		elif self.state == self.IN_LINKS_WIKI:
+			self.wiki_links[self.cur_wiki_lang] = content
+		elif self.state == self.IN_LINKS_IMDB:
+			self.imdb_link = content
         else:
             pass
 
