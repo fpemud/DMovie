@@ -92,8 +92,7 @@ class MovieAvLevel(QObject):
 
 class MovieData(QObject):
 
-	def __init__(self, directory_path):
-		self.directory_path = ""
+	def __init__(self, dir_name, dir_path):
 		self.file_list = []
 		self.movie_type = None
 		self.movie_width = None
@@ -104,26 +103,26 @@ class MovieData(QObject):
 		self.audio_format = None
 
 		# get all the video files
-        for fbasename in sorted(os.listdir(directory_path)):
-            fname = os.path.join(element_path, fbasename)
+        for fbasename in sorted(os.listdir(dir_path)):
+            fname = os.path.join(dir_path, fbasename)
             if utils.fileIsValidVideo(fname):
                 self.file_list.append(fname)
         if len(self.file_list) == 0:
-            raise Exception("No video file in movie data directory %s" % (directory_path))
+            raise MovieElementException("no video file in movie data directory %s" % (dir_name))
 
 		# get media information for every video file
         media_info_list = []
-		for f in self.file_list:
+		for filepath in self.file_list:
 			media_info_list.append(parse_info(filepath))
 
 		# check media information
 		for m in media_info_list[1:]:
 			if media_info_list[0].get("general_extension") != m.get("general_extension"):
-				raise Exception("")
+				raise MovieDataSyntaxError("")
 			if media_info_list[0].get("video_width") != m.get("video_width"):
-				raise Exception("")
+				raise MovieDataSyntaxError("")
 			if media_info_list[0].get("video_height") != m.get("video_height"):
-				raise Exception("")
+				raise MovieDataSyntaxError("")
 
 		# get final media information
 		self.movie_type = media_info_list[0].get("general_extension") or _("Unknown")
@@ -135,11 +134,14 @@ class MovieData(QObject):
 		self.audio_format = None
 
 
-class MovieElem(QObject):
+class MovieElement(QObject):
 	"""Contains static information"""
 
-	DEFECT_INCONSISTENT = 1				# global defect: movie data are not consistent
-	DEFECT_NO_ORIGINAL = 2				# global defect: no any original movie data
+	DEFECT_DUBIOUS_INFO = 1				# global defect: movie info is dubious
+	DEFECT_INCONSISTENT = 2				# global defect: movie data are not consistent with movie info
+	DEFECT_NO_ORIGINAL = 3				# global defect: no any original movie data
+	DEFECT_MAX_SPLIT = 4				# global defect: max audio format and max video format are in different movie data
+
 	DEFECT_WATERMARK = 10				# per-data defect: movie has watermark
 	DEFECT_EMBED_SUBTITLES = 11			# per-data defect: movie file has embeded subtitles, the subtitles should be contained in seperate file, in text format
 	DEFECT_SHOT_VERSION = 12			# per-data defect: movie file is shot version, not clear
@@ -153,100 +155,120 @@ class MovieElem(QObject):
         self._elem_obj = elemlib.open_element(element_path, "ro")
 
 		self._info = MovieInfo()
-		self._movie_data_list = []
-		self._subtitles = dict()
+		self._mdata_dict = dict()				# dict<dir:str, data:MovieData>
+		self._subtitles = dict()				# dict<lang:str, filename:str>
 
-		self._ori_movie_data_index_list = []
-		self._cur_movie_data_index = -1
-		self._cur_movie_data = None
+		self._ori_mdata_list = []				# list<dir:str>
+		self._cur_mdata = None					# dir:str
 
 		self._cur_av_level = None
 		self._max_av_level = None
 
-		# parse movie_info.xml
-        self._parseMovieInfoXml(os.path.join(element_path, "movie_info.xml"))
+		# get movie data
+		if True:
+			foundMovie = False
+	        for fbasename in os.listdir(element_path):
+	            if utils.fileIsValidVideo(os.path.join(element_path, fbasename)):
+	                foundMovie = True
+			if foundMovie:
+				self._mdata_dict[""] = MovieData("", element_path)
 
-		# get movie data set
-        for fbasename in sorted(os.listdir(element_path)):
-            fname = os.path.join(element_path, fbasename)
-			if not (os.path.isdir(fname) or re.match("^data[0-9]+$", fbasename)):
-				continue
-			self._movie_data_list.append(MovieData(fname))
+	        for fbasename in sorted(os.listdir(element_path)):
+	            fname = os.path.join(element_path, fbasename)
+				if not (os.path.isdir(fname) or re.match("^data[0-9]+$", fbasename)):
+					continue
+				self._mdata_dict[fbasename] = MovieData(fbasename, fname)
 
-		# get subtitle dict
+			if len(self._mdata_dict) == 0:
+				raise MovieElementException("no movie data found")
+
+		# get subtitles
 	    result = []
 	    for ext in SUPPORTED_FILE_TYPES:
 	        result += glob.glob("%s/*.%s" % (element_path, ext))
 
-		# get maximum audio video level
-		pass
+		# parse movie_info.xml, set movie info
+		if True:
+	        h = _MovieInfoFileXmlHandler(self)
+	        xml.sax.parse(os.path.join(element_path, "movie_info.xml"), h)
+
+			# set MovieInfo value
+			self._info.runtime = h.runtime
+			self._info.aspect_ratio = h.aspect_ratio
+			self._info.wiki_links = h.wiki_links
+			self._info.imdb_link = h.imdb_link
+
+			# get original, set defects
+			for dname in h.data_dict:
+				if dname not in self._mdata_dict:
+					raise MovieElementException("invalid data directory \"%s\" in movie_info.xml" % (dname))
+				original, defects = h.data_dict[dname]
+				if original:
+					self._ori_mdata_list.append(dname)
+				self._info.defects |= set(defects)
+
+			# set defect
+			if len(self._ori_mdata_list) == 0:
+				self._info.defects.add(self.DEFECT_NO_ORIGINAL)
+
+			# set defect
+			ml = self._mdata_dict.values()
+			for i in range(1, len(ml)):
+				if ml[0].movie_duration != ml[1].movie_duration:
+					self._info.defects.add(self.DEFECT_INCONSISTENT)
 
 		# select current movie data
 		pass
 
+		# get maximum audio video level
+		if True:
+			self._max_av_level = MovieAvLevel()
+
+			dlist = self._mdata_dict.keys()
+
+			# only select original version if any
+			if len(self._ori_mdata_list) > 0:
+				dlist = self._ori_mdata_list
+
+			# only use the longest duration
+			dlist.sort(cmp=lambda x, y: self._mdata_dict[x].movie_duration > self._mdata_dict[y].movie_duration)
+			for i in range(len(dlist) - 1, 0, -1):
+				if dlist[i].movie_duration < dlist[0].movie_duration:
+					dlist.remove(i)
+
 		# get current audio video level
-		pass
+		if True:
+			r = MovieAvLevel()
+			r.video_format = ""
+			r.audio_format = ""
+			r.frame_rate = -1
+			r.scanning_method = ""				# "interlaced" "progressive"
+			r.width = self._mdata_dict[self._cur_mdata].movie_width
+			r.height = self._mdata_dict[self._cur_mdata].movie_height
+			r.aspect_ratio = (-1, -1)			# inaccurate if calculated by self.width and self.height
+			r.audio_languages = []				# list<str>
+			r.subtitle_languages = []			# list<str>
+
+			self._cur_av_level = r
 
     def close(self):
         if self._elem_obj is not None:
             self._elem_obj.close()
+
         self._elem_obj = None
+		self._max_av_level = None
+		self._cur_av_level = None
+		self._cur_mdata = None
+		self._ori_mdata_list = []
+		self._subtitles = dict()
+		self._mdata_dict = dict()
+		self._info = MovieInfo()
 
-    def _parseMovieInfoXml(self, filepath):
-        # set default value
-        self.moduleDict = dict()
 
-        # parse file
-        h = _MovieInfoFileXmlHandler(self. moduleDict)
-        xml.sax.parse(self.param.modulesFile, h)
+class MovieElementException(Exception):
 
-        # post process
-        for m in self.moduleDict:
-            # check parse result
-            strList = m.split("-")
-            if len(strList) < 3:
-                raise Exception("Invalid module name \"%s\"" % (m))
-
-            moduleScope = strList[0]
-            moduleType = strList[1]
-            moduleId = "-".join(strList[2:])
-            if moduleScope not in ["sys", "usr"]:
-                raise Exception("Invalid module scope for module name \"%s\"" % (m))
-            if moduleType not in ["server", "client", "peer"]:
-                raise Exception("Invalid module type for module name \"%s\"" % (m))
-            if len(moduleId) > 32:
-                raise Exception("Module id is too long for module name \"%s\"" % (m))
-            if re.match("[A-Za-z0-9_]+", moduleId) is None:
-                raise Exception("Invalid module id for module name \"%s\"" % (m))
-
-            moduleObj = None
-            exec("import %s" % (m.replace("-", "_")))
-            exec("moduleObj = %s.ModuleObject()" % (m.replace("-", "_")))
-
-            if m != moduleObj.getModuleName():
-                raise Exception("Module \"%s\" does not exists" % (m))
-            if True:
-                propDict = moduleObj.getPropDict()
-                if "allow-local-peer" not in propDict:
-                    raise Exception("Property \"allow-local-peer\" not provided by module \"%s\"" % (m))
-                if "suid" not in propDict:
-                    raise Exception("Property \"suid\" not provided by module \"%s\"" % (m))
-                if "standalone" not in propDict:
-                    raise Exception("Property \"standalone\" not provided by module \"%s\"" % (m))
-                if not isinstance(propDict["allow-local-peer"], bool):
-                    raise Exception("Property \"allow-local-peer\" in module \"%s\" should be of type bool" % (m))
-                if not isinstance(propDict["suid"], bool):
-                    raise Exception("Property \"suid\" in module \"%s\" should be of type bool" % (m))
-                if not isinstance(propDict["standalone"], bool):
-                    raise Exception("Property \"standalone\" in module \"%s\" should be of type bool" % (m))
-                if moduleScope == "sys" and propDict["suid"]:
-                    raise Exception("Property \"suid\" in module \"%s\" must be equal to False" % (m))
-
-            # fill SnCfgModuleInfo object
-            self.moduleDict[m].moduleScope = moduleScope
-            self.moduleDict[m].moduleType = moduleType
-            self.moduleDict[m].moduleId = moduleId
-            self.moduleDict[m].moduleObj = moduleObj
+    def __init__(self, message):
+        super(MovieElementException, self).__init__(message)
 
 
 class MovieModule(QObject):
@@ -278,7 +300,7 @@ class MovieModule(QObject):
     def set_element_dmovie(self, element_path):
         self.close()
         try:
-	        self._elem = MovieElem(element_path)
+	        self._elem = MovieElement(element_path)
 	        if len(self._elem.cur_av_level.audio_languages) > 0:
 		        self._audio_lang = self._elem.cur_av_level.audio_languages[0]
 			if len(self._elem.cur_av_level.subtitle_languages) > 0:
@@ -327,11 +349,11 @@ class MovieModule(QObject):
 
     @pyqtProperty(int)
     def movie_width(self):
-        return self._elem._cur_movie_data.movie_width
+        return self._elem._mdata_dict[self._elem._cur_mdata].movie_width
 
     @pyqtProperty(int)
     def movie_height(self):
-        return self._elem._cur_movie_data.movie_height
+        return self._elem._mdata_dict[self._elem._cur_mdata].movie_height
 
     @pyqtProperty(QObject)
 	def movie_info(self):
@@ -353,7 +375,7 @@ class MovieModule(QObject):
 
     @pyqtProperty(int)
     def movie_duration(self):
-        return self._elem._cur_movie_data.movie_duration
+        return self._elem._mdata_dict[self._elem._cur_mdata].movie_duration
 
     @pyqtProperty(str)
     def audio_language(self):
@@ -381,11 +403,6 @@ class MovieModule(QObject):
 	    	return self._subtitle_parser.get_subtitle_at(self._position)
 	    else:
        		return ""
-
-class MovieInfoXmlSyntaxError(Exception):
-
-    def __init__(self, message):
-        super(MovieInfoParseError, self).__init__(message)
 
 
 class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
@@ -429,14 +446,14 @@ class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
             self.state = self.IN_LINES_WIKI
             self.cur_wiki_lang = attrs.get("lang", "")
             if self.cur_wiki_lang in self.wiki_links:
-				raise MovieInfoXmlSyntaxError("duplicate wikipedia link language %s" % (self.cur_wiki_lang))
+				raise MovieElementException("duplicate wikipedia link language %s in movie_info.xml" % (self.cur_wiki_lang))
 		elif name == "imdb" and self.state == self.IN_LINKS:
             self.state = self.IN_LINES_IMDB
         elif name == "data" and self.state == self.IN_ROOT:
             self.state = self.IN_DATA
             self.cur_data_dir = attrs.get("directory", "")
 			if self.cur_data_dir in self.data_dict:
-				raise MovieInfoXmlSyntaxError("duplicate data directory %s" % (self.cur_data_dir))
+				raise MovieElementException("duplicate data directory %s in movie_info.xml" % (self.cur_data_dir))
             self.cur_data_original = False
             self.cur_data_defects = []
 		elif name == "original" and self.state == self.IN_DATA:
@@ -446,22 +463,22 @@ class _MovieInfoXmlHandler(xml.sax.handler.ContentHandler):
 			self.state = self.IN_DATA_DEFECTS
 		elif name == "watermark" and self.state == self.IN_DATA_DEFECTS:
 			self.state = self.IN_DATA_DEFECTS_DEFECT
-			self.cur_data_defects.append(MovieElem.DEFECT_WATERMARK
+			self.cur_data_defects.append(MovieElement.DEFECT_WATERMARK
 		elif name == "embed-subtitles" and self.state == self.IN_DATA_DEFECTS:
 			self.state = self.IN_DATA_DEFECTS_DEFECT
-			self.cur_data_defects.append(MovieElem.DEFECT_EMBED_SUBTITLES
+			self.cur_data_defects.append(MovieElement.DEFECT_EMBED_SUBTITLES
 		elif name == "shot-version" and self.state == self.IN_DATA_DEFECTS:
 			self.state = self.IN_DATA_DEFECTS_DEFECT
-			self.cur_data_defects.append(MovieElem.DEFECT_SHOT_VERSION
+			self.cur_data_defects.append(MovieElement.DEFECT_SHOT_VERSION
 		elif name == "incomplete" and self.state == self.IN_DATA_DEFECTS:
 			self.state = self.IN_DATA_DEFECTS_DEFECT
-			self.cur_data_defects.append(MovieElem.DEFECT_INCOMPLETE
+			self.cur_data_defects.append(MovieElement.DEFECT_INCOMPLETE
 		elif name == "trim-needed" and self.state == self.IN_DATA_DEFECTS:
 			self.state = self.IN_DATA_DEFECTS_DEFECT
-			self.cur_data_defects.append(MovieElem.DEFECT_TRIM_NEEDED
+			self.cur_data_defects.append(MovieElement.DEFECT_TRIM_NEEDED
 		elif name == "ts-without-par2" and self.state == self.IN_DATA_DEFECTS:
 			self.state = self.IN_DATA_DEFECTS_DEFECT
-			self.cur_data_defects.append(MovieElem.DEFECT_TS_WITHOUT_PAR2
+			self.cur_data_defects.append(MovieElement.DEFECT_TS_WITHOUT_PAR2
         else:
             raise Exception("Failed to parse modules file")
 
